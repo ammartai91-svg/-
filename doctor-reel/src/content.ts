@@ -149,13 +149,14 @@ export const content = {
   },
 
   grade: {
-    // التعديل اللوني السينمائي — 0 يطفيه
-    warmHighlights: 0.22,
-    tealShadows: 0.26,
-    shadowTint: '20,33,58', // لون الظلال (كحلي الهوية)
-    vignette: 0.34,
-    grain: 0.06,
-    lightLeak: 0.16,
+    // الكريد السينمائي الأساسي محروق بالفيديو من luts/nabd-cinematic.cube (يفتح بدافنشي).
+    // هاي طبقات فوقه بس — 0 يطفيها
+    warmHighlights: 0,
+    tealShadows: 0,
+    shadowTint: '20,33,58',
+    vignette: 0.18,
+    grain: 0.05,
+    lightLeak: 0.1,
   },
 };
 

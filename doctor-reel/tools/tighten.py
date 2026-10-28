@@ -3,6 +3,10 @@
 Usage:
   python3 tools/tighten.py <source> [--keep-gap 0.22] [--min-gap 0.45] [--db -32]
 
+Also bakes in the cinematic grade (luts/nabd-cinematic.cube, from tools/make_lut.py) and
+cleans the voice (rumble cut, noise reduction, presence EQ, de-ess, compression, -16 LUFS).
+Use --no-grade / --no-voice to skip either.
+
 Writes public/video/doctor-tight.mp4 (1080x1920, 30fps) and public/video/edl.json:
   {"segments": [[srcStart, srcEnd], ...], "cuts": [newTime, ...]}
 `cuts` are the jump-cut points on the new timeline; the reel punches the camera there.
@@ -15,6 +19,23 @@ import subprocess
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 OUT = os.path.join(ROOT, "public", "video")
+LUT = os.path.join(ROOT, "luts", "nabd-cinematic.cube")
+
+# Voice chain, in order: rumble/hum cut, spectral noise reduction, de-mud, presence and air,
+# de-ess, gentle levelling compression, limiter, then broadcast loudness for Reels.
+VOICE = ",".join([
+    "highpass=f=85",
+    "afftdn=nr=20:nf=-55:tn=1",
+    "agate=threshold=0.004:ratio=3:range=0.12:attack=5:release=160",
+    "equalizer=f=280:t=q:w=1.1:g=-3",
+    "equalizer=f=3200:t=q:w=1.2:g=5",
+    "equalizer=f=6800:t=q:w=1.4:g=2.5",
+    "deesser=i=0.35",
+    "acompressor=threshold=-24dB:ratio=3.5:attack=8:release=140:makeup=6",
+    "alimiter=limit=0.9",
+    "loudnorm=I=-16:TP=-1.5:LRA=7",
+    "aresample=48000",
+])
 
 
 def duration(path):
@@ -38,6 +59,8 @@ def main():
     ap.add_argument("--min-gap", type=float, default=0.45, help="silences shorter than this stay untouched (s)")
     ap.add_argument("--db", type=float, default=-32)
     ap.add_argument("--lead", type=float, default=0.25, help="silence kept before the first word (s)")
+    ap.add_argument("--no-grade", action="store_true")
+    ap.add_argument("--no-voice", action="store_true")
     args = ap.parse_args()
 
     total = duration(args.source)
@@ -63,13 +86,15 @@ def main():
         if i:
             cuts.append(round(t, 3))
         t += b - a
+    look = "" if args.no_grade else f",lut3d={LUT},vignette=PI/5"
+    voice = "anull" if args.no_voice else VOICE
     graph = "".join(parts) + "".join(labels) + f"concat=n={len(segments)}:v=1:a=1[v][a];" \
-        "[v]fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.6[vo]"
+        f"[v]fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.6{look}[vo];[a]{voice}[ao]"
 
     os.makedirs(OUT, exist_ok=True)
     out = os.path.join(OUT, "doctor-tight.mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, "-filter_complex", graph,
-                    "-map", "[vo]", "-map", "[a]", "-c:v", "libx264", "-crf", "21", "-preset", "slow",
+                    "-map", "[vo]", "-map", "[ao]", "-c:v", "libx264", "-crf", "21", "-preset", "slow",
                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out], check=True)
     with open(os.path.join(OUT, "edl.json"), "w") as f:
         json.dump({"source": os.path.basename(args.source), "segments": segments, "cuts": cuts,
