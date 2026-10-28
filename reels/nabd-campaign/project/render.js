@@ -6,6 +6,8 @@ const dir = process.argv[2], mode = process.argv[3] || 'test';
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 } });
   const paths = fs.readFileSync(path.join(dir, 'paths.json'), 'utf8');
   await page.addInitScript(`window.__PATHS__ = ${paths};`);
+  const cfgPath = path.join(dir, 'config.json');
+  if (fs.existsSync(cfgPath)) await page.addInitScript(`window.__CFG__ = ${fs.readFileSync(cfgPath, 'utf8')};`);
   page.on('pageerror', e => console.log('ERR', e.message));
   await page.goto('file://' + path.join(dir, process.env.PAGE || 'reel.html'));
   await page.evaluate(() => window.__ready);
