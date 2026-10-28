@@ -56,7 +56,7 @@ export const content = {
     mode: 'full' as 'full' | 'cutout',
     startFrom: 0, // من أي ثانية بالفيديو الأصلي نبدي
     clipDuration: edl.duration, // كم ثانية نستخدم من فيديوها
-    delay: 1.0, // تأخير بداية كلامها (ثواني) — قبلها صورة ثابتة
+    delay: 0, // تأخير بداية كلامها (ثواني) — قبلها صورة ثابتة
     // إعدادات وضع cutout بس:
     x: -90,
     y: 0,
@@ -76,10 +76,10 @@ export const content = {
   // أول ثانية بالفيديو هي سكتة قبل ما تحچي
   hook: {
     start: 0,
-    duration: 1.1,
+    duration: 1.4,
     ghost: '4',
-    title: 'نصائح لصحّتج',
-    subtitle: 'من دكتورتج.. لا تفوّتيها',
+    title: '٤ نصائح لصحّتج',
+    subtitle: 'د. ابتسام صاحب • نسائية وتوليد',
   },
 
   // ---------------------------------------------------------------- النقاط
@@ -90,8 +90,8 @@ export const content = {
       title: 'راجعي',
       subtitle: 'بصورة دورية',
       icon: 'calendar',
-      start: 1.0,
-      duration: 4.58,
+      start: 1.3,
+      duration: 3.37,
       zoom: 1,
     },
     {
@@ -99,8 +99,8 @@ export const content = {
       title: 'اهتمي بتغذيتج',
       subtitle: 'واسألي عن الفيتامينات المناسبة إلج',
       icon: 'apple',
-      start: 5.58,
-      duration: 5.14,
+      start: 4.67,
+      duration: 5.57,
       search: 'شنو الفيتامينات المناسبة إلي؟',
       zoom: 1.14,
     },
@@ -109,9 +109,8 @@ export const content = {
       title: 'لا تاخذين',
       subtitle: 'أدوية أو مكملات من نفسج',
       icon: 'pill',
-      start: 10.72,
-      duration: 8.68,
-      flash: true,
+      start: 10.24,
+      duration: 10.14,
       zoom: 1,
     },
     {
@@ -119,21 +118,22 @@ export const content = {
       title: 'لا تهملين',
       subtitle: 'أي أعراض غير طبيعية',
       icon: 'alert',
-      start: 19.4,
-      duration: 5.21,
+      start: 20.38,
+      duration: 5.24,
       zoom: 1.14,
     },
   ] as Point[],
 
   // أماكن القطع بعد شيل السكتات — الكاميرا تبدّل الزوم عليها حتى ما يبين القطع
-  cuts: edl.cuts.map((t: number) => t + 1.0),
+  cuts: edl.cuts.map((t: number) => t + 0),
 
   // ---------------------------------------------------------------- الختام
   outro: {
-    start: 24.61,
-    duration: 2.6,
+    start: 25.62,
+    duration: 3.3,
     brand: 'د. ابتسام\nصاحب',
     tagline: 'نبض ينتظر قلبك',
+    phone: {label: 'للحجز', number: '0788 704 9494'} as {label: string; number: string} | null, // من ملف حملة نبض
     ghost: '', // كلمة إنكليزية عمودية مفرّغة على الموجة (فارغ = بدون)
     panX: 230, // قد إيش تتحرك الدكتورة لليسار حتى تفسح مجال للختام
   },
@@ -154,9 +154,9 @@ export const content = {
     warmHighlights: 0,
     tealShadows: 0,
     shadowTint: '20,33,58',
-    vignette: 0.18,
-    grain: 0.05,
-    lightLeak: 0.1,
+    vignette: 0.1,
+    grain: 0.035,
+    lightLeak: 0,
   },
 };
 

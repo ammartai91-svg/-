@@ -139,6 +139,30 @@ export const OutroScene: React.FC = () => {
       >
         {o.tagline}
       </div>
+      {o.phone && (
+        <div
+          style={{
+            position: 'absolute',
+            right: COL.right,
+            top: 1560,
+            direction: 'rtl',
+            whiteSpace: 'nowrap',
+            fontFamily: FONT,
+            fontWeight: 700,
+            fontSize: 44,
+            color: '#fff',
+            opacity: prog(f, at + 34, 14),
+            transform: `translateY(${(1 - prog(f, at + 34, 14)) * 20}px)`,
+            letterSpacing: 1,
+          }}
+        >
+          {o.phone.label}{' '}
+          {/* digits as an LTR island so the groups keep their order inside RTL text */}
+          <span dir="ltr" style={{unicodeBidi: 'isolate'}}>
+            {o.phone.number}
+          </span>
+        </div>
+      )}
       <EcgLine at={at + 26} end={at + sec(o.duration, fps)} top={1450} width={420} beats={1} left={content.width - COL.right - 420} color="#ffffff" />
     </div>
   );

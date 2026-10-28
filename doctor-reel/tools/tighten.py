@@ -25,8 +25,8 @@ LUTS = os.path.join(ROOT, "luts")
 # de-ess, gentle levelling compression, limiter, then broadcast loudness for Reels.
 VOICE = ",".join([
     "highpass=f=85",
-    "afftdn=nr=20:nf=-55:tn=1",
-    "agate=threshold=0.004:ratio=3:range=0.12:attack=5:release=160",
+    "afftdn=nr=12:nf=-55:tn=1",  # gentle: stronger settings start to sound robotic
+    "agate=threshold=0.004:ratio=2:range=0.25:attack=8:release=220",
     "equalizer=f=280:t=q:w=1.1:g=-3",
     "equalizer=f=3200:t=q:w=1.2:g=5",
     "equalizer=f=6800:t=q:w=1.4:g=2.5",
@@ -62,6 +62,7 @@ def main():
     ap.add_argument("--no-grade", action="store_true")
     ap.add_argument("--log", action="store_true",
                     help="flat/Log source: denoise, grade with luts/nabd-log-cinematic.cube in 16-bit, deband")
+    ap.add_argument("--lut", help="grade with this .cube instead (implies the --log processing)")
     ap.add_argument("--no-voice", action="store_true")
     args = ap.parse_args()
 
@@ -77,7 +78,7 @@ def main():
         cursor = max(s + half, e - half)
     if cursor < total - 0.05:
         segments.append([cursor, total])
-    segments = [[round(a, 3), round(b, 3)] for a, b in segments if b - a > 0.2]
+    segments = [[round(a, 3), round(b, 3)] for a, b in segments if b - a > 0.3]
 
     parts, labels, t, cuts = [], [], 0.0, []
     for i, (a, b) in enumerate(segments):
@@ -90,20 +91,22 @@ def main():
         t += b - a
     if args.no_grade:
         look = ""
-    elif args.log:
+    elif args.log or args.lut:
         # an 8-bit flat clip gets stretched a lot: denoise first, grade in 16-bit, then deband
-        look = (f",hqdn3d=2:4:3:4,format=gbrp16le,lut3d={os.path.join(LUTS, 'nabd-log-cinematic.cube')},"
-                "vignette=PI/5,deband,format=yuv420p")
+        lut = args.lut or os.path.join(LUTS, "nabd-log-cinematic.cube")
+        look = (f",hqdn3d=1.5:7:3:7,format=gbrp16le,lut3d={lut},"  # strong chroma-only denoise for fringes
+                
+                "vignette=PI/6,deband,format=yuv420p")
     else:
         look = f",lut3d={os.path.join(LUTS, 'nabd-cinematic.cube')},vignette=PI/5"
     voice = "anull" if args.no_voice else VOICE
     graph = "".join(parts) + "".join(labels) + f"concat=n={len(segments)}:v=1:a=1[v][a];" \
-        f"[v]fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.6{look}[vo];[a]{voice}[ao]"
+        f"[v]fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.35{look}[vo];[a]{voice}[ao]"
 
     os.makedirs(OUT, exist_ok=True)
     out = os.path.join(OUT, "doctor-tight.mp4")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, "-filter_complex", graph,
-                    "-map", "[vo]", "-map", "[ao]", "-c:v", "libx264", "-crf", "21", "-preset", "slow",
+                    "-map", "[vo]", "-map", "[ao]", "-c:v", "libx264", "-crf", "17", "-preset", "slow",
                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out], check=True)
     with open(os.path.join(OUT, "edl.json"), "w") as f:
         json.dump({"source": os.path.basename(args.source), "segments": segments, "cuts": cuts,
