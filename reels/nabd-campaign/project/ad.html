@@ -113,16 +113,16 @@
 
   <style>
     .layer { position:absolute; inset:0; display:none; }
-    #s1bg { background:radial-gradient(ellipse at 50% 45%, #3a1226 0%, #1B0A14 55%, #070306 100%); }
+    #s1bg { background:radial-gradient(ellipse at 50% 45%, #24406A 0%, #14213A 55%, #070B14 100%); }
     .flashcut { position:absolute; inset:0; background-size:cover; background-position:center; filter:grayscale(.4) brightness(.45) sepia(.5) hue-rotate(-30deg) saturate(1.6); }
     .cap { position:absolute; left:60px; right:60px; top:1450px; text-align:center; color:#fff; font-size:44px; font-weight:800; line-height:1.45; text-shadow:0 3px 18px rgba(0,0,0,.9),0 0 2px #000; }
     .cap b { color:#FF8FB0; font-weight:900; }
     .title { position:absolute; left:0; width:1080px; text-align:center; color:#fff; font-weight:900; }
     .title .ch { display:inline-block; }
-    .eyebrow { position:absolute; left:0; width:1080px; text-align:center; color:#FFB3C8; font-size:40px; font-weight:700; letter-spacing:0; }
-    .ph { position:absolute; border:4px dashed rgba(255,255,255,.55); border-radius:40px; display:flex; align-items:center; justify-content:center; text-align:center; color:rgba(255,255,255,.85); font-size:40px; font-weight:800; background:linear-gradient(160deg,rgba(255,107,149,.25),rgba(27,10,20,.6)); }
+    .eyebrow { position:absolute; left:0; width:1080px; text-align:center; color:#E2B04A; font-size:40px; font-weight:700; letter-spacing:0; }
+    .ph { position:absolute; border:4px dashed rgba(255,255,255,.55); border-radius:40px; display:flex; align-items:center; justify-content:center; text-align:center; color:rgba(255,255,255,.85); font-size:40px; font-weight:800; background:linear-gradient(160deg,rgba(27,181,201,.25),rgba(20,33,58,.75)); }
     .spec { position:absolute; right:110px; display:flex; align-items:center; gap:24px; color:#fff; font-size:60px; font-weight:900; white-space:nowrap; }
-    .spec i { width:22px; height:22px; border-radius:50%; background:#FF6B95; box-shadow:0 0 24px #FF6B95; flex:none; }
+    .spec i { width:22px; height:22px; border-radius:50%; background:#1BB5C9; box-shadow:0 0 24px #1BB5C9; flex:none; }
     .endtxt { position:absolute; left:60px; right:60px; text-align:center; color:#fff; }
     .phone { display:inline-block; border:4px dashed rgba(255,255,255,.7); border-radius:30px; padding:8px 40px 16px; font-size:50px; font-weight:900; }
   </style>
@@ -135,7 +135,7 @@
     <div class="flashcut" id="fc3" style="background-image:url(plates/falaka.jpg)"></div>
   </div>
   <!-- S2 / S3 / S5 backgrounds share the building plate -->
-  <div class="layer" id="bgB"><div id="bgBimg" style="position:absolute;inset:0;background:url(plates/close.jpg) center/cover"></div><div id="bgBtint" style="position:absolute;inset:0;background:linear-gradient(rgba(27,10,20,.35),rgba(27,10,20,.85))"></div></div>
+  <div class="layer" id="bgB"><div id="bgBimg" style="position:absolute;inset:0;background:url(plates/close.jpg) center/cover"></div><div id="bgBtint" style="position:absolute;inset:0;background:linear-gradient(rgba(20,33,58,.35),rgba(20,33,58,.88))"></div></div>
 
   <svg id="ecg" class="abs" viewBox="0 0 1080 1920" style="left:0;top:0;width:1080px;height:1920px;display:none">
     <defs><filter id="eglow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -156,7 +156,7 @@
     <div class="eyebrow" id="r0" style="top:560px">«نبض ينتظر قلبك» من</div>
     <div class="title" id="r1" style="top:640px;font-size:76px">عيادة الدكتورة</div>
     <div class="title" id="r2" style="top:740px;font-size:132px;color:#FFD9E4">ابتسام صاحب</div>
-    <div class="ph" id="logo1" style="left:440px;top:330px;width:200px;height:200px;border-radius:50%;font-size:34px">الشعار</div>
+    <div class="ph" id="logo1" style="left:410px;top:290px;width:260px;height:260px;border-radius:50%;font-size:34px">الشعار</div>
 
     <!-- S3 doctor -->
     <div class="ph" id="photo" style="left:240px;top:250px;width:600px;height:760px"><div>صورة الدكتورة<br><span style="font-size:28px;font-weight:600;opacity:.8">(تنحط هنا أفضل صورة)</span></div></div>
@@ -174,10 +174,10 @@
     <div class="tag" id="tagF">فلكة المركز</div>
 
     <!-- S5 end -->
-    <div class="ph" id="logo2" style="left:440px;top:250px;width:200px;height:200px;border-radius:50%;font-size:34px">الشعار</div>
+    <div class="ph" id="logo2" style="left:400px;top:190px;width:280px;height:280px;border-radius:50%;font-size:34px">الشعار</div>
     <div class="title" id="e1" style="top:500px;font-size:104px">نبض ينتظر قلبك</div>
     <div class="endtxt" id="e2" style="top:680px;font-size:66px;font-weight:900;color:#FFD9E4">عيادة الدكتورة ابتسام صاحب</div>
-    <div class="endtxt" id="e3" style="top:790px;font-size:42px;font-weight:700;color:#FFB3C8">نسائية وتوليد • عقم • أطفال الأنابيب</div>
+    <div class="endtxt" id="e3" style="top:790px;font-size:42px;font-weight:700;color:#E2B04A">نسائية وتوليد • عقم • أطفال الأنابيب</div>
     <div class="endtxt" id="e4" style="top:930px;font-size:44px;font-weight:800">القاسم — شارع الأطباء — مجمع المرسل الطبي</div>
     <div class="endtxt" id="e5" style="top:1060px"><span style="font-size:46px;font-weight:800">للحجز والاستفسار</span><br><span class="phone">رقم الهاتف</span></div>
 
@@ -218,9 +218,9 @@ $('falakaRing').setAttribute('d', toD(PATHS.falaka.contour));
   const T = CFG.text || {};
   for(const k in T){ const [id,sel] = k.split(' '); const el = $(id); if(!el) continue; const tgt = sel ? el.querySelector(sel) : el; if(tgt) tgt.innerHTML = T[k]; }
   const A = CFG.assets || {};
-  const fill = (id, src, label) => { if(!src) return; const el=$(id); el.innerHTML=''; el.style.border='none'; el.style.background=`url("${src}") center/cover`; el.style.boxShadow='0 30px 90px rgba(0,0,0,.55)'; };
+  const fill = (id, src, label) => { if(!src) return; const el=$(id); el.innerHTML=''; el.style.border='none'; el.style.background=`url("${src}") 50% 14%/128% auto`; el.style.boxShadow='0 30px 90px rgba(0,0,0,.55)'; };
   fill('photo', A.doctorPhoto); fill('logo1', A.logo); fill('logo2', A.logo);
-  if(A.logo){ ['logo1','logo2'].forEach(i=>{ $(i).style.backgroundSize='contain'; $(i).style.backgroundRepeat='no-repeat'; $(i).style.borderRadius='0'; }); }
+  if(A.logo){ ['logo1','logo2'].forEach(i=>{ $(i).style.backgroundSize='contain'; $(i).style.backgroundRepeat='no-repeat'; $(i).style.borderRadius='50%'; $(i).style.boxShadow='0 0 0 0 transparent, 0 20px 70px rgba(0,0,0,.5), 0 0 60px rgba(226,176,74,.35)'; }); }
   if(A.phone){ const p=document.querySelector('#e5 .phone'); p.textContent=A.phone; p.style.border='none'; p.style.background='#FF6B95'; p.style.color='#3a0716'; p.style.direction='ltr'; }
   if(A.teaserImages) ['fc1','fc2','fc3'].forEach((id,i)=>{ if(A.teaserImages[i]) $(id).style.backgroundImage=`url("${A.teaserImages[i]}")`; });
   if(A.clinicImage) $('bgBimg').style.backgroundImage=`url("${A.clinicImage}")`;

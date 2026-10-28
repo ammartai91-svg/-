@@ -1,15 +1,17 @@
 {
   "_note": "عدّل النصوص والصور والألوان من هنا، وبعدها رندر. الخانات الفاضية (\"\") تبقى placeholders.",
   "assets": {
-    "doctorPhoto": "",
-    "logo": "",
+    "doctorPhoto": "assets/doctor.jpg",
+    "logo": "assets/logo.png",
     "phone": "",
     "clinicImage": "",
     "teaserImages": []
   },
   "colors": {
     "accent": "#FF6B95",
-    "marker": "#FF2D6F"
+    "marker": "#FF2D6F",
+    "gold": "#E2B04A",
+    "navy": "#14213A"
   },
   "text": {
     "t1": "<span>نبض ينتظر قلبك</span>",
