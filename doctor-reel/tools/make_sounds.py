@@ -160,7 +160,29 @@ def typing(dur=1.0, rate=14):
     return out
 
 
+def heartbeat():
+    """lub-dub: two soft low thumps."""
+    out = np.zeros(int(0.9 * SR))
+    for off, f0, g in [(0.0, 62, 1.0), (0.22, 72, 0.7)]:
+        tt = t(0.32)
+        f = f0 * (1 + 0.6 * np.exp(-tt * 40))
+        x = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 14) * g
+        x += onepole_lp(rng.standard_normal(len(tt)), 300) * np.exp(-tt * 30) * 0.4 * g
+        i = int(off * SR)
+        out[i:i + len(x)] += x[: len(out) - i]
+    return out
+
+
+def tick():
+    tt = t(0.08)
+    x = np.sin(2 * np.pi * 2400 * tt) * np.exp(-tt * 90) * 0.6
+    x += np.sin(2 * np.pi * 1200 * tt) * np.exp(-tt * 60) * 0.4
+    return x
+
+
 sfx = {
+    "heartbeat": heartbeat(),
+    "tick": tick(),
     "whoosh": whoosh(),
     "whoosh-soft": whoosh(0.7, 200, 2500) * 0.6,
     "whoosh-reverse": whoosh(0.6, 400, 5000, rev=True),

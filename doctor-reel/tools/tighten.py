@@ -19,7 +19,7 @@ import subprocess
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 OUT = os.path.join(ROOT, "public", "video")
-LUT = os.path.join(ROOT, "luts", "nabd-cinematic.cube")
+LUTS = os.path.join(ROOT, "luts")
 
 # Voice chain, in order: rumble/hum cut, spectral noise reduction, de-mud, presence and air,
 # de-ess, gentle levelling compression, limiter, then broadcast loudness for Reels.
@@ -60,6 +60,8 @@ def main():
     ap.add_argument("--db", type=float, default=-32)
     ap.add_argument("--lead", type=float, default=0.25, help="silence kept before the first word (s)")
     ap.add_argument("--no-grade", action="store_true")
+    ap.add_argument("--log", action="store_true",
+                    help="flat/Log source: denoise, grade with luts/nabd-log-cinematic.cube in 16-bit, deband")
     ap.add_argument("--no-voice", action="store_true")
     args = ap.parse_args()
 
@@ -86,7 +88,14 @@ def main():
         if i:
             cuts.append(round(t, 3))
         t += b - a
-    look = "" if args.no_grade else f",lut3d={LUT},vignette=PI/5"
+    if args.no_grade:
+        look = ""
+    elif args.log:
+        # an 8-bit flat clip gets stretched a lot: denoise first, grade in 16-bit, then deband
+        look = (f",hqdn3d=2:4:3:4,format=gbrp16le,lut3d={os.path.join(LUTS, 'nabd-log-cinematic.cube')},"
+                "vignette=PI/5,deband,format=yuv420p")
+    else:
+        look = f",lut3d={os.path.join(LUTS, 'nabd-cinematic.cube')},vignette=PI/5"
     voice = "anull" if args.no_voice else VOICE
     graph = "".join(parts) + "".join(labels) + f"concat=n={len(segments)}:v=1:a=1[v][a];" \
         f"[v]fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.6{look}[vo];[a]{voice}[ao]"

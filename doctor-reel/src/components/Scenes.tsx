@@ -2,7 +2,7 @@ import React from 'react';
 import {Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {clamp, easeInOut, easeOutExpo, prog, sec} from '../anim';
 import {content, Point} from '../content';
-import {COL, FONT, GhostNumber, GlowTitle, HexBadge, HighlightBar, SearchBar} from './Graphics';
+import {COL, EcgLine, FONT, GhostNumber, GlowTitle, HexBadge, HighlightBar, SearchBar} from './Graphics';
 
 const {fps, colors: C} = content;
 
@@ -15,6 +15,7 @@ export const HookScene: React.FC = () => {
       <GhostNumber text={h.ghost} at={at} end={end} top={10} size={560} />
       <GlowTitle text={h.title} at={at + 4} top={220} size={124} exit={end - 6} />
       <HighlightBar text={h.subtitle} at={at + 12} top={380} exit={end - 6} />
+      <EcgLine at={at} end={end} top={480} />
     </>
   );
 };
@@ -138,6 +139,7 @@ export const OutroScene: React.FC = () => {
       >
         {o.tagline}
       </div>
+      <EcgLine at={at + 26} end={at + sec(o.duration, fps)} top={1450} width={420} beats={1} left={content.width - COL.right - 420} color="#ffffff" />
     </div>
   );
 };

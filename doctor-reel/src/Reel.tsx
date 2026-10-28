@@ -15,12 +15,17 @@ const {fps} = content;
 const sfxCues = (): {at: number; name: string; vol?: number}[] => {
   const cues: {at: number; name: string; vol?: number}[] = [];
   const h = sec(content.hook.start, fps);
-  cues.push({at: h, name: 'impact', vol: 0.8}, {at: h + 6, name: 'whoosh'}, {at: h + 18, name: 'pop', vol: 0.7});
+  cues.push(
+    {at: h, name: 'heartbeat', vol: 1},
+    {at: h + 4, name: 'whoosh', vol: 0.8},
+    {at: h + 12, name: 'pop', vol: 0.6},
+    {at: h + 20, name: 'heartbeat', vol: 0.7},
+  );
   for (const p of content.points) {
     const at = sec(p.start, fps);
     cues.push({at: at - 8, name: 'whoosh-reverse', vol: 0.7});
     if (p.flash) cues.push({at: at - 1, name: 'glitch', vol: 0.9});
-    cues.push({at, name: 'impact', vol: 0.55});
+    cues.push({at, name: 'impact', vol: 0.4}, {at: at + 2, name: 'tick', vol: 0.6});
     cues.push({at: at + 4, name: 'shimmer', vol: 0.45});
     cues.push({at: at + 8, name: 'whoosh'});
     cues.push({at: at + 20, name: 'pop', vol: 0.7});
@@ -31,7 +36,12 @@ const sfxCues = (): {at: number; name: string; vol?: number}[] => {
     }
   }
   const o = sec(content.outro.start, fps);
-  cues.push({at: o - 36, name: 'riser', vol: 0.6}, {at: o, name: 'whoosh'}, {at: o + 12, name: 'ding', vol: 0.7});
+  cues.push(
+    {at: o - 36, name: 'riser', vol: 0.55},
+    {at: o, name: 'whoosh'},
+    {at: o + 12, name: 'ding', vol: 0.6},
+    {at: o + 26, name: 'heartbeat', vol: 0.9},
+  );
   return cues.filter((c) => c.at >= 0);
 };
 

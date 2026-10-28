@@ -366,6 +366,52 @@ export const Progress: React.FC<{count: number; active: number; visible: number}
   </div>
 );
 
+/** Campaign heartbeat line (ECG) that draws itself with a glowing head, like the Nabd teaser. */
+export const EcgLine: React.FC<{
+  at: number;
+  end: number;
+  top: number;
+  width?: number;
+  beats?: number;
+  left?: number;
+  color?: string;
+}> = ({at, end, top, width = 900, beats = 2, left, color = C.glow}) => {
+  const f = useCurrentFrame();
+  if (f < at || f > end) return null;
+  const draw = prog(f, at, 26, easeInOut);
+  const out = prog(f, end - 8, 8, easeInOut);
+  const h = 120;
+  const seg = width / beats;
+  let d = `M0 ${h / 2}`;
+  for (let i = 0; i < beats; i++) {
+    const x = i * seg;
+    d += ` L${x + seg * 0.3} ${h / 2} L${x + seg * 0.38} ${h * 0.35} L${x + seg * 0.44} ${h / 2}`;
+    d += ` L${x + seg * 0.5} ${h / 2} L${x + seg * 0.55} ${h * 0.02} L${x + seg * 0.61} ${h * 0.98}`;
+    d += ` L${x + seg * 0.66} ${h / 2} L${x + seg * 0.76} ${h * 0.3} L${x + seg * 0.86} ${h / 2}`;
+  }
+  d += ` L${width} ${h / 2}`;
+  return (
+    <svg
+      width={width}
+      height={h}
+      viewBox={`0 0 ${width} ${h}`}
+      style={{position: 'absolute', left: left ?? (W - width) / 2, top, opacity: 1 - out, overflow: 'visible'}}
+    >
+      <path
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        pathLength={1}
+        strokeDasharray={1}
+        strokeDashoffset={1 - draw}
+        style={{filter: `drop-shadow(0 0 10px ${color}) drop-shadow(0 0 22px ${C.accent}88)`}}
+      />
+    </svg>
+  );
+};
+
 /** Small brand bug in the corner while she talks. */
 export const LogoBug: React.FC<{from: number; to: number}> = ({from, to}) => {
   const f = useCurrentFrame();
