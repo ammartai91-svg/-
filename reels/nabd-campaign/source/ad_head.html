@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="fonts/cairo.css">
+<style>
+  :root { --teal:#FF6B95; --plum:#1B0A14; --blush:#FFD9E4; --red:#FF3B4E; --ink:rgba(8,16,20,.78); }
+  html,body { margin:0; padding:0; background:#000; }
+  #stage { position:relative; width:1080px; height:1920px; overflow:hidden; background:#000; font-family:'Cairo',sans-serif; }
+  .world { position:absolute; left:0; top:0; width:1080px; height:1920px; transform-origin:0 0; display:none; }
+  .world img { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  .world svg, #ui { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  #ui { pointer-events:none; }
+  .abs { position:absolute; }
+  .shade { position:absolute; left:0; width:1080px; }
+  .hook1 { position:absolute; left:0; width:1080px; text-align:center; color:#fff; font-weight:900; font-size:104px; line-height:1.25; text-shadow:0 6px 30px rgba(0,0,0,.55); }
+  .hl { display:inline-block; background:var(--teal); color:#3a0716; padding:0 30px 8px; border-radius:22px; box-shadow:0 12px 50px rgba(255,107,149,.45); }
+  .sub { position:absolute; left:70px; right:70px; text-align:center; }
+  .sub span { display:inline-block; background:var(--ink); color:#fff; font-weight:800; font-size:58px; padding:12px 38px 20px; border-radius:24px; border:2px solid rgba(255,255,255,.12); backdrop-filter:blur(6px); }
+  .sub b { color:var(--teal); font-weight:900; }
+  .chip { position:absolute; top:190px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; font-size:36px; font-weight:700; padding:10px 34px 16px; border-radius:60px; white-space:nowrap; border:2px solid rgba(255,107,149,.5); }
+  .chip .bar { position:absolute; left:30px; right:30px; bottom:8px; height:5px; border-radius:3px; background:rgba(255,255,255,.15); overflow:hidden; }
+  .chip .bar i { position:absolute; right:0; top:0; bottom:0; background:var(--teal); }
+  .callout { position:absolute; white-space:nowrap; }
+  .callout .box { position:relative; background:var(--ink); border-radius:26px; padding:14px 44px 22px 40px; border-right:10px solid var(--teal); box-shadow:0 18px 60px rgba(0,0,0,.45); overflow:hidden; }
+  .callout .k { color:var(--teal); font-size:34px; font-weight:800; display:block; line-height:1.3; }
+  .callout .t { color:#fff; font-size:68px; font-weight:900; display:block; line-height:1.2; }
+  .callout.red .box { border-right-color:var(--red); }
+  .callout.red .k { color:#FF8A96; }
+  .tag { position:absolute; white-space:nowrap; background:#fff; color:#0b1a1f; font-size:40px; font-weight:900; padding:6px 28px 14px; border-radius:40px; box-shadow:0 10px 40px rgba(0,0,0,.4); }
+  .tag:after { content:''; position:absolute; left:50%; bottom:-16px; margin-left:-14px; border:14px solid transparent; border-top-color:#fff; border-bottom:0; }
+  .card { position:absolute; left:80px; right:80px; top:430px; background:rgba(8,16,20,.82); border-radius:48px; padding:150px 60px 70px; text-align:center; border:2px solid rgba(255,107,149,.35); box-shadow:0 30px 120px rgba(0,0,0,.6); }
+  .card h1 { margin:0; color:#fff; font-size:74px; white-space:nowrap; font-weight:900; line-height:1.25; }
+  .card .row { display:flex; align-items:center; justify-content:center; gap:22px; margin-top:34px; color:#fff; font-size:52px; font-weight:800; }
+  .card .row svg { flex:none; }
+  .card .div { height:4px; margin:40px auto 10px; width:0; background:var(--teal); border-radius:2px; }
+  .cta { position:absolute; left:80px; right:80px; top:1395px; text-align:center; color:#fff; font-size:50px; font-weight:800; line-height:1.4; }
+  .cta b { color:var(--teal); font-weight:900; }
+  #flash { position:absolute; inset:0; background:#fff; opacity:0; }
+  #grain { position:absolute; inset:0; opacity:.06; mix-blend-mode:overlay; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- WORLD LAYERS: plate + overlays share camera transform (tracked) -->
+  <div class="world" id="w-markaz">
+    <img src="plates/markaz.jpg">
+    <svg viewBox="0 0 1080 1920">
+      <path id="markazHL" d="M20,950 C200,962 420,962 560,984 L700,1010" fill="none" stroke="rgba(255,107,149,.45)" stroke-width="44" stroke-linecap="round"/>
+      <path id="markazRoute" d="M20,950 C200,962 420,962 560,984 L700,1010" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+      <path id="markazRing" d="M705,1026 A72,20 0 1 1 705.1,1026 Z" fill="rgba(255,107,149,.25)" stroke="#FF6B95" stroke-width="6" filter="url(#glow)"/>
+      <path id="markazDoc" d="M712,1024 C690,1060 650,1130 610,1190 L200,1920" fill="none" stroke="#FF3B4E" stroke-width="9" stroke-linecap="round" stroke-dasharray="1 0" filter="url(#glow)"/>
+      <text id="markazTxt" font-family="Cairo" font-weight="900" font-size="40" fill="#fff" stroke="#3a0716" stroke-width="9" paint-order="stroke" text-anchor="middle" opacity="0">شارع المركز</text>
+    </svg>
+  </div>
+
+  <div class="world" id="w-falaka">
+    <img src="plates/falaka.jpg">
+    <svg viewBox="0 0 1080 1920">
+      <ellipse id="falakaRingE" cx="0" cy="0" rx="0" ry="0" fill="none"/>
+      <path id="falakaRing" d="M502,1838 A292,152 0 1 1 502.1,1838 Z" fill="rgba(255,107,149,0)" stroke="#FF6B95" stroke-width="8" filter="url(#glow)"/>
+      <path id="falakaRoute" d="M502,1530 C495,1300 488,1050 478,800" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" filter="url(#glow)"/>
+      <path id="falakaDash" d="M502,1530 C495,1300 488,1050 478,800" fill="none" stroke="#FF6B95" stroke-width="10" stroke-linecap="round" stroke-dasharray="26 34" opacity="0"/>
+    </svg>
+  </div>
+
+  <div class="world" id="w-street">
+    <img src="plates/street.jpg">
+    <svg viewBox="0 0 1080 1920">
+      <defs>
+        <clipPath id="streetReveal"><rect id="streetClip" x="0" y="1920" width="1080" height="1920"/></clipPath>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <g clip-path="url(#streetReveal)">
+        <path id="streetPoly" fill="rgba(255,107,149,.22)" stroke="#FF6B95" stroke-width="5" filter="url(#glow)"/>
+      </g>
+      <path id="streetRoute" d="M600,1920 C585,1650 520,1250 470,830" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" filter="url(#glow)"/>
+      <path id="streetDash" d="M600,1920 C585,1650 520,1250 470,830" fill="none" stroke="#FF6B95" stroke-width="9" stroke-linecap="round" stroke-dasharray="26 34"/>
+    </svg>
+  </div>
+
+  <div class="world" id="w-wide">
+    <img src="plates/wide.jpg">
+    <svg viewBox="0 0 1080 1920">
+      <path id="wideRoute" d="M20,1726 L1000,1050" fill="none" stroke="#FF6B95" stroke-width="12" stroke-linecap="round" filter="url(#glow)" opacity=".9"/>
+      <text id="wideStreetTxt" x="0" y="0" font-family="Cairo" font-weight="900" font-size="42" fill="#fff" stroke="#3a0716" stroke-width="10" paint-order="stroke" text-anchor="middle">شارع الأطباء</text>
+      <path id="wideBld" fill="rgba(255,59,78,.0)" stroke="#FF3B4E" stroke-width="7" stroke-linejoin="round" filter="url(#glow)"/>
+    </svg>
+  </div>
+
+  <div class="world" id="w-close">
+    <img src="plates/close.jpg">
+    <svg viewBox="0 0 1080 1920">
+      <path id="closeBld" fill="rgba(255,59,78,0)" stroke="#FF3B4E" stroke-width="7" stroke-linejoin="round" filter="url(#glow)"/>
+    </svg>
+  </div>
+
+  <div class="world" id="w-end"><img src="plates/close.jpg"></div>
+
+  <!-- SCREEN LAYER: tracked nulls -> crisp UI -->
+  <svg id="uisvg" class="abs" viewBox="0 0 1080 1920" style="left:0;top:0;width:1080px;height:1920px">
+    <defs>
+      <path id="pinShape" d="M0,0 C-8,-20 -46,-52 -46,-88 A46,46 0 1 1 46,-88 C46,-52 8,-20 0,0 Z"/>
+      <linearGradient id="pinG" x1="0" y1="-140" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF5A6A"/><stop offset="1" stop-color="#D4142A"/></linearGradient>
+    </defs>
+    <g id="brackets" fill="none" stroke="#FF6B95" stroke-width="7" stroke-linecap="round"></g>
+    <g id="leaders" fill="none" stroke="#fff" stroke-width="4"></g>
+    <g id="ripples" fill="none" stroke="#FF3B4E"></g>
+    <g id="pin"><ellipse id="pinShadow" cx="0" cy="0" rx="34" ry="10" fill="rgba(0,0,0,.45)"/><g id="pinBody"><use href="#pinShape" fill="url(#pinG)" stroke="#fff" stroke-width="5"/><circle cx="0" cy="-88" r="17" fill="#fff"/></g></g>
+    <g id="hud" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="5"></g>
+  </svg>
+
