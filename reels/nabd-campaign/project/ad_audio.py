@@ -41,6 +41,25 @@ def kick():
 x=20.0
 while x<33.8: put(music,kick(),x,.35); x+=beat
 put(music,piano(hz(45),6,1.2),34.0); put(music,piano(hz(57),6,.9),34.0); put(music,piano(hz(64),6,.8),34.02); put(music,piano(hz(72),6,.7),34.04)
+
+# ---- music-only version: strings swell + sub + soft pulse so the track carries the story ----
+def strings(freqs,dur):
+    n=int(dur*SR); t=np.arange(n)/SR; s=np.zeros(n)
+    for f in freqs:
+        for det in (-0.004,0,0.005):
+            ph=(f*(1+det)*t)%1.0; s+=(2*ph-1)
+    s=lp(s,.06); e=np.minimum(1,t/1.0)*np.minimum(1,(dur-t)/0.8)
+    return s*e*.02
+for k in range(13):
+    t0=k*3.2; ch=chords[k%4]
+    if 6.4<=t0<38:
+        put(music,strings([hz(m) for m in ch],3.5),t0,1.0 if t0<20 or t0>=32 else .7)
+    sub=piano(hz(ch[0]-24),3.0,1.0); put(music,sub,t0,.6 if t0>=7 else .3)
+def softkick():
+    n=int(.28*SR); t=np.arange(n)/SR; f=np.geomspace(90,42,n)
+    return np.sin(2*np.pi*np.cumsum(f)/SR)*np.exp(-t*12)
+x=12.0
+while x<20: put(music,softkick(),x,.25); x+=beat*2
 wet=fftconv(music,ir); music=music*.75+wet*.5
 # ---------- SFX ----------
 sfx=np.zeros(N)
@@ -93,7 +112,7 @@ put(sfx,boom(.6),31.65,.55); put(sfx,ping(2093,1.2),31.7,.55); put(sfx,pop(800,3
 put(sfx,whoosh(.8),33.6,.5); put(sfx,shimmer(),34.6,.4)
 sfx+=fftconv(sfx,ir)*.15
 def norm(x,peak): return x/np.max(np.abs(x))*peak
-music=norm(music,.55); sfx=norm(sfx,.6)
+music=norm(music,.72); sfx=norm(sfx,.5)
 fadeout=np.clip((D-tt)/1.2,0,1); fadein=np.clip(tt/0.05,0,1)
 music*=fadeout*fadein; sfx*=fadeout
 mix=np.tanh((music+sfx)*1.1)/np.tanh(1.1)*.9
