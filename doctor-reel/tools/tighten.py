@@ -64,6 +64,7 @@ def main():
                     help="flat/Log source: denoise, grade with luts/nabd-log-cinematic.cube in 16-bit, deband")
     ap.add_argument("--lut", help="grade with this .cube instead (implies the --log processing)")
     ap.add_argument("--no-voice", action="store_true")
+    ap.add_argument("--out", default="doctor-tight.mp4", help="file name inside public/video")
     args = ap.parse_args()
 
     total = duration(args.source)
@@ -104,7 +105,7 @@ def main():
         f"[v]fps=30,scale=1080:1920:flags=lanczos,unsharp=5:5:0.35{look}[vo];[a]{voice}[ao]"
 
     os.makedirs(OUT, exist_ok=True)
-    out = os.path.join(OUT, "doctor-tight.mp4")
+    out = os.path.join(OUT, args.out)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", args.source, "-filter_complex", graph,
                     "-map", "[vo]", "-map", "[ao]", "-c:v", "libx264", "-crf", "17", "-preset", "slow",
                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", out], check=True)

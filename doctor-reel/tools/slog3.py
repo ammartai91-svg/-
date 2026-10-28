@@ -13,7 +13,7 @@ import os
 
 import numpy as np
 
-N = 33
+N = 33  # 65 for the Epopée split grade (see --size)
 OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "luts")
 
 # Sony S-Gamut3.Cine -> CIE XYZ (D65), then XYZ -> Rec.709 primaries
@@ -72,6 +72,43 @@ def look(disp):
     return np.clip(out, 0, 1)
 
 
+def _contrast(disp, amount, black, white):
+    s_ = disp * disp * (3 - 2 * disp)
+    y = disp + (s_ - disp) * amount
+    return np.clip((y - black) / (white - black), 0, 1)
+
+
+def look_subject(disp):
+    """Epopée-style subject: punchy but clean contrast, warm clear skin, neutral deep blacks."""
+    import colorsys
+    y = _contrast(disp, 0.7, 0.07, 0.97)
+    h, l, sat = colorsys.rgb_to_hls(*y)
+    if 0.0 <= h <= 0.11 and sat > 0.06:
+        sat = min(1, sat * 1.3)  # clean, healthy skin
+        h = min(max(h, 0.035), 0.075)  # pull stray yellow/magenta into a natural skin hue
+    else:
+        sat = min(1, sat * 1.12)
+    return np.clip(colorsys.hls_to_rgb(h, l, sat), 0, 1)
+
+
+def look_background(disp):
+    """Epopée-style environment: neutral walls become a clean saturated teal that glows lighter in
+    the brightest areas; coloured objects (red chair, equipment) keep their own hue."""
+    import colorsys
+    h, l, sat = colorsys.rgb_to_hls(*np.clip(disp, 0, 1))
+    teal = 195 / 360
+    # wall brightness (~0.85 after the transform) lands on the reference's mid teal
+    l2 = np.clip(0.05 + l ** 1.5 * 0.7, 0, 1)
+    target_s = np.clip(0.85 - max(0.0, l - 0.9) * 2.5, 0.5, 0.85)
+    tr = np.array(colorsys.hls_to_rgb(teal, l2, target_s))
+    if sat < 0.6:
+        # wide, smooth hand-off so LUT interpolation never mixes teal with stray hues
+        w = np.clip(1 - sat / 0.6, 0, 1) ** 0.7 * np.clip((l - 0.12) / 0.25, 0, 1)
+        orig = np.array(colorsys.hls_to_rgb(h, l2, sat))
+        return np.clip(orig * (1 - w) + tr * w, 0, 1)
+    return np.clip(colorsys.hls_to_rgb(h, l2 + 0.05, min(1, sat * 1.1)), 0, 1)
+
+
 def transform(rgb, stops, wb, sat, creative=False):
     lin = slog3_to_linear(rgb)
     lin = SG3C_TO_709 @ lin
@@ -79,6 +116,10 @@ def transform(rgb, stops, wb, sat, creative=False):
     disp = filmic(lin) ** (1 / 2.2)
     luma = 0.2126 * disp[0] + 0.7152 * disp[1] + 0.0722 * disp[2]
     disp = np.clip(luma + (disp - luma) * sat, 0, 1)
+    if creative == "subject":
+        return look_subject(disp)
+    if creative == "background":
+        return look_background(disp)
     return look(disp) if creative else disp
 
 
@@ -88,11 +129,13 @@ def main():
     ap.add_argument("--wb", default="1,1,1", help="linear R,G,B white-balance gains")
     ap.add_argument("--sat", type=float, default=1.0)
     ap.add_argument("--name", default="slog3-sgamut3cine-to-rec709.cube")
-    ap.add_argument("--look", action="store_true", help="add the premium medical look after the transform")
+    ap.add_argument("--size", type=int, default=N, help="LUT grid size (33 or 65)")
+    ap.add_argument("--look", nargs="?", const=True, default=False,
+                    help="add a look: (no value) premium medical, 'subject' or 'background' for the Epopée split grade")
     a = ap.parse_args()
     wb = np.array([float(x) for x in a.wb.split(",")])
-    grid = np.linspace(0, 1, N)
-    lines = ['TITLE "S-Log3/SGamut3.Cine to Rec709 (+exposure, WB)"', f"LUT_3D_SIZE {N}",
+    grid = np.linspace(0, 1, a.size)
+    lines = ['TITLE "S-Log3/SGamut3.Cine to Rec709 (+exposure, WB)"', f"LUT_3D_SIZE {a.size}",
              "DOMAIN_MIN 0.0 0.0 0.0", "DOMAIN_MAX 1.0 1.0 1.0"]
     for b in grid:
         for g in grid:

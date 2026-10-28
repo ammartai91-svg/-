@@ -52,7 +52,7 @@ export const GlowTitle: React.FC<{
         filter: `blur(${blur}px)`,
         opacity: 1 - out,
         clipPath: `inset(-40px -40px -40px ${edge}%)`,
-        textShadow: `0 0 22px ${C.glow}88, 0 0 2px ${C.glow}, 0 10px 30px rgba(7,84,106,0.25)`,
+        textShadow: `0 0 26px ${C.glow}aa, 0 0 3px ${C.glow}, 0 8px 26px rgba(10,20,40,0.45)`,
       }}
     >
       {text}
@@ -214,7 +214,7 @@ export const HexBadge: React.FC<{icon: IconName; at: number; end: number; top: n
         <polygon
           points={hex}
           fill="none"
-          stroke={C.primary}
+          stroke={C.deep}
           strokeWidth={1.5}
           transform="translate(100 100) scale(1.12) translate(-100 -100)"
           pathLength={1}
@@ -224,7 +224,7 @@ export const HexBadge: React.FC<{icon: IconName; at: number; end: number; top: n
         />
       </svg>
       <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <Icon name={icon} color={C.primary} draw={iconDraw} size={80} />
+        <Icon name={icon} color={C.deep} draw={iconDraw} size={80} />
       </div>
     </div>
   );
@@ -270,8 +270,8 @@ export const SearchBar: React.FC<{query: string; at: number; end: number; top: n
         }}
       >
         <svg viewBox="0 0 40 40" width={40} height={40}>
-          <circle cx="17" cy="17" r="11" fill="none" stroke={C.primary} strokeWidth={4} />
-          <path d="M25 25 L35 35" stroke={C.primary} strokeWidth={4} strokeLinecap="round" />
+          <circle cx="17" cy="17" r="11" fill="none" stroke={C.deep} strokeWidth={4} />
+          <path d="M25 25 L35 35" stroke={C.deep} strokeWidth={4} strokeLinecap="round" />
         </svg>
         <div style={{fontFamily: FONT, fontWeight: 700, fontSize: 36, color: C.text, whiteSpace: 'nowrap'}}>
           {typed}
@@ -358,7 +358,7 @@ export const Progress: React.FC<{count: number; active: number; visible: number}
           width: i === active ? 70 : 26,
           height: 10,
           borderRadius: 5,
-          background: i <= active ? C.accent : 'rgba(14,141,163,0.22)',
+          background: i <= active ? C.accent : 'rgba(255,255,255,0.35)',
           boxShadow: i === active ? `0 0 14px ${C.glow}` : undefined,
         }}
       />
