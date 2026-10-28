@@ -1,10 +1,14 @@
 import React from 'react';
-import {AbsoluteFill, OffthreadVideo, staticFile} from 'remotion';
+import {AbsoluteFill, Freeze, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {content} from '../content';
 
 /** The cut-out doctor, seated on the left. Falls back to a placeholder silhouette. */
 export const Doctor: React.FC = () => {
   const {doctor, fps} = content;
+  const delay = Math.round(doctor.delay * fps);
+  const startFrom = Math.round(doctor.startFrom * fps);
+  const clipFrames = Math.floor(doctor.clipDuration * fps);
+  const videoStyle: React.CSSProperties = {height: '100%', width: 'auto', display: 'block'};
   const wrap: React.CSSProperties = {
     position: 'absolute',
     left: doctor.x,
@@ -26,13 +30,29 @@ export const Doctor: React.FC = () => {
   return (
     <AbsoluteFill>
       <div style={wrap}>
-        <OffthreadVideo
-          src={staticFile(doctor.src)}
-          startFrom={Math.round(doctor.startFrom * fps)}
-          volume={doctor.volume}
-          transparent
-          style={{height: '100%', width: 'auto'}}
-        />
+        {/* during the hook she holds still on her first frame, then starts talking */}
+        {delay > 0 && (
+          <Sequence durationInFrames={delay} layout="none">
+            <Freeze frame={startFrom}>
+              <OffthreadVideo src={staticFile(doctor.src)} muted transparent style={videoStyle} />
+            </Freeze>
+          </Sequence>
+        )}
+        <Sequence from={delay} durationInFrames={clipFrames} layout="none">
+          <OffthreadVideo
+            src={staticFile(doctor.src)}
+            startFrom={startFrom}
+            volume={doctor.volume}
+            transparent
+            style={videoStyle}
+          />
+        </Sequence>
+        {/* after her last word she holds on the final frame under the end card */}
+        <Sequence from={delay + clipFrames} layout="none">
+          <Freeze frame={startFrom + clipFrames - 1}>
+            <OffthreadVideo src={staticFile(doctor.src)} muted transparent style={videoStyle} />
+          </Freeze>
+        </Sequence>
       </div>
     </AbsoluteFill>
   );

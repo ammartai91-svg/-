@@ -44,7 +44,8 @@ const Sound: React.FC = () => {
       <Audio
         src={staticFile(audio.music)}
         volume={(f) =>
-          bedVol *
+          // full level over the hook, ducked while she talks
+          interpolate(f, [sec(doctor.delay, fps) - 12, sec(doctor.delay, fps)], [audio.musicVolumeAlone, bedVol], clamp) *
           interpolate(f, [0, 10, total - 30, total], [0, 1, 1, 0], clamp) *
           // lift the music when the end card lands
           interpolate(f, [sec(content.outro.start, fps), sec(content.outro.start, fps) + 10], [1, 1.6], clamp)

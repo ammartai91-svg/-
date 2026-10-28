@@ -45,11 +45,13 @@ export const content = {
   doctor: {
     // حط فيديو الدكتورة المقصوص (بخلفية شفافة) بمجلد public/video
     // واكتب اسمه هنا. إذا null يطلع مكانه شكل مؤقت.
-    src: null as string | null,
+    src: 'video/doctor-cutout.webm' as string | null,
     startFrom: 0, // من أي ثانية بالفيديو الأصلي نبدي
-    x: -60, // يسار/يمين (بكسل) — كل ما يقل تروح أكثر لليسار
+    clipDuration: 12.0, // كم ثانية نستخدم من فيديوها
+    delay: 2.0, // الدكتورة تبدي تحچي بعد الافتتاحية بهالثواني (قبلها صورة ثابتة)
+    x: -90, // يسار/يمين (بكسل) — كل ما يقل تروح أكثر لليسار
     y: 0, // فوق/جوه
-    height: 1640, // حجمها بالكادر
+    height: 1380, // حجمها بالكادر
     mirror: false, // قلب أفقي إذا تباوع عكس الكلام
     volume: 1, // صوت الدكتورة
   },
@@ -64,7 +66,7 @@ export const content = {
   // ---------------------------------------------------------------- الافتتاحية
   hook: {
     start: 0,
-    duration: 3.2,
+    duration: 2.0,
     ghost: '4',
     title: 'نصائح\nلصحّتج',
     subtitle: 'من دكتورتج.. لا تفوّتيها',
@@ -77,8 +79,8 @@ export const content = {
       title: 'راجعي',
       subtitle: 'بصورة دورية',
       icon: 'calendar',
-      start: 3.2,
-      duration: 5.4,
+      start: 2.0,
+      duration: 1.75,
       zoom: 1,
     },
     {
@@ -86,8 +88,8 @@ export const content = {
       title: 'اهتمي\nبتغذيتج',
       subtitle: 'واسألي عن الفيتامينات المناسبة إلج',
       icon: 'apple',
-      start: 8.6,
-      duration: 6.4,
+      start: 3.75,
+      duration: 4.4,
       search: 'شنو الفيتامينات المناسبة إلي؟',
       zoom: 1.14,
     },
@@ -96,8 +98,8 @@ export const content = {
       title: 'لا تاخذين',
       subtitle: 'أدوية أو مكملات من نفسج',
       icon: 'pill',
-      start: 15,
-      duration: 5.6,
+      start: 8.15,
+      duration: 3.05,
       flash: true,
       zoom: 1,
     },
@@ -106,16 +108,16 @@ export const content = {
       title: 'لا تهملين',
       subtitle: 'أي أعراض غير طبيعية',
       icon: 'alert',
-      start: 20.6,
-      duration: 5.6,
+      start: 11.2,
+      duration: 2.7,
       zoom: 1.14,
     },
   ] as Point[],
 
   // ---------------------------------------------------------------- الختام
   outro: {
-    start: 26.2,
-    duration: 3.8,
+    start: 13.9,
+    duration: 3.2,
     brand: 'د. ابتسام',
     tagline: 'صحتـــج أمانـــة',
     ghost: 'HEALTH',

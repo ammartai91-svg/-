@@ -122,7 +122,7 @@ const Plant: React.FC = () => (
 
 /** Modern boucle armchair on the left — the doctor sits here. */
 const Chair: React.FC = () => (
-  <div style={{position: 'absolute', left: 10, top: 960, width: 640, height: 820}}>
+  <div style={{position: 'absolute', left: -70, top: 1030, width: 820, height: 1050}}>
     {/* contact shadow */}
     <div
       style={{
@@ -136,7 +136,7 @@ const Chair: React.FC = () => (
         filter: 'blur(8px)',
       }}
     />
-    <svg viewBox="0 0 640 820" width={640} height={820}>
+    <svg viewBox="0 0 640 820" width="100%" height="100%">
       <defs>
         <linearGradient id="chairBody" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#F1EBE2" />
