@@ -84,7 +84,7 @@ const Placeholder: React.FC = () => (
       x="330"
       y="920"
       textAnchor="middle"
-      fontFamily="Tajawal"
+      fontFamily="Cairo"
       fontWeight={700}
       fontSize={34}
       fill="#fff"

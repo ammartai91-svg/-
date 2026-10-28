@@ -1,5 +1,5 @@
 import React from 'react';
-import {interpolate, useCurrentFrame} from 'remotion';
+import {Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {clamp, easeInOut, easeOutExpo, prog, sec} from '../anim';
 import {content, Point} from '../content';
 import {COL, FONT, GhostNumber, GlowTitle, HexBadge, HighlightBar, SearchBar} from './Graphics';
@@ -62,6 +62,7 @@ export const OutroScene: React.FC = () => {
         <path d="M560 0 C 420 520, 760 1000, 470 1920 L1080 1920 L1080 0 Z" fill="url(#wave)" opacity={0.96} />
         <path d="M560 0 C 420 520, 760 1000, 470 1920" fill="none" stroke="#fff" strokeOpacity={0.7} strokeWidth={4} />
       </svg>
+      {o.ghost && (
       <div
         style={{
           position: 'absolute',
@@ -80,17 +81,35 @@ export const OutroScene: React.FC = () => {
       >
         {o.ghost}
       </div>
+      )}
+      {content.logo && (
+        <Img
+          src={staticFile(content.logo)}
+          style={{
+            position: 'absolute',
+            right: COL.right + 20,
+            top: 840,
+            width: 250,
+            height: 250,
+            borderRadius: '50%',
+            opacity: brand,
+            transform: `scale(${0.7 + brand * 0.3}) rotate(${(1 - brand) * -40}deg)`,
+            boxShadow: `0 20px 60px rgba(0,0,0,0.3), 0 0 40px ${C.glow}66`,
+          }}
+        />
+      )}
       <div
         style={{
           position: 'absolute',
           right: COL.right,
-          top: 1170,
+          top: 1150,
           textAlign: 'right',
           direction: 'rtl',
-          whiteSpace: 'nowrap',
+          whiteSpace: 'pre',
+          lineHeight: 1.05,
           fontFamily: FONT,
           fontWeight: 900,
-          fontSize: 108,
+          fontSize: 96,
           color: '#fff',
           opacity: brand,
           filter: `blur(${(1 - brand) * 12}px)`,
@@ -104,7 +123,7 @@ export const OutroScene: React.FC = () => {
         style={{
           position: 'absolute',
           right: COL.right,
-          top: 1320,
+          top: 1380,
           whiteSpace: 'nowrap',
           textAlign: 'right',
           direction: 'rtl',
@@ -138,7 +157,8 @@ export const camera = (frame: number) => {
   const current = [...content.points].reverse().find((p) => frame >= sec(p.start, fps));
   let zoom = current?.zoom ?? 1;
   let segStart = current ? sec(current.start, fps) : 0;
-  for (const t of current?.punch ?? []) {
+  const cuts = content.cuts.filter((t) => current && t > current.start + 0.05);
+  for (const t of [...(current?.punch ?? []), ...cuts].sort((a, b) => a - b)) {
     if (frame >= sec(t, fps)) {
       zoom = zoom > 1.05 ? 1 : 1.14;
       segStart = sec(t, fps);

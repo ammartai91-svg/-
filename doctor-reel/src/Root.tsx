@@ -1,17 +1,16 @@
-import '@fontsource/tajawal/400.css';
-import '@fontsource/tajawal/500.css';
-import '@fontsource/tajawal/700.css';
-import '@fontsource/tajawal/800.css';
-import '@fontsource/tajawal/900.css';
+import '@fontsource/cairo/500.css';
+import '@fontsource/cairo/700.css';
+import '@fontsource/cairo/800.css';
+import '@fontsource/cairo/900.css';
 import React from 'react';
 import {Composition, continueRender, delayRender} from 'remotion';
 import {content, totalSeconds} from './content';
 import {OverlayOnly, Reel} from './Reel';
 
-// Make sure every Tajawal weight is loaded before the first frame is captured.
-const fontHandle = delayRender('Loading Tajawal');
+// Make sure every Cairo weight is loaded before the first frame is captured.
+const fontHandle = delayRender('Loading Cairo');
 Promise.all(
-  [400, 500, 700, 800, 900].map((w) => document.fonts.load(`${w} 40px Tajawal`, 'نص عربي')),
+  [500, 700, 800, 900].map((w) => document.fonts.load(`${w} 40px Cairo`, 'نص عربي')),
 )
   .then(() => continueRender(fontHandle))
   .catch(() => continueRender(fontHandle));

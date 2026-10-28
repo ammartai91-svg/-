@@ -1,11 +1,11 @@
 import React from 'react';
-import {interpolate, useCurrentFrame} from 'remotion';
+import {Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
 import {clamp, easeInOut, easeOutExpo, prog} from '../anim';
 import {content, IconName} from '../content';
 import {Icon} from './Icons';
 
 const C = content.colors;
-export const FONT = 'Tajawal, sans-serif';
+export const FONT = 'Cairo, sans-serif';
 
 /** Centered text column in the free wall space above the doctor's head. */
 export const COL = {right: 90, width: 900};
@@ -57,7 +57,7 @@ export const GlowTitle: React.FC<{
     >
       {text}
       {/* sweep light at the reveal edge */}
-      {p < 0.97 && (
+      {p > 0.02 && p < 0.97 && (
         <div
           style={{
             position: 'absolute',
@@ -365,5 +365,28 @@ export const Progress: React.FC<{count: number; active: number; visible: number}
     ))}
   </div>
 );
+
+/** Small brand bug in the corner while she talks. */
+export const LogoBug: React.FC<{from: number; to: number}> = ({from, to}) => {
+  const f = useCurrentFrame();
+  if (!content.logo) return null;
+  const v = Math.min(prog(f, from, 14), 1 - prog(f, to - 10, 10, easeInOut));
+  return (
+    <Img
+      src={staticFile(content.logo)}
+      style={{
+        position: 'absolute',
+        left: 44,
+        top: 44,
+        width: 118,
+        height: 118,
+        borderRadius: '50%',
+        opacity: v,
+        transform: `scale(${0.8 + v * 0.2})`,
+        boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+      }}
+    />
+  );
+};
 
 export {easeOutExpo};

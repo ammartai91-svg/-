@@ -12,7 +12,7 @@ export const Grade: React.FC = () => {
     <AbsoluteFill style={{pointerEvents: 'none'}}>
       <AbsoluteFill
         style={{
-          background: `linear-gradient(180deg, rgba(255,196,140,${g.warmHighlights}) 0%, rgba(255,214,170,${g.warmHighlights * 0.4}) 40%, rgba(16,140,160,${g.tealShadows}) 100%)`,
+          background: `linear-gradient(180deg, rgba(255,196,140,${g.warmHighlights}) 0%, rgba(255,214,170,${g.warmHighlights * 0.4}) 40%, rgba(${g.shadowTint},${g.tealShadows}) 100%)`,
           mixBlendMode: 'soft-light',
         }}
       />

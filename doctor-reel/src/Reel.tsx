@@ -4,7 +4,7 @@ import {clamp, sec} from './anim';
 import {content, totalSeconds} from './content';
 import {Doctor} from './components/Doctor';
 import {Grade} from './components/Grade';
-import {GlassSweep, Progress} from './components/Graphics';
+import {GlassSweep, LogoBug, Progress} from './components/Graphics';
 import {Room} from './components/Room';
 import {camera, flashFilter, HookScene, OutroScene, PointScene} from './components/Scenes';
 import {interpolate} from 'remotion';
@@ -80,6 +80,7 @@ export const GraphicsLayer: React.FC = () => {
       {content.points.map((p, i) => (
         <GlassSweep key={i} at={sec(p.start, fps)} />
       ))}
+      <LogoBug from={firstAt} to={outroAt} />
       <OutroScene />
     </AbsoluteFill>
   );

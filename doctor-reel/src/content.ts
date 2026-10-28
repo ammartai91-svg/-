@@ -30,28 +30,33 @@ export type Point = {
   punch?: number[];
 };
 
+import edl from '../public/video/edl.json';
+
 export const content = {
   fps: 30,
   width: 1080,
   height: 1920,
 
+  // هوية حملة «نبض ينتظر قلبك»
   colors: {
-    primary: '#0E8DA3', // تركواز غامق — العناوين
-    glow: '#2ED6F0', // سماوي — التوهج
-    accent: '#14B3CB', // الشريط
-    deep: '#07546A', // الخلفية الختامية
-    text: '#0B3B47',
+    primary: '#14213A', // كحلي — العناوين
+    glow: '#FF6B95', // وردي — التوهج
+    accent: '#FF2D6F', // الشريط
+    deep: '#14213A', // الخلفية الختامية
+    text: '#14213A',
   },
+  logo: 'logo.png' as string | null, // بمجلد public
 
   // ---------------------------------------------------------------- الدكتورة
   doctor: {
     // فيديو الدكتورة بمجلد public/video
-    src: 'video/doctor-full.mp4' as string | null,
+    // doctor-tight.mp4 = فيديوها بعد شيل السكتات الطويلة (tools/tighten.py)
+    src: 'video/doctor-tight.mp4' as string | null,
     // 'full' = فيديوها الأصلي بخلفيته | 'cutout' = مقصوصة داخل الغرفة البيضة
     mode: 'full' as 'full' | 'cutout',
     startFrom: 0, // من أي ثانية بالفيديو الأصلي نبدي
-    clipDuration: 32.5, // كم ثانية نستخدم من فيديوها
-    delay: 0, // تأخير بداية كلامها (ثواني) — قبلها صورة ثابتة
+    clipDuration: edl.duration, // كم ثانية نستخدم من فيديوها
+    delay: 1.0, // تأخير بداية كلامها (ثواني) — قبلها صورة ثابتة
     // إعدادات وضع cutout بس:
     x: -90,
     y: 0,
@@ -71,22 +76,22 @@ export const content = {
   // أول ثانية بالفيديو هي سكتة قبل ما تحچي
   hook: {
     start: 0,
-    duration: 1.25,
+    duration: 1.1,
     ghost: '4',
     title: 'نصائح لصحّتج',
     subtitle: 'من دكتورتج.. لا تفوّتيها',
   },
 
   // ---------------------------------------------------------------- النقاط
-  // كل نقطة على لقطة من لقطات الفيديو (القطعات بالثواني 6.27 / 12.53 / 24.67 / 30.13)
+  // كل نقطة على لقطة من لقطات الفيديو (بعد شيل السكتات + ثانية الافتتاحية)
   points: [
     {
       number: '01',
       title: 'راجعي',
       subtitle: 'بصورة دورية',
       icon: 'calendar',
-      start: 1.15,
-      duration: 5.12,
+      start: 1.0,
+      duration: 4.58,
       zoom: 1,
     },
     {
@@ -94,8 +99,8 @@ export const content = {
       title: 'اهتمي بتغذيتج',
       subtitle: 'واسألي عن الفيتامينات المناسبة إلج',
       icon: 'apple',
-      start: 6.27,
-      duration: 6.26,
+      start: 5.58,
+      duration: 5.14,
       search: 'شنو الفيتامينات المناسبة إلي؟',
       zoom: 1.14,
     },
@@ -104,30 +109,32 @@ export const content = {
       title: 'لا تاخذين',
       subtitle: 'أدوية أو مكملات من نفسج',
       icon: 'pill',
-      start: 12.53,
-      duration: 12.14,
+      start: 10.72,
+      duration: 8.68,
       flash: true,
       zoom: 1,
-      punch: [16.6, 21.8],
     },
     {
       number: '04',
       title: 'لا تهملين',
       subtitle: 'أي أعراض غير طبيعية',
       icon: 'alert',
-      start: 24.67,
-      duration: 5.46,
+      start: 19.4,
+      duration: 5.21,
       zoom: 1.14,
     },
   ] as Point[],
 
+  // أماكن القطع بعد شيل السكتات — الكاميرا تبدّل الزوم عليها حتى ما يبين القطع
+  cuts: edl.cuts.map((t: number) => t + 1.0),
+
   // ---------------------------------------------------------------- الختام
   outro: {
-    start: 30.13,
-    duration: 2.4,
-    brand: 'د. ابتسام',
-    tagline: 'صحتـــج أمانـــة',
-    ghost: 'HEALTH',
+    start: 24.61,
+    duration: 2.6,
+    brand: 'د. ابتسام\nصاحب',
+    tagline: 'نبض ينتظر قلبك',
+    ghost: '', // كلمة إنكليزية عمودية مفرّغة على الموجة (فارغ = بدون)
     panX: 230, // قد إيش تتحرك الدكتورة لليسار حتى تفسح مجال للختام
   },
 
@@ -144,7 +151,8 @@ export const content = {
   grade: {
     // التعديل اللوني السينمائي — 0 يطفيه
     warmHighlights: 0.22,
-    tealShadows: 0.28,
+    tealShadows: 0.26,
+    shadowTint: '20,33,58', // لون الظلال (كحلي الهوية)
     vignette: 0.34,
     grain: 0.06,
     lightLeak: 0.16,
