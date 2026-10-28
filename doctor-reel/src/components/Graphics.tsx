@@ -7,8 +7,9 @@ import {Icon} from './Icons';
 const C = content.colors;
 export const FONT = 'Tajawal, sans-serif';
 
-/** Right-hand text column. */
-export const COL = {right: 48, width: 540};
+/** Centered text column in the free wall space above the doctor's head. */
+export const COL = {right: 90, width: 900};
+const W = content.width;
 
 /**
  * Big glowing title. Revealed right→left with a light-sweep edge, like an AE
@@ -39,7 +40,7 @@ export const GlowTitle: React.FC<{
         right: COL.right,
         top,
         width: COL.width,
-        textAlign: 'right',
+        textAlign: 'center',
         direction: 'rtl',
         fontFamily: FONT,
         fontWeight: 900,
@@ -90,14 +91,17 @@ export const HighlightBar: React.FC<{text: string; at: number; top: number; exit
     <div
       style={{
         position: 'absolute',
-        right: COL.right,
+        left: 0,
+        right: 0,
         top,
-        maxWidth: COL.width,
+        display: 'flex',
+        justifyContent: 'center',
         direction: 'rtl',
         opacity: 1 - out,
-        transform: `translateX(${-out * 40}px)`,
+        transform: `translateY(${-out * 20}px)`,
       }}
     >
+     <div style={{position: 'relative', maxWidth: COL.width}}>
       <div
         style={{
           position: 'absolute',
@@ -106,7 +110,7 @@ export const HighlightBar: React.FC<{text: string; at: number; top: number; exit
           background: `linear-gradient(270deg, ${C.accent}, ${C.glow})`,
           boxShadow: `0 10px 30px ${C.accent}55`,
           transform: `scaleX(${bar})`,
-          transformOrigin: 'right center',
+          transformOrigin: 'center',
         }}
       />
       <div
@@ -118,13 +122,14 @@ export const HighlightBar: React.FC<{text: string; at: number; top: number; exit
           fontSize: size,
           lineHeight: 1.3,
           color: '#fff',
-          textAlign: 'right',
+          textAlign: 'center',
           opacity: txt,
           transform: `translateY(${(1 - txt) * 14}px)`,
         }}
       >
         {text}
       </div>
+     </div>
     </div>
   );
 };
@@ -145,7 +150,9 @@ export const GhostNumber: React.FC<{text: string; at: number; end: number; top: 
     <div
       style={{
         position: 'absolute',
-        right: 10,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
         top,
         fontFamily: FONT,
         fontWeight: 900,
@@ -154,7 +161,7 @@ export const GhostNumber: React.FC<{text: string; at: number; end: number; top: 
         letterSpacing: -20,
         color: 'transparent',
         WebkitTextStroke: `4px ${C.primary}`,
-        opacity: 0.26 * p * (1 - out),
+        opacity: 0.36 * p * (1 - out),
         transform: `translateY(${(1 - p) * 120 + drift}px) scale(${0.92 + p * 0.08})`,
         clipPath: `inset(${(1 - p) * 100}% 0 0 0)`,
         filter: `drop-shadow(0 0 18px ${C.glow}66)`,
@@ -173,7 +180,7 @@ export const HexBadge: React.FC<{icon: IconName; at: number; end: number; top: n
   const pop = prog(f, at, 14);
   const out = prog(f, end - 8, 8, easeInOut);
   const spin = interpolate(f, [at, end], [0, 12], clamp);
-  const size = 210;
+  const size = 160;
   const hex = Array.from({length: 6})
     .map((_, i) => {
       const a = (Math.PI / 3) * i - Math.PI / 2;
@@ -184,7 +191,7 @@ export const HexBadge: React.FC<{icon: IconName; at: number; end: number; top: n
     <div
       style={{
         position: 'absolute',
-        right: COL.right + COL.width - size + 10,
+        left: (W - size) / 2,
         top,
         width: size,
         height: size,
@@ -217,7 +224,7 @@ export const HexBadge: React.FC<{icon: IconName; at: number; end: number; top: n
         />
       </svg>
       <div style={{position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <Icon name={icon} color={C.primary} draw={iconDraw} size={104} />
+        <Icon name={icon} color={C.primary} draw={iconDraw} size={80} />
       </div>
     </div>
   );
@@ -233,19 +240,19 @@ export const SearchBar: React.FC<{query: string; at: number; end: number; top: n
   const typed = query.slice(0, chars);
   const cursorOn = Math.floor(f / 8) % 2 === 0 || chars < query.length;
   const lensT = prog(f, typeStart + query.length * 1.6 + 4, 26, easeInOut);
-  const lensX = interpolate(lensT, [0, 1], [380, 40]);
+  const lensX = interpolate(lensT, [0, 1], [640, 60]);
   const lensVisible = lensT > 0 && lensT < 1 ? 1 : 0;
   return (
     <div
       style={{
         position: 'absolute',
-        right: COL.right,
+        left: (W - 820) / 2,
         top,
-        width: COL.width,
+        width: 820,
         height: 104,
         opacity: pop * (1 - out),
         transform: `translateY(${(1 - pop) * 40}px) scale(${0.9 + pop * 0.1})`,
-        transformOrigin: 'right center',
+        transformOrigin: 'center',
       }}
     >
       <div
@@ -266,7 +273,7 @@ export const SearchBar: React.FC<{query: string; at: number; end: number; top: n
           <circle cx="17" cy="17" r="11" fill="none" stroke={C.primary} strokeWidth={4} />
           <path d="M25 25 L35 35" stroke={C.primary} strokeWidth={4} strokeLinecap="round" />
         </svg>
-        <div style={{fontFamily: FONT, fontWeight: 700, fontSize: 29, color: C.text, whiteSpace: 'nowrap'}}>
+        <div style={{fontFamily: FONT, fontWeight: 700, fontSize: 36, color: C.text, whiteSpace: 'nowrap'}}>
           {typed}
           <span style={{opacity: cursorOn ? 1 : 0, color: C.accent, fontWeight: 400}}>|</span>
         </div>
@@ -334,8 +341,10 @@ export const Progress: React.FC<{count: number; active: number; visible: number}
   <div
     style={{
       position: 'absolute',
-      right: COL.right,
-      top: 150,
+      left: 0,
+      right: 0,
+      top: 64,
+      justifyContent: 'center',
       display: 'flex',
       flexDirection: 'row-reverse',
       gap: 12,

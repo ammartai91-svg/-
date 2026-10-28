@@ -12,9 +12,9 @@ export const HookScene: React.FC = () => {
   const end = sec(h.start + h.duration, fps);
   return (
     <>
-      <GhostNumber text={h.ghost} at={at} end={end} top={240} size={760} />
-      <GlowTitle text={h.title} at={at + 6} top={560} size={136} exit={end - 8} />
-      <HighlightBar text={h.subtitle} at={at + 18} top={880} exit={end - 8} />
+      <GhostNumber text={h.ghost} at={at} end={end} top={10} size={560} />
+      <GlowTitle text={h.title} at={at + 4} top={220} size={124} exit={end - 6} />
+      <HighlightBar text={h.subtitle} at={at + 12} top={380} exit={end - 6} />
     </>
   );
 };
@@ -24,16 +24,16 @@ export const PointScene: React.FC<{p: Point}> = ({p}) => {
   const end = sec(p.start + p.duration, fps);
   const lines = p.title.split('\n');
   const longest = Math.max(...lines.map((l) => l.length));
-  const titleSize = Math.min(128, COL.width / (longest * 0.5));
-  const titleTop = 600;
-  const barTop = titleTop + lines.length * titleSize * 1.02 + 34;
+  const titleSize = Math.min(112, COL.width / (longest * 0.5));
+  const titleTop = 300;
+  const barTop = titleTop + lines.length * titleSize * 1.02 + 26;
   return (
     <>
-      <GhostNumber text={p.number} at={at} end={end} top={300} />
-      <HexBadge icon={p.icon} at={at + 2} end={end} top={300} />
-      <GlowTitle text={p.title} at={at + 8} top={titleTop} exit={end - 8} />
+      <GhostNumber text={p.number} at={at} end={end} top={20} size={470} />
+      <HexBadge icon={p.icon} at={at + 2} end={end} top={118} />
+      <GlowTitle text={p.title} at={at + 8} top={titleTop} size={112} exit={end - 8} />
       <HighlightBar text={p.subtitle} at={at + 20} top={barTop} exit={end - 8} />
-      {p.search && <SearchBar query={p.search} at={at + 40} end={end} top={barTop + 200} />}
+      {p.search && <SearchBar query={p.search} at={at + 40} end={end} top={1500} />}
     </>
   );
 };
@@ -133,15 +133,25 @@ export const flashFilter = (frame: number) => {
   return undefined;
 };
 
-/** Virtual camera: punch-in per point + a slow push, like AE scale keyframes. */
-export const cameraScale = (frame: number) => {
+/** Virtual camera: punch-in per point (hides the jump cuts), extra punches, outro pan. */
+export const camera = (frame: number) => {
   const current = [...content.points].reverse().find((p) => frame >= sec(p.start, fps));
-  const base = current?.zoom ?? 1;
-  const segStart = current ? sec(current.start, fps) : 0;
+  let zoom = current?.zoom ?? 1;
+  let segStart = current ? sec(current.start, fps) : 0;
+  for (const t of current?.punch ?? []) {
+    if (frame >= sec(t, fps)) {
+      zoom = zoom > 1.05 ? 1 : 1.14;
+      segStart = sec(t, fps);
+    }
+  }
   const push = interpolate(frame - segStart, [0, 200], [0, 0.03], clamp);
   const outroAt = sec(content.outro.start, fps);
   const pull = prog(frame, outroAt, 22, easeInOut);
-  return (base + push) * (1 - pull) + 1 * pull;
+  return {
+    scale: (zoom + push) * (1 - pull) + 1.04 * pull,
+    // slide her left so the end card owns the right side
+    x: -content.outro.panX * pull,
+  };
 };
 
 export {easeOutExpo};

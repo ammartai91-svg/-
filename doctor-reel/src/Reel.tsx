@@ -6,7 +6,7 @@ import {Doctor} from './components/Doctor';
 import {Grade} from './components/Grade';
 import {GlassSweep, Progress} from './components/Graphics';
 import {Room} from './components/Room';
-import {cameraScale, flashFilter, HookScene, OutroScene, PointScene} from './components/Scenes';
+import {camera, flashFilter, HookScene, OutroScene, PointScene} from './components/Scenes';
 import {interpolate} from 'remotion';
 
 const {fps} = content;
@@ -87,12 +87,12 @@ export const GraphicsLayer: React.FC = () => {
 
 export const Reel: React.FC = () => {
   const frame = useCurrentFrame();
-  const scale = cameraScale(frame);
+  const cam = camera(frame);
   return (
     <AbsoluteFill style={{background: '#F4F1EC', filter: flashFilter(frame)}}>
       <AbsoluteFill style={{filter: 'contrast(1.09) saturate(1.08)'}}>
-        <AbsoluteFill style={{transform: `scale(${scale})`, transformOrigin: '300px 760px'}}>
-          <Room />
+        <AbsoluteFill style={{transform: `translateX(${cam.x}px) scale(${cam.scale})`, transformOrigin: '540px 760px'}}>
+          {content.room.enabled && <Room />}
           <Doctor />
         </AbsoluteFill>
         <GraphicsLayer />

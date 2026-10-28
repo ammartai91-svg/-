@@ -24,8 +24,10 @@ export type Point = {
   search?: string;
   /** فلاش انعكاس الألوان (نفس الريفرنس) عند دخول النقطة */
   flash?: boolean;
-  /** زوم الكاميرا على الدكتورة: 1 = عريض، 1.15 = قريب */
+  /** زوم الكاميرا على الدكتورة: 1 = عريض، 1.14 = قريب */
   zoom?: number;
+  /** ثواني إضافية داخل النقطة يتبدل بيها الزوم (للنقاط الطويلة) */
+  punch?: number[];
 };
 
 export const content = {
@@ -43,53 +45,57 @@ export const content = {
 
   // ---------------------------------------------------------------- الدكتورة
   doctor: {
-    // حط فيديو الدكتورة المقصوص (بخلفية شفافة) بمجلد public/video
-    // واكتب اسمه هنا. إذا null يطلع مكانه شكل مؤقت.
-    src: 'video/doctor-cutout.webm' as string | null,
+    // فيديو الدكتورة بمجلد public/video
+    src: 'video/doctor-full.mp4' as string | null,
+    // 'full' = فيديوها الأصلي بخلفيته | 'cutout' = مقصوصة داخل الغرفة البيضة
+    mode: 'full' as 'full' | 'cutout',
     startFrom: 0, // من أي ثانية بالفيديو الأصلي نبدي
-    clipDuration: 12.0, // كم ثانية نستخدم من فيديوها
-    delay: 2.0, // الدكتورة تبدي تحچي بعد الافتتاحية بهالثواني (قبلها صورة ثابتة)
-    x: -90, // يسار/يمين (بكسل) — كل ما يقل تروح أكثر لليسار
-    y: 0, // فوق/جوه
-    height: 1380, // حجمها بالكادر
-    mirror: false, // قلب أفقي إذا تباوع عكس الكلام
+    clipDuration: 32.5, // كم ثانية نستخدم من فيديوها
+    delay: 0, // تأخير بداية كلامها (ثواني) — قبلها صورة ثابتة
+    // إعدادات وضع cutout بس:
+    x: -90,
+    y: 0,
+    height: 1380,
+    mirror: false,
     volume: 1, // صوت الدكتورة
   },
 
   room: {
-    // صورة غرفة حقيقية تحطها بـ public (مثلاً 'room.jpg')، أو null للغرفة المرسومة
+    enabled: false, // true يرجّع الغرفة البيضة (ويّا mode: 'cutout')
     image: null as string | null,
     showChair: true,
     showPlant: true,
   },
 
   // ---------------------------------------------------------------- الافتتاحية
+  // أول ثانية بالفيديو هي سكتة قبل ما تحچي
   hook: {
     start: 0,
-    duration: 2.0,
+    duration: 1.25,
     ghost: '4',
-    title: 'نصائح\nلصحّتج',
+    title: 'نصائح لصحّتج',
     subtitle: 'من دكتورتج.. لا تفوّتيها',
   },
 
   // ---------------------------------------------------------------- النقاط
+  // كل نقطة على لقطة من لقطات الفيديو (القطعات بالثواني 6.27 / 12.53 / 24.67 / 30.13)
   points: [
     {
       number: '01',
       title: 'راجعي',
       subtitle: 'بصورة دورية',
       icon: 'calendar',
-      start: 2.0,
-      duration: 1.75,
+      start: 1.15,
+      duration: 5.12,
       zoom: 1,
     },
     {
       number: '02',
-      title: 'اهتمي\nبتغذيتج',
+      title: 'اهتمي بتغذيتج',
       subtitle: 'واسألي عن الفيتامينات المناسبة إلج',
       icon: 'apple',
-      start: 3.75,
-      duration: 4.4,
+      start: 6.27,
+      duration: 6.26,
       search: 'شنو الفيتامينات المناسبة إلي؟',
       zoom: 1.14,
     },
@@ -98,38 +104,40 @@ export const content = {
       title: 'لا تاخذين',
       subtitle: 'أدوية أو مكملات من نفسج',
       icon: 'pill',
-      start: 8.15,
-      duration: 3.05,
+      start: 12.53,
+      duration: 12.14,
       flash: true,
       zoom: 1,
+      punch: [16.6, 21.8],
     },
     {
       number: '04',
       title: 'لا تهملين',
       subtitle: 'أي أعراض غير طبيعية',
       icon: 'alert',
-      start: 11.2,
-      duration: 2.7,
+      start: 24.67,
+      duration: 5.46,
       zoom: 1.14,
     },
   ] as Point[],
 
   // ---------------------------------------------------------------- الختام
   outro: {
-    start: 13.9,
-    duration: 3.2,
+    start: 30.13,
+    duration: 2.4,
     brand: 'د. ابتسام',
     tagline: 'صحتـــج أمانـــة',
     ghost: 'HEALTH',
+    panX: 230, // قد إيش تتحرك الدكتورة لليسار حتى تفسح مجال للختام
   },
 
   // ---------------------------------------------------------------- الصوت
   audio: {
     music: 'music/bed.wav',
     // صوت الموسيقى لما الدكتورة تحچي (خفيف) ولما ماكو صوت
-    musicVolumeUnderVoice: 0.16,
-    musicVolumeAlone: 0.42,
-    sfxVolume: 0.55,
+    musicVolumeUnderVoice: 0.14,
+    musicVolumeAlone: 0.4,
+    sfxVolume: 0.5,
     sfx: true, // false يطفي كل المؤثرات
   },
 
@@ -137,9 +145,9 @@ export const content = {
     // التعديل اللوني السينمائي — 0 يطفيه
     warmHighlights: 0.22,
     tealShadows: 0.28,
-    vignette: 0.32,
-    grain: 0.07,
-    lightLeak: 0.18,
+    vignette: 0.34,
+    grain: 0.06,
+    lightLeak: 0.16,
   },
 };
 

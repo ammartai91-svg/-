@@ -2,22 +2,28 @@ import React from 'react';
 import {AbsoluteFill, Freeze, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {content} from '../content';
 
-/** The cut-out doctor, seated on the left. Falls back to a placeholder silhouette. */
+/** The doctor: her original full-frame shot, or a cut-out placed in the room. Placeholder when no video. */
 export const Doctor: React.FC = () => {
   const {doctor, fps} = content;
   const delay = Math.round(doctor.delay * fps);
   const startFrom = Math.round(doctor.startFrom * fps);
   const clipFrames = Math.floor(doctor.clipDuration * fps);
-  const videoStyle: React.CSSProperties = {height: '100%', width: 'auto', display: 'block'};
-  const wrap: React.CSSProperties = {
-    position: 'absolute',
-    left: doctor.x,
-    bottom: -doctor.y,
-    height: doctor.height,
-    transform: doctor.mirror ? 'scaleX(-1)' : undefined,
-    // grounding shadow + light wrap so she sits in the room, not on top of it
-    filter: 'drop-shadow(24px 30px 40px rgba(60,45,30,0.28)) drop-shadow(0 0 2px rgba(255,248,236,0.6))',
-  };
+  const full = doctor.mode === 'full';
+  const transparent = !full;
+  const videoStyle: React.CSSProperties = full
+    ? {width: '100%', height: '100%', objectFit: 'cover', display: 'block'}
+    : {height: '100%', width: 'auto', display: 'block'};
+  const wrap: React.CSSProperties = full
+    ? {position: 'absolute', inset: 0, transform: doctor.mirror ? 'scaleX(-1)' : undefined}
+    : {
+        position: 'absolute',
+        left: doctor.x,
+        bottom: -doctor.y,
+        height: doctor.height,
+        transform: doctor.mirror ? 'scaleX(-1)' : undefined,
+        // grounding shadow + light wrap so she sits in the room, not on top of it
+        filter: 'drop-shadow(24px 30px 40px rgba(60,45,30,0.28)) drop-shadow(0 0 2px rgba(255,248,236,0.6))',
+      };
   if (!doctor.src) {
     return (
       <AbsoluteFill>
@@ -34,7 +40,7 @@ export const Doctor: React.FC = () => {
         {delay > 0 && (
           <Sequence durationInFrames={delay} layout="none">
             <Freeze frame={startFrom}>
-              <OffthreadVideo src={staticFile(doctor.src)} muted transparent style={videoStyle} />
+              <OffthreadVideo src={staticFile(doctor.src)} muted transparent={transparent} style={videoStyle} />
             </Freeze>
           </Sequence>
         )}
@@ -43,14 +49,14 @@ export const Doctor: React.FC = () => {
             src={staticFile(doctor.src)}
             startFrom={startFrom}
             volume={doctor.volume}
-            transparent
+            transparent={transparent}
             style={videoStyle}
           />
         </Sequence>
         {/* after her last word she holds on the final frame under the end card */}
         <Sequence from={delay + clipFrames} layout="none">
           <Freeze frame={startFrom + clipFrames - 1}>
-            <OffthreadVideo src={staticFile(doctor.src)} muted transparent style={videoStyle} />
+            <OffthreadVideo src={staticFile(doctor.src)} muted transparent={transparent} style={videoStyle} />
           </Freeze>
         </Sequence>
       </div>
