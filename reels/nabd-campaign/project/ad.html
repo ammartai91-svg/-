@@ -121,7 +121,7 @@
     .title .ch { display:inline-block; }
     .eyebrow { position:absolute; left:0; width:1080px; text-align:center; color:#E2B04A; font-size:40px; font-weight:700; letter-spacing:0; }
     .ph { position:absolute; border:4px dashed rgba(255,255,255,.55); border-radius:40px; display:flex; align-items:center; justify-content:center; text-align:center; color:rgba(255,255,255,.85); font-size:40px; font-weight:800; background:linear-gradient(160deg,rgba(27,181,201,.25),rgba(20,33,58,.75)); }
-    .spec { position:absolute; right:110px; display:flex; align-items:center; gap:24px; color:#fff; font-size:60px; font-weight:900; white-space:nowrap; }
+    .spec { position:absolute; right:110px; display:flex; align-items:center; gap:24px; color:#fff; font-size:56px; font-weight:900; white-space:nowrap; }
     .spec i { width:22px; height:22px; border-radius:50%; background:#1BB5C9; box-shadow:0 0 24px #1BB5C9; flex:none; }
     .endtxt { position:absolute; left:60px; right:60px; text-align:center; color:#fff; }
     .phone { display:inline-block; border:4px dashed rgba(255,255,255,.7); border-radius:30px; padding:8px 40px 16px; font-size:50px; font-weight:900; }
@@ -161,9 +161,10 @@
     <!-- S3 doctor -->
     <div class="ph" id="photo" style="left:240px;top:250px;width:600px;height:760px"><div>صورة الدكتورة<br><span style="font-size:28px;font-weight:600;opacity:.8">(تنحط هنا أفضل صورة)</span></div></div>
     <div class="title" id="dname" style="top:1040px;font-size:84px">د. ابتسام صاحب</div>
-    <div class="spec" id="sp1" style="top:1180px"><i></i>النسائية والتوليد</div>
-    <div class="spec" id="sp2" style="top:1275px"><i></i>علاج العقم</div>
-    <div class="spec" id="sp3" style="top:1370px"><i></i>أطفال الأنابيب</div>
+    <div class="spec" id="sp1" style="top:1160px"><i></i>النسائية والتوليد</div>
+    <div class="spec" id="sp2" style="top:1245px"><i></i>علاج العقم</div>
+    <div class="spec" id="sp3" style="top:1330px"><i></i>التلقيح الصناعي</div>
+    <div class="spec" id="sp4" style="top:1415px"><i></i>أطفال الأنابيب</div>
 
     <!-- S4 map UI -->
     <div class="chip" id="chip"><span id="chipTxt"></span><div class="bar"><i id="chipBar"></i></div></div>
@@ -177,9 +178,9 @@
     <div class="ph" id="logo2" style="left:400px;top:190px;width:280px;height:280px;border-radius:50%;font-size:34px">الشعار</div>
     <div class="title" id="e1" style="top:500px;font-size:104px">نبض ينتظر قلبك</div>
     <div class="endtxt" id="e2" style="top:680px;font-size:66px;font-weight:900;color:#FFD9E4">عيادة الدكتورة ابتسام صاحب</div>
-    <div class="endtxt" id="e3" style="top:790px;font-size:42px;font-weight:700;color:#E2B04A">نسائية وتوليد • عقم • أطفال الأنابيب</div>
-    <div class="endtxt" id="e4" style="top:930px;font-size:44px;font-weight:800">القاسم — شارع الأطباء — مجمع المرسل الطبي</div>
-    <div class="endtxt" id="e5" style="top:1060px"><span style="font-size:46px;font-weight:800">للحجز والاستفسار</span><br><span class="phone">رقم الهاتف</span></div>
+    <div class="endtxt" id="e3" style="top:790px;font-size:42px;font-weight:700;color:#E2B04A;line-height:1.45">نسائية وتوليد • علاج العقم<br>التلقيح الصناعي • أطفال الأنابيب</div>
+    <div class="endtxt" id="e4" style="top:960px;font-size:44px;font-weight:800">القاسم — شارع الأطباء — مجمع المرسل الطبي</div>
+    <div class="endtxt" id="e5" style="top:1080px"><span style="font-size:46px;font-weight:800">للحجز والاستفسار</span><br><span class="phone">رقم الهاتف</span></div>
 
     <!-- captions (VO) -->
     <div class="cap" id="c1">هواي ناس سألتنا...</div>
@@ -245,6 +246,43 @@ function strong(id, main=13){
 function runner(id,t,on){ const p=$(id); if(!p._run) return; p._run.style.opacity=on; p._run.style.strokeDashoffset = -((t*520)%(p._L+90)); }
 function markFill(id,t,a,alpha=.32){ $(id).style.fill = `rgba(255,45,111,${alpha*prog(t,a,a+.4)*(0.7+0.3*Math.sin(t*7))})`; }
 
+// ================= AE-STYLE LOCATION TOOLKIT =================
+// 1) chevron arrows travelling along a route (world space → tracked with the plate)
+function addArrowGroup(worldId){ const svg=$(worldId).querySelector('svg'); const g=document.createElementNS(SVGNS,'g'); svg.appendChild(g); return g; }
+const AR = { m:addArrowGroup('w-markaz'), d:addArrowGroup('w-markaz'), f:addArrowGroup('w-falaka'), s:addArrowGroup('w-street') };
+function chevrons(g, path, t, on, size=18, gap=70, speed=140, col='#fff'){
+  g.innerHTML=''; if(on<=0) return;
+  const L=path.getTotalLength(); const n=Math.floor(L/gap); let h='';
+  for(let i=0;i<n;i++){
+    const d=((t*speed)+i*gap)%L; const p=path.getPointAtLength(d), q=path.getPointAtLength(Math.min(L,d+2));
+    const a=Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI;
+    const edge=Math.min(1,d/60,(L-d)/60);
+    h+=`<path d="M${-size*.6},${-size*.7} L${size*.5},0 L${-size*.6},${size*.7}" transform="translate(${p.x},${p.y}) rotate(${a})" fill="none" stroke="${col}" stroke-width="${size*.32}" stroke-linecap="round" stroke-linejoin="round" opacity="${on*edge}"/>`;
+  }
+  g.innerHTML=h;
+}
+// 2) text "painted" on the road via corner-pin (homography → matrix3d)
+function solve(A,b){ const n=b.length; for(let i=0;i<n;i++){ let m=i; for(let r=i+1;r<n;r++) if(Math.abs(A[r][i])>Math.abs(A[m][i])) m=r; [A[i],A[m]]=[A[m],A[i]]; [b[i],b[m]]=[b[m],b[i]]; for(let r=i+1;r<n;r++){ const f=A[r][i]/A[i][i]; for(let c=i;c<n;c++) A[r][c]-=f*A[i][c]; b[r]-=f*b[i]; } } const x=new Array(n); for(let i=n-1;i>=0;i--){ let s=b[i]; for(let c=i+1;c<n;c++) s-=A[i][c]*x[c]; x[i]=s/A[i][i]; } return x; }
+function cornerPin(el,w,h,P){ const S=[[0,0],[w,0],[w,h],[0,h]]; const A=[],b=[];
+  for(let i=0;i<4;i++){ const [x,y]=S[i],[u,v]=P[i]; A.push([x,y,1,0,0,0,-u*x,-u*y]); b.push(u); A.push([0,0,0,x,y,1,-v*x,-v*y]); b.push(v); }
+  const [a,bb,c,d,e,f,g,hh]=solve(A,b);
+  el.style.transformOrigin='0 0'; el.style.transform=`matrix3d(${a},${d},0,${g},${bb},${e},0,${hh},0,0,1,0,${c},${f},0,1)`; }
+function roadText(worldId, txt, w, h, quad, fs){
+  const el=document.createElement('div'); el.className='roadtxt'; el.textContent=txt;
+  Object.assign(el.style,{position:'absolute',left:0,top:0,width:w+'px',height:h+'px',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'Cairo',fontWeight:900,fontSize:fs+'px',color:'#fff',whiteSpace:'nowrap',textShadow:`0 0 18px ${MK}, 0 0 4px #000`,opacity:0});
+  $(worldId).appendChild(el); cornerPin(el,w,h,quad); return el;
+}
+const RT_STREET = roadText('w-street','شارع الأطباء',900,190,[[548,1820],[492,1180],[540,1180],[656,1820]],150);
+const RT_MARKAZ = roadText('w-markaz','شارع المركز',900,200,[[90,926],[520,946],[520,986],[90,966]],170);
+function roadReveal(el,t,a,b){ const p=eOut(prog(t,a,a+.8)), o=1-prog(t,b-.3,b); el.style.opacity=(t>=a&&t<=b)?o:0; el.style.clipPath=`inset(0 ${(1-p)*100}% 0 0)`; }
+// 3) light pillar + ground ring on the clinic building
+(function(){ const svg=$('w-close').querySelector('svg');
+  svg.insertAdjacentHTML('afterbegin', `<defs><linearGradient id="beam" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="${MK}" stop-opacity=".75"/><stop offset=".35" stop-color="${MK}" stop-opacity=".25"/><stop offset="1" stop-color="${MK}" stop-opacity="0"/></linearGradient></defs><g id="pillar" opacity="0"><rect x="672" y="300" width="140" height="720" fill="url(#beam)" filter="url(#glowBig)"/><rect x="726" y="300" width="32" height="720" fill="url(#beam)"/></g>`); })();
+// 4) anchor dot with pulse + elbow leader (screen space)
+function anchorDot(x,y,t,o){ if(o<=0) return; const q=(t*1.2)%1; $('leaders').insertAdjacentHTML('beforeend',`<circle cx="${x}" cy="${y}" r="${12+q*34}" fill="none" stroke="#fff" stroke-width="${3*(1-q)}" opacity="${o*(1-q)}"/><circle cx="${x}" cy="${y}" r="11" fill="${MK}" stroke="#fff" stroke-width="4" opacity="${o}"/>`); }
+function elbow(x1,y1,x2,y2,p,o){ if(p<=0||o<=0) return; const d=`M${x1},${y1} L${x1},${y2} L${x2},${y2}`; const L=Math.abs(y2-y1)+Math.abs(x2-x1);
+  $('leaders').insertAdjacentHTML('beforeend',`<path d="${d}" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="${L}" stroke-dashoffset="${L*(1-p)}" opacity="${o}"/>`); }
+
 let CAM = {s:1,tx:0,ty:0};
 function camera(el, s, fx, fy, blur=0){
   let tx = 540 - fx*s, ty = 960 - fy*s;
@@ -271,7 +309,7 @@ function callout(el, t, a, b, ax, ay, side, lift){
   box.style.clipPath = `inset(0 0 0 ${(1-eOut(pi))*100}%)`;
   el.style.transform = `translateY(${(1-eOut(pi))*30 - po*20}px)`;
   [...box.children].forEach((c,i)=>{ const q=eOut(prog(t,a+.15+i*.1,a+.6+i*.1)); c.style.opacity=q; c.style.transform=`translateY(${(1-q)*40}px)`; });
-  return {x:x+w/2, y:y+h, o:(1-po)*eOut(pi)};
+  return {x:x+w/2, y:y+h, w, h, o:(1-po)*eOut(pi)};
 }
 function tag(el, t, a, b, ax, ay){
   if(t<a||t>b){ el.style.display='none'; return; }
@@ -317,7 +355,7 @@ function letters(el){ const sp=el.firstElementChild; if(sp && !sp.dataset.split)
 const BEATS = [0.35,1.15,1.95,2.75,3.55,4.35];
 const beatPulse = t => BEATS.reduce((m,b)=>Math.max(m, t>=b && t<b+.5 ? Math.exp(-(t-b)*9) : 0),0);
 
-const ALL = ['w-markaz','w-falaka','w-street','w-wide','w-close','w-end','s1','bgB','ecg','t1','heart','r0','r1','r2','logo1','photo','dname','sp1','sp2','sp3','chip','coMarkaz','coFalaka','coStreet','coClose','tagF','logo2','e1','e2','e3','e4','e5','c1','c2','c3','c4','c5'];
+const ALL = ['w-markaz','w-falaka','w-street','w-wide','w-close','w-end','s1','bgB','ecg','t1','heart','r0','r1','r2','logo1','photo','dname','sp1','sp2','sp3','sp4','chip','coMarkaz','coFalaka','coStreet','coClose','tagF','logo2','e1','e2','e3','e4','e5','c1','c2','c3','c4','c5'];
 
 window.render = function(t){
   ALL.forEach(i=>{ const e=$(i); if(e) e.style.display='none'; });
@@ -380,9 +418,8 @@ window.render = function(t){
     show($('photo'), p*(1-out), 0, (1-p)*80, lerp(.92,1,p)*lerp(1,1.04,prog(t,12,20)));
     const n = eOut(prog(t,12.6,13.3));
     show($('dname'), n*(1-out), 0, (1-n)*40);
-    [['sp1',14.6],['sp2',15.6],['sp3',16.6]].forEach(([id,a])=>{ const q=eOut(prog(t,a,a+.5)); show($(id), q*(1-out), (1-q)*-120, 0); });
-    cap($('c4'),t,12.5,19.5);
-    $('c4').style.top='1500px';
+    [['sp1',14.2],['sp2',15.0],['sp3',15.8],['sp4',16.6]].forEach(([id,a])=>{ const q=eOut(prog(t,a,a+.5)); show($(id), q*(1-out), (1-q)*-120, 0); });
+    // specialties are on screen as text; VO caption omitted here to avoid duplication
   }
 
   // ===== S4 LOCATION (20–34) =====
@@ -393,12 +430,14 @@ window.render = function(t){
     camera($('w-markaz'), s, lerp(470,440,prog(t,20,23.6)), lerp(1120,1040,eIO(prog(t,20,21.5))), blur);
     $('w-markaz').style.opacity = prog(t,19.65,20.1);
     drawOn($('markazHL'), eIO(prog(t,20.3,21.5))); markFill('markazHL',t,21.3,.38); runner('markazHL',t,prog(t,21.5,21.8));
-    drawOn($('markazRoute'), eIO(prog(t,20.5,21.9)));
+    drawOn($('markazRoute'), eIO(prog(t,20.5,21.9))); $('markazRoute').style.opacity = 1-prog(t,21.9,22.3)*.7;
+    chevrons(AR.m, $('markazRoute'), t, prog(t,21.8,22.1), 14, 46, 120);
+    RT_MARKAZ.style.opacity=0;
     drawOn($('markazRing'), eIO(prog(t,21.8,22.3)));
-    drawOn($('markazDoc'), eIO(prog(t,22.4,23.4)));
+    drawOn($('markazDoc'), eIO(prog(t,22.4,23.2))); chevrons(AR.d, $('markazDoc'), t, prog(t,23.1,23.3), 20, 80, 220, '#fff');
     const [ax,ay] = W2S(250,958);
     const c = callout($('coMarkaz'), t, 20.8, 23.4, ax, ay, 'c', 200);
-    if(c) leader($('leaders'), ax, ay, ax, c.y, eOut(prog(t,20.6,21.0)), c.o);
+    if(c){ anchorDot(ax,ay,t,c.o); elbow(ax,ay,ax,c.y,eOut(prog(t,20.6,21.0)),c.o); }
     const [rx,ry] = W2S(705,1000); tag($('tagF'), t, 22.0, 23.4, rx, ry-10);
     hudCorners(prog(t,20,20.4)*(1-prog(t,23.2,23.5)));
     $('shadeTop').style.opacity=.5; $('shadeBot').style.opacity=.6;
@@ -410,9 +449,11 @@ window.render = function(t){
     camera($('w-falaka'), s, 500, 1560, blur);
     drawOn($('falakaRing'), eIO(prog(t,23.8,24.6))); markFill('falakaRing',t,24.4,.34); runner('falakaRing',t,prog(t,24.6,24.9));
     drawOn($('falakaRoute'), eIO(prog(t,24.8,26.2)));
-    $('falakaDash').style.opacity = prog(t,26.0,26.3); $('falakaDash').style.strokeDashoffset = -t*120;
+    $('falakaDash').style.opacity = 0; $('falakaRoute').style.opacity = 1-prog(t,26.0,26.3)*.6;
+    chevrons(AR.f, $('falakaRoute'), t, prog(t,25.9,26.2), 22, 90, 260);
     const [px,py] = W2S(502,1560);
-    callout($('coFalaka'), t, 24.2, 26.45, px, py, 'c', 60);
+    const cf = callout($('coFalaka'), t, 24.2, 26.45, px, py-40, 'c', 120);
+    if(cf){ anchorDot(px,py,t,cf.o); elbow(px,py,px,cf.y,eOut(prog(t,24.0,24.4)),cf.o); }
     hudCorners(1-prog(t,26.2,26.5));
     $('shadeTop').style.opacity=.5; $('shadeBot').style.opacity=.6;
   }
@@ -423,10 +464,12 @@ window.render = function(t){
     camera($('w-street'), s, 520, lerp(1350,1150,eIO(prog(t,26.6,29.4))), blur);
     $('streetClip').setAttribute('y', lerp(1920,790,eIO(prog(t,26.8,28.0)))); markFill('streetPoly',t,27.6,.32); runner('streetPoly',t,prog(t,28.0,28.3));
     drawOn($('streetRoute'), eIO(prog(t,26.7,27.9)));
-    $('streetDash').style.opacity = prog(t,27.9,28.2); $('streetDash').style.strokeDashoffset = -t*120;
+    $('streetDash').style.opacity = 0; $('streetRoute').style.opacity = 1-prog(t,27.9,28.3)*.6;
+    chevrons(AR.s, $('streetRoute'), t, prog(t,27.8,28.1), 24, 100, 300);
+    roadReveal(RT_STREET, t, 27.6, 29.3);
     const [ax,ay] = W2S(520,1260);
     const c = callout($('coStreet'), t, 27.2, 29.25, ax, ay, 'l', 230);
-    if(c) leader($('leaders'), ax, ay, c.x+60, c.y, eOut(prog(t,27.0,27.4)), c.o);
+    if(c){ const bx=c.x+c.w/2; anchorDot(ax,ay,t,c.o); elbow(ax,ay,bx,c.y-c.h/2,eOut(prog(t,27.0,27.5)),c.o); }
     hudCorners(1-prog(t,29.0,29.3));
     $('shadeTop').style.opacity=.5; $('shadeBot').style.opacity=.6;
   }
@@ -439,6 +482,7 @@ window.render = function(t){
     brackets($('brackets'), x0,y0,x1,y1, prog(t,29.7,30.5), prog(t,29.7,29.9)*(1-prog(t,31.0,31.5)));
     drawOn($('closeBld'), eIO(prog(t,30.3,31.3))); markFill('closeBld',t,31.1,.3); runner('closeBld',t,prog(t,31.3,31.6));
     const [px,py] = W2S(742,1010);
+    $('pillar').setAttribute('opacity', prog(t,31.0,31.6)*(0.8+0.2*Math.sin(t*5))*(1-prog(t,33.6,34)));
     if(t<33.9) pinAt(t, 31.2, px, py, 1.35);
     callout($('coClose'), t, 31.8, 33.9, px, py-175, 'c', 70);
     $('shadeTop').style.opacity=.5; $('shadeBot').style.opacity=1;
