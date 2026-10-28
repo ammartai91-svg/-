@@ -43,6 +43,16 @@
 <body>
 <div id="stage">
   <!-- WORLD LAYERS: plate + overlays share camera transform (tracked) -->
+  <div class="world" id="w-falaka">
+    <img src="plates/falaka.jpg">
+    <svg viewBox="0 0 1080 1920">
+      <ellipse id="falakaRingE" cx="0" cy="0" rx="0" ry="0" fill="none"/>
+      <path id="falakaRing" d="M502,1838 A292,152 0 1 1 502.1,1838 Z" fill="rgba(25,227,177,0)" stroke="#19E3B1" stroke-width="8" filter="url(#glow)"/>
+      <path id="falakaRoute" d="M502,1530 C495,1300 488,1050 478,800" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" filter="url(#glow)"/>
+      <path id="falakaDash" d="M502,1530 C495,1300 488,1050 478,800" fill="none" stroke="#19E3B1" stroke-width="10" stroke-linecap="round" stroke-dasharray="26 34" opacity="0"/>
+    </svg>
+  </div>
+
   <div class="world" id="w-street">
     <img src="plates/street.jpg">
     <svg viewBox="0 0 1080 1920">
@@ -99,15 +109,17 @@
 
     <div class="chip" id="chip"><span id="chipTxt">جاري تحديد الموقع...</span><div class="bar"><i id="chipBar"></i></div></div>
 
-    <div class="callout" id="coStreet"><div class="box"><span class="k">الخطوة ١ — ادخل</span><span class="t">شارع الأطباء</span></div></div>
-    <div class="callout red" id="coWide"><div class="box"><span class="k">الخطوة ٢ — هاي البناية</span><span class="t">مجمع المرسل الطبي</span></div></div>
+    <div class="callout" id="coFalaka"><div class="box"><span class="k">نقطة البداية</span><span class="t">فلكة المركز</span></div></div>
+    <div class="callout" id="coStreet"><div class="box"><span class="k">من الفلكة.. ادخل</span><span class="t">شارع الأطباء</span></div></div>
+    <div class="callout red" id="coWide"><div class="box"><span class="k">بالشارع.. هاي البناية</span><span class="t">مجمع المرسل الطبي</span></div></div>
     <div class="callout red" id="coClose"><div class="box"><span class="k">هنا عيادة الدكتورة ابتسام</span><span class="t">مجمع المرسل الطبي</span></div></div>
 
     <div class="tag" id="tag1">الواجهة البيضة</div>
     <div class="tag" id="tag2">يمّ النخلة</div>
     <div class="tag" id="tag3">جنب البناية الزركة</div>
 
-    <div class="sub" id="sub1" style="top:1390px"><span>أول شي.. ادخل <b>شارع الأطباء</b></span></div>
+    <div class="sub" id="sub0" style="top:330px"><span>من <b>فلكة المركز</b>.. خش على طول</span></div>
+    <div class="sub" id="sub1" style="top:1390px"><span>هذا <b>شارع الأطباء</b>.. امشي بي</span></div>
     <div class="sub" id="sub2" style="top:1390px"><span>امشي بالشارع.. <b>ودوّر عليها</b></span></div>
     <div class="sub" id="sub3" style="top:1430px"><span>وصلت! <b>أهلاً بيك بالعيادة</b></span></div>
 
@@ -116,6 +128,7 @@
       <div class="div" id="cardDiv"></div>
       <div class="row" id="row1"><svg width="56" height="56" viewBox="0 0 24 24" fill="#19E3B1"><path d="M4 21V5l8-3 8 3v16h-6v-5h-4v5zM8 8h2v2H8zm6 0h2v2h-2zM8 12h2v2H8zm6 0h2v2h-2z"/></svg><span>مجمع المرسل الطبي</span></div>
       <div class="row" id="row2"><svg width="56" height="56" viewBox="0 0 24 24" fill="#19E3B1"><path d="M11 2h2v4h-2zM11 9h2v4h-2zM11 16h2v4h-2zM5 2h2l-3 20H2zM17 2h2l3 20h-2z"/></svg><span>شارع الأطباء</span></div>
+      <div class="row" id="row3"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#19E3B1" stroke-width="2.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5" fill="#19E3B1"/></svg><span>قرب فلكة المركز</span></div>
     </div>
     <svg id="cardPin" class="abs" width="200" height="220" viewBox="-100 -190 200 220" style="left:440px;top:300px">
       <use href="#pinShape" fill="url(#pinG)" stroke="#fff" stroke-width="6" transform="scale(1.35)"/><circle cx="0" cy="-119" r="23" fill="#fff"/>
@@ -227,83 +240,98 @@ function grain(seed){ let s=seed*9301+49297; const d=gimg.data; for(let i=0;i<d.
 
 // ---------- MAIN ----------
 window.render = function(t){
-  ['w-street','w-wide','w-close','w-end'].forEach(i=>$(i).style.display='none');
+  ['w-falaka','w-street','w-wide','w-close','w-end'].forEach(i=>$(i).style.display='none');
   ['brackets','leaders','ripples','hud'].forEach(i=>$(i).innerHTML='');
-  ['coStreet','coWide','coClose','tag1','tag2','tag3'].forEach(i=>$(i).style.display='none');
+  ['coFalaka','coStreet','coWide','coClose','tag1','tag2','tag3'].forEach(i=>$(i).style.display='none');
   $('pin').style.display='none';
   grain(Math.floor(t*30)+1);
 
   // whip transitions (zoom-blur)
-  const T = [12, 22, 32];
+  const T = [8.2, 14, 22, 32];
   let blur = 0, kick = 0;
   T.forEach(x=>{ const b=bump(t,x-.35,x,x+.35); blur=Math.max(blur,b*22); kick=Math.max(kick,b); });
 
-  // ===== S1 + S2: STREET (0–12) =====
-  if(t<12){
+  // ===== S1: FALAKA — hook + start point (0–8.2) =====
+  if(t<8.2){
     const punch = eOut(prog(t,0,.7));
-    let s = lerp(1.7,1.18,punch) + lerp(0,.16,eIO(prog(t,.7,12)));
-    if(t>11.65) s += eIn(prog(t,11.65,12))*.6;
-    const fx = lerp(560,500,prog(t,0,12)), fy = lerp(1350,1120,eIO(prog(t,0,12)));
+    let s = lerp(1.7,1.12,punch) + lerp(0,.14,eIO(prog(t,.7,8.2)));
+    if(t>7.85) s += eIn(prog(t,7.85,8.2))*.6;
+    const fy = lerp(1250,1560,eIO(prog(t,2.6,4.2)));
+    camera($('w-falaka'), s, 500, fy, blur);
+    drawOn($('falakaRing'), eIO(prog(t,3.6,4.8)));
+    $('falakaRing').style.fill = `rgba(25,227,177,${.2*prog(t,4.6,5)*(0.75+0.25*Math.sin(t*6))})`;
+    drawOn($('falakaRoute'), eIO(prog(t,5.6,7.6)));
+    $('falakaDash').style.opacity = prog(t,7.4,7.8);
+    $('falakaDash').style.strokeDashoffset = -t*120;
+    const [px,py] = W2S(502,1665);
+    pinAt(t, 4.6, px, py, 1);
+    const c = callout($('coFalaka'), t, 5.0, 7.95, px, py-150, 'c', 60);
+    hudCorners(prog(t,3.2,3.6)*(1-prog(t,7.7,8.0)));
+  }
+
+  // ===== S2: STREET (8.2–14) =====
+  if(t>=8.2 && t<14){
+    let s = lerp(1.15,1.32,eIO(prog(t,8.2,14))) + (1-eOut(prog(t,8.2,8.7)))*.5;
+    if(t>13.65) s += eIn(prog(t,13.65,14))*.6;
+    const fx = lerp(560,500,prog(t,8.2,14)), fy = lerp(1350,1120,eIO(prog(t,8.2,14)));
     camera($('w-street'), s, fx, fy, blur);
-    // street reveal 3.6–6
-    const rp = eIO(prog(t,3.6,6.0));
+    const rp = eIO(prog(t,8.6,10.6));
     $('streetClip').setAttribute('y', lerp(1920,790,rp));
-    drawOn($('streetRoute'), eIO(prog(t,3.4,5.6)));
-    $('streetRoute').style.opacity = 1-prog(t,6,7)*.6;
-    $('streetDash').style.opacity = prog(t,5.6,6.2);
+    drawOn($('streetRoute'), eIO(prog(t,8.4,10.2)));
+    $('streetRoute').style.opacity = 1-prog(t,10.6,11.4)*.6;
+    $('streetDash').style.opacity = prog(t,10.2,10.7);
     $('streetDash').style.strokeDashoffset = -t*120;
-    // tracked anchor on street
     const [ax,ay] = W2S(520,1260);
-    const c = callout($('coStreet'), t, 5.8, 11.6, ax, ay, 'l', 230);
-    if(c) leader($('leaders'), ax, ay, c.x+60, c.y, eOut(prog(t,5.6,6.0)), c.o);
-    // HUD
-    hudCorners(prog(t,3.2,3.6)*(1-prog(t,11.4,11.7)));
+    const c = callout($('coStreet'), t, 10.0, 13.7, ax, ay, 'l', 230);
+    if(c) leader($('leaders'), ax, ay, c.x+60, c.y, eOut(prog(t,9.8,10.2)), c.o);
+    hudCorners(1-prog(t,13.4,13.7));
   }
   // hook text
   {
-    const a = eBack(prog(t,.15,.55)), b = eBack(prog(t,.5,.95)), c = eOut(prog(t,1.3,1.8)), out = eIn(prog(t,2.75,3.15));
-    const spans = $('hookA').children;
-    [...spans].forEach((sp,i)=>{ const q=eBack(prog(t,.12+i*.18,.5+i*.18)); sp.style.display='inline-block'; sp.style.transform=`scale(${Math.max(0,q)})`; });
+    const b = eBack(prog(t,.5,.95)), c = eOut(prog(t,1.3,1.8)), out = eIn(prog(t,2.75,3.15));
+    [...$('hookA').children].forEach((sp,i)=>{ const q=eBack(prog(t,.12+i*.18,.5+i*.18)); sp.style.display='inline-block'; sp.style.transform=`scale(${Math.max(0,q)})`; });
     show($('hookA'), t<3.2?1-out:0, 0, -out*120);
     show($('hookB'), t<3.2?(b>0?1-out:0):0, out*900, 0, Math.max(0.001,b));
     show($('hookC'), t<3.2?c*(1-out):0, 0, (1-c)*40 + out*80);
-    $('shadeTop').style.opacity = t<3.3 ? 1 : (t<12 ? .5 : (t<22 ? .55 : .5));
-    $('flash').style.opacity = (1-prog(t,0,.25))*.9 + bump(t,11.85,12,12.25)*.35 + bump(t,21.85,22,22.25)*.35 + bump(t,31.85,32,32.25)*.5;
+    $('shadeTop').style.opacity = t<3.3 ? 1 : .5;
+    $('flash').style.opacity = (1-prog(t,0,.25))*.9 + [8.2,14,22].reduce((m,x)=>Math.max(m,bump(t,x-.15,x,x+.25)*.35),0) + bump(t,31.85,32,32.25)*.5;
   }
-  // chip
+  // chip (status HUD)
   {
-    const on = t>3.3 && t<11.5;
-    const q = eBack(prog(t,3.3,3.7)), o = 1-prog(t,11.2,11.5);
-    show($('chip'), on?o:0); $('chip').style.transform=`translateX(-50%) scale(${Math.max(0,q)})`;
-    const bp = eIO(prog(t,3.4,5.8));
-    $('chipBar').style.width=(bp*100)+'%';
-    $('chipTxt').textContent = bp<1 ? `جاري تحديد الشارع...  ${Math.round(bp*100)}%` : 'تم تحديد الشارع ✓';
-    if(t>15 && t<17.6){ show($('chip'), 1-prog(t,17.3,17.6)); $('chip').style.transform=`translateX(-50%) scale(${Math.max(0,eBack(prog(t,15,15.4)))})`; const bp2=eIO(prog(t,15,16.6)); $('chipBar').style.width=(bp2*100)+'%'; $('chipTxt').textContent = bp2<1?`جاري تحديد البناية...  ${Math.round(bp2*100)}%`:'تم تحديد البناية ✓'; }
+    const phases = [[3.3,4.8,7.9,'نقطة البداية'],[8.4,9.9,13.5,'الشارع'],[16.0,17.3,18.1,'البناية']];
+    $('chip').style.display='none';
+    for(const [a,done,b,name] of phases){
+      if(t>a && t<b){
+        show($('chip'), 1-prog(t,b-.3,b));
+        $('chip').style.transform=`translateX(-50%) scale(${Math.max(0,eBack(prog(t,a,a+.4)))})`;
+        const bp=eIO(prog(t,a+.1,done)); $('chipBar').style.width=(bp*100)+'%';
+        $('chipTxt').textContent = bp<1 ? `جاري تحديد ${name}...  ${Math.round(bp*100)}%` : `تم تحديد ${name} ✓`;
+      }
+    }
   }
-  subtitle($('sub1'), t, 6.6, 11.6);
+  subtitle($('sub0'), t, 5.6, 7.95);
+  subtitle($('sub1'), t, 10.8, 13.7);
 
-  // ===== S3: WIDE (12–22) =====
-  if(t>=12 && t<22){
-    let s = lerp(1.05,1.62,eIO(prog(t,12,19.5))) + (1-eOut(prog(t,12,12.5)))*.5;
+  // ===== S3: WIDE (14–22) =====
+  if(t>=14 && t<22){
+    let s = lerp(1.05,1.62,eIO(prog(t,14,20.2))) + (1-eOut(prog(t,14,14.5)))*.5;
     if(t>21.65) s += eIn(prog(t,21.65,22))*.6;
-    const fx = lerp(560,360,eIO(prog(t,12,19.5))), fy = lerp(1380,1190,eIO(prog(t,12,19.5)));
+    const fx = lerp(560,360,eIO(prog(t,14,20.2))), fy = lerp(1380,1190,eIO(prog(t,14,20.2)));
     camera($('w-wide'), s, fx, fy, blur);
-    drawOn($('wideRoute'), eIO(prog(t,12.4,13.8)));
-    // street name riding the road (world space, follows perspective camera)
-    const tp = eOut(prog(t,13.2,14.0));
+    drawOn($('wideRoute'), eIO(prog(t,14.3,15.4)));
+    const tp = eOut(prog(t,14.9,15.6));
     const tx=560, ty=1726-(560-20)*(676/980)-26;
     $('wideStreetTxt').setAttribute('transform', `translate(${tx},${ty}) rotate(-34.6) scale(${tp})`);
-    $('wideStreetTxt').setAttribute('opacity', tp*(1-prog(t,19,19.6)));
-    // building lock-on
+    $('wideStreetTxt').setAttribute('opacity', tp*(1-prog(t,19.4,20)));
     const [x0,y0] = W2S(222,1008), [x1,y1] = W2S(487,1342);
-    brackets($('brackets'), x0,y0,x1,y1, prog(t,15,15.9), prog(t,15,15.2)*(1-prog(t,16.6,17.2)));
-    drawOn($('wideBld'), eIO(prog(t,15.6,17.0)));
-    $('wideBld').style.fill = `rgba(255,59,78,${.22*prog(t,16.8,17.3)*(0.75+0.25*Math.sin(t*6))})`;
+    brackets($('brackets'), x0,y0,x1,y1, prog(t,16,16.9), prog(t,16,16.2)*(1-prog(t,17.4,18)));
+    drawOn($('wideBld'), eIO(prog(t,16.5,17.7)));
+    $('wideBld').style.fill = `rgba(255,59,78,${.22*prog(t,17.5,18)*(0.75+0.25*Math.sin(t*6))})`;
     const [px,py] = W2S(355,1004);
-    pinAt(t, 17.0, px, py, 1);
-    const c = callout($('coWide'), t, 17.6, 21.6, px, py-150, 'c', 60);
-    subtitle($('sub2'), t, 18.2, 21.6);
-  } else { $('coWide').style.display='none'; subtitle($('sub2'), -1, 18.2, 21.6); }
+    pinAt(t, 17.7, px, py, 1);
+    callout($('coWide'), t, 18.2, 21.6, px, py-150, 'c', 60);
+    subtitle($('sub2'), t, 18.8, 21.6);
+  } else { subtitle($('sub2'), -1, 18.8, 21.6); }
 
   // ===== S4: CLOSE (22–32) =====
   if(t>=22 && t<32){
@@ -334,14 +362,14 @@ window.render = function(t){
     show($('card'), 1, 0, (1-q)*200, lerp(.8,1,Math.max(0,q)));
     $('card').style.opacity = prog(t,32.2,32.5);
     $('cardDiv').style.width = (eOut(prog(t,33,33.6))*420)+'px';
-    [['row1',33.4],['row2',33.9]].forEach(([id,a])=>{ const r=eOut(prog(t,a,a+.5)); $(id).style.opacity=r; $(id).style.transform=`translateX(${(1-r)*-80}px)`; });
+    [['row1',33.4],['row2',33.9],['row3',34.4]].forEach(([id,a])=>{ const r=eOut(prog(t,a,a+.5)); $(id).style.opacity=r; $(id).style.transform=`translateX(${(1-r)*-80}px)`; });
     const pp = prog(t,32.5,33.1), sq = t>33.1 ? 1+.2*Math.sin((t-33.1)*20)*Math.exp(-(t-33.1)*5) : 1;
     $('cardPin').style.display='';
     $('cardPin').style.transform = `translateY(${(1-eIn(pp))*-700 + (t>34?Math.sin(t*3)*8:0)}px) scale(${1/sq},${sq})`;
     $('cardPin').style.transformOrigin='50% 100%';
     $('cardPin').style.opacity = pp>0?1:0;
-    const cq = eBack(prog(t,35,35.5));
-    show($('cta'), prog(t,35,35.2), 0, (1-cq)*60, Math.max(0.01,lerp(.8,1,cq)));
+    const cq = eBack(prog(t,35.2,35.7));
+    show($('cta'), prog(t,35.2,35.4), 0, (1-cq)*60, Math.max(0.01,lerp(.8,1,cq)));
     const pulse = t>36 ? 1+.04*Math.sin((t-36)*5) : 1;
     if(t>36) $('cta').style.transform += ` scale(${pulse})`;
     $('shadeBot').style.opacity = 0; $('shadeTop').style.opacity = 0;
