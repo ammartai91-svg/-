@@ -1,0 +1,774 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<title>at بالعراقي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   الألوان والمتغيرات — عدّلها من هنا
+   ===================================================== */
+:root{
+  --y:#FDD27F;          /* أصفر الهوية */
+  --y-deep:#F2B94B;
+  --ink:#0e0e0e;
+  --mut:#6e6e6e;
+  --line:#e9e9e9;
+  --soft:#f6f4ee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Cairo',system-ui,sans-serif;background:#fff;color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+
+/* ---------- شريط تجريبي ---------- */
+.demo{background:#fff4d6;color:#6a4a00;font-size:.82rem;text-align:center;padding:6px 40px;position:relative;font-weight:600}
+.demo button{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:1.1rem;opacity:.7}
+
+/* ---------- الشريط العلوي ---------- */
+.top{background:var(--ink);color:#d9d9d9;font-size:.82rem}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;height:36px}
+.soc{display:flex;gap:6px}
+.soc a{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;transition:.2s;color:#bbb}
+.soc a:hover{background:var(--y);color:#000}
+.soc svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- الهيدر ---------- */
+header.hd{background:#fff;position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line)}
+.hd .wrap{display:flex;align-items:center;gap:26px;height:84px}
+.logo{display:block;flex:none}
+.logo svg,.logo img{width:68px;height:68px;border-radius:14px}
+nav.mn{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav.mn::-webkit-scrollbar{display:none}
+nav.mn a{padding:8px 14px;font-weight:800;font-size:1.02rem;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s}
+nav.mn a:hover{color:#000;border-color:var(--y)}
+nav.mn a.on{border-color:var(--ink)}
+.sbtn{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--soft);flex:none;transition:.2s}
+.sbtn:hover{background:var(--y)}
+.sbtn svg{width:19px;height:19px}
+.sbox{display:none;background:var(--soft);border-bottom:1px solid var(--line)}
+.sbox.open{display:block}
+.sbox form{display:flex;gap:10px;padding:14px 0}
+.sbox input{flex:1;font:inherit;padding:12px 16px;border:1px solid var(--line);border-radius:8px;background:#fff;outline:none}
+.sbox input:focus{border-color:var(--ink)}
+.sbox button.go{background:var(--ink);color:#fff;padding:0 26px;border-radius:8px;font-weight:700}
+
+/* ---------- شريط عاجل ---------- */
+.brk{background:var(--ink);color:#fff}
+.brk .wrap{display:flex;align-items:center;gap:16px;height:46px;overflow:hidden}
+.brk .tag{background:var(--y);color:#000;font-weight:900;padding:2px 14px;border-radius:3px;flex:none;font-size:.92rem}
+.brk .txt{font-weight:700;font-size:.97rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .4s}
+.brk .txt a:hover{color:var(--y)}
+
+/* ---------- صور / بدائل الصور ---------- */
+.im{background-size:cover;background-position:center;position:relative;overflow:hidden;container-type:inline-size;background-color:#222}
+.ph{background-image:linear-gradient(135deg,var(--g1),var(--g2))}
+.ph::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 15%,rgba(255,255,255,.18),transparent 45%)}
+.ph span{position:absolute;left:8%;top:50%;transform:translateY(-50%);font:900 44cqw/1 'Cairo',sans-serif;color:#fff;opacity:.11;direction:ltr}
+
+.lab{font-weight:800;font-size:.86rem}
+.tm{color:var(--mut);font-size:.8rem}
+
+/* ---------- الهيرو ---------- */
+.hero{margin-top:22px}
+.slides{position:relative;height:580px;background:#111;overflow:hidden}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .8s,visibility .8s}
+.slide.on{opacity:1;visibility:visible}
+.slide .im{position:absolute;inset:0}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88) 5%,rgba(0,0,0,.1) 65%)}
+.slide .cap{position:absolute;z-index:2;right:34px;left:34px;bottom:178px;color:#fff}
+.slide .cap .lab{background:var(--y);color:#000!important;padding:2px 12px;border-radius:3px;display:inline-block;margin-bottom:10px}
+.slide .cap h2{font-size:2.5rem;line-height:1.35;font-weight:900;max-width:880px;text-wrap:balance}
+.slide .cap p{margin-top:8px;opacity:.85;font-size:1.02rem}
+.thumbs{position:absolute;z-index:3;right:16px;left:16px;bottom:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.th{background:rgba(10,10,10,.62);backdrop-filter:blur(8px);color:#fff;text-align:right;padding:12px 14px;border-top:3px solid transparent;transition:.25s}
+.th:hover{background:rgba(10,10,10,.8)}
+.th.on{border-top-color:var(--y);background:rgba(10,10,10,.85)}
+.th .lab{font-size:.78rem;color:var(--y)!important;display:block}
+.th b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.95rem;line-height:1.5;margin-top:2px}
+.dots{display:none}
+
+/* ---------- عناوين الأقسام ---------- */
+.sh{display:flex;align-items:center;justify-content:space-between;margin:54px 0 22px;padding-bottom:12px;border-bottom:2px solid var(--ink);position:relative}
+.sh::after{content:'';position:absolute;right:0;bottom:-2px;width:90px;height:4px;background:var(--y)}
+.sh h2{font-size:1.75rem;font-weight:900;line-height:1.2}
+.sh a{font-weight:700;font-size:.92rem;color:var(--mut)}
+.sh a:hover{color:#000}
+
+/* ---------- آخر الأخبار (شبكة) ---------- */
+.latest{display:grid;grid-template-columns:repeat(3,1fr);gap:0 34px}
+.row{display:flex;gap:16px;padding:22px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.row .im{width:150px;height:150px;flex:none}
+.row h3{font-size:1.08rem;font-weight:800;line-height:1.55;margin:2px 0 6px;transition:.2s}
+.row:hover h3{color:#000;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:5px}
+.more{display:block;margin:34px auto 0;padding:12px 70px;border:1.5px solid var(--ink);border-radius:40px;font-weight:800;transition:.2s}
+.more:hover{background:var(--ink);color:var(--y)}
+
+/* ---------- بلوك قسم ---------- */
+.blk{display:grid;grid-template-columns:1.25fr 1fr;gap:34px}
+.big .im{aspect-ratio:16/10;width:100%}
+.big h3{font-size:1.6rem;font-weight:900;line-height:1.45;margin:14px 0 6px}
+.big:hover h3{text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:6px}
+.big p{color:#444}
+.mini{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.mini:first-child{padding-top:0}
+.mini .im{width:110px;height:84px;flex:none}
+.mini h4{font-size:1rem;font-weight:800;line-height:1.5}
+.mini:hover h4{text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* ---------- فيديو ---------- */
+.vid{background:var(--ink);color:#fff;margin-top:64px;padding:8px 0 56px}
+.vid .sh{border-color:#333}
+.vid .sh a{color:#aaa}
+.vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.vc .im{aspect-ratio:9/12}
+.vc .pl{position:absolute;z-index:2;inset:0;display:grid;place-items:center}
+.vc .pl i{width:62px;height:62px;border-radius:50%;background:var(--y);display:grid;place-items:center;transition:.25s;box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.vc .pl i::after{content:'';border-right:0;border-left:19px solid #000;border-top:11px solid transparent;border-bottom:11px solid transparent;margin-right:-5px;transform:scaleX(-1)}
+.vc:hover .pl i{transform:scale(1.12)}
+.vc h4{margin-top:12px;font-size:1.02rem;font-weight:800;line-height:1.5}
+
+/* ---------- شريط المتابعة ---------- */
+.fol{background:var(--y);padding:44px 0}
+.fol .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.fol h3{font-size:1.9rem;font-weight:900;line-height:1.3}
+.fol p{font-weight:600;margin-top:4px}
+.fol .btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{background:var(--ink);color:#fff;padding:12px 28px;border-radius:40px;font-weight:800;transition:.2s}
+.btn:hover{transform:translateY(-2px);background:#000}
+.btn.o{background:transparent;color:#000;border:2px solid #000}
+.btn.o:hover{background:#000;color:var(--y)}
+
+/* ---------- الفوتر ---------- */
+footer{background:#0a0a0a;color:#b8b8b8;padding:54px 0 0}
+.fg{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px}
+footer h5{color:#fff;font-size:1.05rem;margin-bottom:14px;font-weight:800}
+footer li{list-style:none;margin:7px 0}
+footer li a:hover{color:var(--y)}
+footer .ab{margin-top:14px;max-width:420px;font-size:.95rem}
+.lic{margin-top:14px;display:inline-block;border:1px solid #333;border-radius:6px;padding:6px 12px;font-size:.82rem;color:#d6d6d6}
+.copy{border-top:1px solid #222;margin-top:40px;padding:18px 0;font-size:.82rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* ---------- صفحة المقال ---------- */
+.art{max-width:820px;margin:34px auto 0}
+.art .lab{background:var(--y);color:#000!important;padding:2px 12px;border-radius:3px;display:inline-block}
+.art h1{font-size:2.35rem;line-height:1.45;font-weight:900;margin:14px 0 12px;text-wrap:balance}
+.meta{display:flex;gap:16px;color:var(--mut);font-size:.9rem;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.art .im.cov{aspect-ratio:16/9;width:100%;margin:22px 0}
+.art iframe{width:100%;aspect-ratio:16/9;border:0;margin:22px 0}
+.body p{font-size:1.14rem;line-height:2;margin-bottom:18px;color:#222}
+.share{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0;align-items:center}
+.share b{font-weight:800}
+.share a,.share button{padding:8px 18px;border-radius:30px;background:var(--soft);font-weight:700;font-size:.9rem;transition:.2s}
+.share a:hover,.share button:hover{background:var(--y)}
+.empty{padding:70px 0;text-align:center;color:var(--mut);font-size:1.1rem}
+.pg{padding-bottom:20px}
+.pgt{margin:36px 0 6px;font-size:2.1rem;font-weight:900}
+
+/* ---------- قسم عاجل ---------- */
+:root{--red:#D92D2D}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(217,45,45,.55)}70%{box-shadow:0 0 0 9px rgba(217,45,45,0)}100%{box-shadow:0 0 0 0 rgba(217,45,45,0)}}
+.live{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--red);margin-left:10px;animation:pulse 1.6s infinite;vertical-align:middle}
+nav.mn a.nb{background:var(--red);color:#fff;border-radius:4px;border-bottom:0;padding:4px 14px;align-self:center;margin:0 4px;display:flex;align-items:center;gap:8px}
+nav.mn a.nb::before{content:'';width:8px;height:8px;border-radius:50%;background:#fff;animation:pulse 1.6s infinite}
+nav.mn a.nb:hover{background:#b92222;color:#fff}
+.brk .tag{background:var(--red);color:#fff}
+.bk{display:inline-block;background:var(--red);color:#fff;font-weight:900;font-size:.72rem;padding:0 8px;border-radius:3px;margin-left:6px;vertical-align:middle;line-height:1.7}
+.sh.red::after{background:var(--red)}
+.bkn{background:#fff7f5;margin-top:34px;padding-bottom:34px;border-bottom:1px solid #f3dcd8}
+.bkn .sh{margin-top:0;padding-top:30px;border-bottom-color:var(--red)}
+.bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.bc{background:#fff;border-top:4px solid var(--red);padding:16px 18px 18px;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:.2s;display:block}
+.bc:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(217,45,45,.15)}
+.bc .bt{display:flex;align-items:center;gap:8px;color:var(--red);font-weight:800;font-size:.84rem}
+.bc h3{font-size:1.06rem;font-weight:800;line-height:1.6;margin:8px 0 8px}
+.bc:hover h3{text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:5px}
+
+
+/* =====================================================
+   واجهة v2 — هيرو بتوقيع البطاقة، شريط الأرقام، إعلانات
+   ===================================================== */
+:root{--wine:#7A1A2E;--navy:#1F2A8C;--green:#0F5A3C}
+.hcta{background:var(--y);color:#000;font-weight:900;padding:9px 22px;border-radius:40px;flex:none;font-size:.95rem;transition:.2s}
+.hcta:hover{background:var(--ink);color:var(--y)}
+.ph::after{content:'';position:absolute;inset:0;opacity:.16;background:radial-gradient(circle at 30% 25%,#fff 0 2px,transparent 3px) 0 0/54px 54px,radial-gradient(circle at 70% 65%,#fff 0 2px,transparent 3px) 27px 27px/54px 54px}
+.chip{display:inline-block;font-weight:800;font-size:.78rem;padding:1px 11px;border-radius:4px;line-height:1.8;color:#fff}
+.sh{--ac:var(--y)}
+.sh::after{background:var(--ac)}
+
+/* الهيرو */
+.hx{display:grid;grid-template-columns:minmax(0,2.15fr) minmax(0,1fr);gap:16px;margin-top:20px}
+.hstage{position:relative;height:580px;background:#111;overflow:hidden;border-radius:14px}
+.hs{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .8s,visibility .8s}
+.hs.on{opacity:1;visibility:visible}
+.hs .im{position:absolute;inset:0}
+.hs::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%)}
+.hs .hcap{position:absolute;z-index:2;right:0;bottom:0;width:min(800px,92%);color:#fff}
+.hbox{padding:26px 34px 24px;border-radius:0 72px 0 0}
+.hbox h2{font-size:2.3rem;line-height:1.38;font-weight:900;text-wrap:balance;margin-top:8px}
+.hbox .bk{margin:0 0 0 8px;font-size:.8rem}
+.hstrip{background:var(--y);color:#000;display:flex;justify-content:space-between;gap:16px;padding:11px 34px;font-weight:700;font-size:.95rem;border-radius:0 0 0 52px}
+.hstrip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hstrip b{flex:none;font-weight:900}
+.hside{display:flex;flex-direction:column;background:var(--ink);color:#fff;border-radius:14px;overflow:hidden}
+.hside .hh{padding:16px 20px;font-weight:900;font-size:1.05rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid #2a2a2a}
+.hside .hh .live{margin:0}
+.hside button.hit{flex:1;text-align:right;display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid #222;position:relative;transition:.25s;overflow:hidden}
+.hside button.hit:last-child{border-bottom:0}
+.hside button.hit:hover{background:#171717}
+.hside button.hit.on{background:#1b1b1b}
+.hit em{font-style:normal;font-weight:900;font-size:1.8rem;line-height:1;color:#555;min-width:30px;transition:.25s}
+.hit.on em{color:var(--y)}
+.hit small{display:block;font-weight:800;color:var(--y);font-size:.78rem}
+.hit b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:.97rem;line-height:1.55;font-weight:700}
+.hit i{position:absolute;right:0;bottom:0;height:3px;width:0;background:var(--y)}
+.hit.on i{animation:fill 6.5s linear forwards}
+@keyframes fill{to{width:100%}}
+.hdots{display:none}
+
+/* شريط الأرقام والمقاطع */
+.pulse{background:var(--ink);color:#fff;margin-top:34px;position:relative;overflow:hidden}
+.pulse::before{content:'';position:absolute;width:620px;height:620px;border-radius:50%;left:-160px;top:-240px;background:radial-gradient(circle,rgba(253,210,127,.2),transparent 65%)}
+.pgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center;padding:54px 20px;position:relative}
+.eyebrow{display:inline-block;background:rgba(253,210,127,.15);color:var(--y);padding:3px 14px;border-radius:30px;font-weight:700;font-size:.85rem}
+.pulse h2{font-size:2.2rem;font-weight:900;line-height:1.4;margin:14px 0 6px;text-wrap:balance}
+.cnt{display:grid;grid-template-columns:repeat(2,1fr);gap:22px 28px;margin:26px 0 30px}
+.cnt b{display:block;font-size:2.7rem;font-weight:900;color:var(--y);line-height:1.1;direction:ltr;text-align:right}
+.cnt small{color:#bdbdbd;font-weight:600;font-size:.92rem}
+.btn.y{background:var(--y);color:#000}
+.btn.y:hover{background:#fff}
+.reels{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x mandatory}
+.reels::-webkit-scrollbar{display:none}
+.reel{flex:0 0 calc(33.333% - 10px);min-width:150px;aspect-ratio:9/16;border-radius:16px;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--g1),var(--g2));scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;color:#fff;transition:.25s}
+.reel::before{content:'';position:absolute;inset:0;opacity:.16;background:radial-gradient(circle at 30% 25%,#fff 0 2px,transparent 3px) 0 0/54px 54px,radial-gradient(circle at 70% 65%,#fff 0 2px,transparent 3px) 27px 27px/54px 54px}
+.reel:hover{transform:translateY(-5px)}
+.reel .pb{position:absolute;top:14px;left:14px;width:42px;height:42px;border-radius:50%;background:var(--y);display:grid;place-items:center}
+.reel .pb::after{content:'';border-left:12px solid #000;border-top:7px solid transparent;border-bottom:7px solid transparent;transform:scaleX(-1);margin-right:-3px}
+.reel .vw{position:relative;font-size:2.6rem;font-weight:900;line-height:1;direction:ltr;text-align:right}
+.reel .vl{position:relative;color:var(--y);font-weight:800;font-size:.85rem;margin:2px 0 8px}
+.reel h4{position:relative;font-size:.95rem;line-height:1.55;font-weight:700;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.reel.cta{background:var(--y);color:#000;justify-content:center;align-items:flex-start;gap:8px}
+.reel.cta::before{display:none}
+.reel.cta b{font-size:2.3rem;font-weight:900;line-height:1.1;direction:ltr}
+.reel.cta span{font-weight:800;line-height:1.5}
+
+/* إعلانات */
+.adbox{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;height:96px;margin-top:26px;border:1.5px dashed #cfc7b2;border-radius:10px;color:#6b6350;text-align:center;background:repeating-linear-gradient(45deg,#faf8f2,#faf8f2 10px,#f6f2e6 10px,#f6f2e6 20px);transition:.2s}
+.adbox:hover{border-color:var(--ink);color:#000}
+.adtag{font-size:.72rem;border:1px solid currentColor;padding:0 8px;border-radius:3px}
+.adbox b{font-weight:800}
+.adbox small{font-weight:600;opacity:.8}
+.adbox.sq{height:300px;flex-direction:column;margin-top:28px}
+
+/* آخر الأخبار + الأكثر قراءة */
+.lgrid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:44px}
+.ncs{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 24px}
+.nc{display:block}
+.nc-i{position:relative;overflow:hidden;border-radius:10px}
+.nc-i .im{aspect-ratio:16/10;width:100%;transition:transform .5s}
+.nc:hover .nc-i .im{transform:scale(1.05)}
+.nc-i .chip{position:absolute;right:10px;bottom:10px;z-index:2}
+.nc-i .bk{position:absolute;left:10px;top:10px;z-index:2;margin:0;font-size:.78rem;padding:0 10px}
+.nc h3{font-size:1.12rem;font-weight:800;line-height:1.6;margin:12px 0 2px}
+.nc:hover h3{text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:5px}
+.tp{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.tp i{font-style:normal;font-weight:900;font-size:2.1rem;line-height:1;color:var(--y-deep);min-width:34px}
+.tp h4{font-size:1rem;font-weight:800;line-height:1.6}
+.tp:hover h4{text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* بلوكات الأقسام */
+.bigo{position:relative;display:block;border-radius:12px;overflow:hidden}
+.bigo .im{aspect-ratio:16/11;width:100%;transition:transform .5s}
+.bigo:hover .im{transform:scale(1.04)}
+.bigo .ov{position:absolute;inset:auto 0 0 0;padding:70px 24px 22px;background:linear-gradient(to top,rgba(0,0,0,.88),transparent);color:#fff}
+.bigo h3{font-size:1.6rem;font-weight:900;line-height:1.45;margin-top:8px}
+.bigo p{opacity:.85;margin-top:4px}
+.bigo .bk{margin:0 0 0 8px}
+
+
+/* خدماتنا */
+.svc{background:var(--soft);margin-top:64px;padding:8px 0 56px}
+.svc .sh{margin-top:46px}
+.sv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.sv{background:#fff;border-radius:16px;padding:36px 30px;text-align:center;box-shadow:0 2px 14px rgba(0,0,0,.05);transition:.25s}
+.sv:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.09)}
+.sv .ic{width:84px;height:84px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--y-deep),var(--y))}
+.sv .ic svg{width:38px;height:38px;fill:none;stroke:#0e0e0e;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sv h3{font-size:1.5rem;font-weight:900;margin-bottom:14px}
+.sv ul{list-style:none;text-align:right;display:inline-block}
+.sv li{position:relative;padding-right:26px;margin:10px 0;font-weight:600;color:#333;line-height:1.7}
+.sv li::before{content:'';position:absolute;right:0;top:.6em;width:10px;height:10px;border-radius:50%;background:var(--y-deep)}
+.svc-cta{text-align:center;margin-top:32px}
+@media(max-width:680px){.sv-grid{grid-template-columns:1fr}.sv{padding:28px 20px}}
+
+
+/* من نحن */
+.ab-hero{background:#0e0e0e;color:#fff;padding:64px 0 56px;position:relative;overflow:hidden}
+.ab-hero::after{content:'';position:absolute;left:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(253,210,127,.28),transparent 65%)}
+.ab-hero .eyebrow{display:inline-block;background:var(--y);color:#0e0e0e;font-weight:800;padding:4px 16px;border-radius:30px;font-size:.95rem}
+.ab-hero h1{font-size:2.5rem;font-weight:900;line-height:1.35;margin:16px 0 14px;max-width:820px}
+.ab-hero p{font-size:1.15rem;line-height:1.95;max-width:760px;color:#d9d9d9;position:relative;z-index:1}
+.ab-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:-34px;position:relative;z-index:2}
+.ab-stats div{background:#fff;border-radius:14px;padding:22px 12px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.10)}
+.ab-stats b{display:block;font-size:2rem;font-weight:900;direction:ltr}
+.ab-stats small{color:#555;font-weight:700}
+.ab-sec{margin-top:54px}
+.ab-cov{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.ab-cov div{border-radius:14px;padding:22px 12px;text-align:center;color:#fff;font-weight:900;font-size:1.2rem;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.ab-vals{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.ab-vals div{background:var(--soft);border-radius:14px;padding:24px 24px 22px;border-right:6px solid var(--y-deep)}
+.ab-vals h3{font-size:1.2rem;font-weight:900;margin-bottom:6px}
+.ab-vals p{line-height:1.9;color:#333;font-weight:600}
+.ab-reg{background:#0e0e0e;color:#fff;border-radius:16px;padding:28px 30px;line-height:1.95}
+.ab-reg b{color:var(--y)}
+.ab-cta{text-align:center;margin:36px 0 10px}
+@media(max-width:900px){.ab-stats{grid-template-columns:repeat(2,1fr)}.ab-cov{grid-template-columns:repeat(2,1fr)}.ab-vals{grid-template-columns:1fr}.ab-hero h1{font-size:1.8rem}}
+
+/* ---------- موبايل / تابلت ---------- */
+@media(max-width:1000px){
+  .latest{grid-template-columns:repeat(2,1fr)}
+  .bgrid{grid-template-columns:repeat(2,1fr)}
+  .vgrid{grid-template-columns:repeat(2,1fr)}
+  .blk{grid-template-columns:1fr}
+  .fg{grid-template-columns:1fr 1fr}
+  .slides{height:520px}
+  .slide .cap h2{font-size:2rem}
+}
+@media(max-width:680px){
+  .wrap{padding:0 16px}
+  .top .txt-date{font-size:.76rem}
+  .hd .wrap{height:auto;flex-wrap:wrap;gap:6px 12px;padding-top:10px;padding-bottom:0}
+  nav.mn{order:3;flex-basis:100%}
+  .logo svg,.logo img{width:52px;height:52px}
+  .hd .sp{flex:1}
+  .slides{height:420px}
+  .thumbs{display:none}
+  .slide .cap{right:18px;left:18px;bottom:50px}
+  .slide .cap h2{font-size:1.45rem}
+  .slide .cap p{display:none}
+  .dots{display:flex;position:absolute;z-index:3;bottom:18px;right:18px;gap:8px}
+  .dots button{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45)}
+  .dots button.on{background:var(--y);width:26px;border-radius:6px}
+  .latest{grid-template-columns:1fr}
+  .bgrid{grid-template-columns:1fr}
+  .row .im{width:112px;height:112px}
+  .sh h2{font-size:1.45rem}
+  .big h3{font-size:1.3rem}
+  .vgrid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .fol h3{font-size:1.5rem}
+  .fg{grid-template-columns:1fr}
+  .art h1{font-size:1.6rem}
+  .body p{font-size:1.05rem}
+}
+
+@media(max-width:1000px){
+  .hx{grid-template-columns:1fr}
+  .hside{display:none}
+  .hstage{height:500px}
+  .hbox h2{font-size:1.9rem}
+  .hdots{display:flex;position:absolute;z-index:3;top:16px;left:16px;gap:8px}
+  .hdots button{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.5)}
+  .hdots button.on{background:var(--y);width:26px;border-radius:6px}
+  .pgrid{grid-template-columns:1fr;gap:30px}
+  .lgrid{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  nav.mn a.xm{display:none}
+  nav.mn a{padding:8px 11px}
+  .hcta{display:none}
+  .hstage{height:430px;border-radius:10px}
+  .hs .hcap{width:96%}
+  .hbox{padding:18px 20px 16px;border-radius:0 48px 0 0}
+  .hbox h2{font-size:1.28rem}
+  .hstrip{padding:9px 20px;border-radius:0 0 0 34px;font-size:.85rem}
+  .hstrip span{display:none}
+  .hstrip b{margin-right:auto}
+  .pulse h2{font-size:1.6rem}
+  .pgrid{padding:40px 16px}
+  .cnt b{font-size:2.1rem}
+  .reel{flex-basis:46%}
+  .ncs{grid-template-columns:1fr}
+  .bigo h3{font-size:1.2rem}
+  .adbox{height:80px}
+  .adbox.sq{height:220px}
+}
+html,body{direction:rtl}
+header.hd{top:env(safe-area-inset-top,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:#fff}
+</style>
+
+
+<div class="demo" id="demo">نسخة تجريبية — العناوين والصور نماذج شكلية، استبدلها بأخبارك. (لإخفاء هذا الشريط: showDemoBanner:false)<button onclick="this.parentNode.remove()" aria-label="إغلاق">×</button></div>
+
+<div class="top"><div class="wrap">
+  <div class="txt-date" id="date"></div>
+  <div class="soc" id="soc"></div>
+</div></div>
+
+<header class="hd"><div class="wrap">
+  <a class="logo" href="#/" id="logo" aria-label="الرئيسية"></a>
+  <nav class="mn" id="nav"></nav>
+  <a class="hcta" id="hcta" target="_blank" rel="noopener">تابعنا</a>
+  <button class="sbtn" id="sbtn" aria-label="بحث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+</div></header>
+
+<div class="sbox" id="sbox"><div class="wrap"><form id="sform"><input id="sq" type="search" placeholder="ابحث في at بالعراقي..." autocomplete="off"><button class="go" type="submit">بحث</button></form></div></div>
+
+<div class="brk" id="brk" hidden><div class="wrap"><a class="tag" href="#/c/breaking">عاجل</a><div class="txt" id="brkt"></div></div></div>
+
+<main id="app"></main>
+
+<section class="fol"><div class="wrap">
+  <div><h3>خلّيك بالصورة… تابعنا</h3><p>أخبار وفن ورياضة واقتصاد وسياسة، يومياً بالعراقي.</p></div>
+  <div class="btns" id="folbtns"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fg">
+    <div><div id="flogo"></div><p class="ab" id="about"></p><span class="lic" id="lic"></span></div>
+    <div><h5>الأقسام</h5><ul id="fcats"></ul></div>
+    <div><h5>تواصل معنا</h5><ul id="fcon"></ul></div>
+  </div>
+  <div class="copy"><span id="cp"></span><span>تصميم وتطوير: at بالعراقي</span></div>
+</div></footer>
+
+<script>
+document.documentElement.setAttribute("dir","rtl");
+document.documentElement.setAttribute("lang","ar");
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href^="#/"]');
+  if (!a) return;
+  e.preventDefault();
+  window.__h = a.getAttribute('href');
+  window.dispatchEvent(new Event('hashchange'));
+});
+</script>
+<script>
+/* =====================================================
+   1) إعدادات الموقع — عدّل هنا
+   ===================================================== */
+const SITE = {
+  name: 'at بالعراقي',
+  about: 'منصة إعلامية عراقية تغطي الأخبار العامة والفن والرياضة والاقتصاد والسياسة، بأسلوب قريب من القارئ العراقي والخليجي.',
+  license: 'النطاق at-iraq.iq مسجّل لدى هيئة الإعلام والاتصالات في العراق',   // لا تكتب «مرخّصة» إلا بعد إضافة رخصة المنصة الإعلامية نفسها
+  instagram: 'https://www.instagram.com/cw_8',
+  facebook: '#',        // ضع رابط صفحة الفيسبوك
+  x: '',                // اختياري
+  youtube: '',          // اختياري
+  tiktok: '',           // اختياري
+  email: 'info@example.com',   // غيّره
+  phone: '',                   // اختياري
+  logoImage: '',        // ضع اسم ملف اللوغو مثل 'logo.png' ليحلّ محل اللوغو المرسوم
+  showDemoBanner: true, // false لإخفاء الشريط التجريبي
+  showAds: true,        // false لإخفاء مربعات الإعلانات
+  /* أرقام الحساب على إنستغرام (من لقطة 23 تشرين الأول 2026) — حدّثها من حسابك.
+     v = الرقم، s = K أو M، d = عدد المنازل العشرية */
+  stats: [
+    {v:69.3,  s:'K', d:1, l:'متابع على إنستغرام'},
+    {v:307.8, s:'K', d:1, l:'مشاهدة خلال آخر 30 يوم'},
+    {v:15.3,  s:'M', d:1, l:'مشاهدة لأعلى فيديو'},
+    {v:1111,  s:'',  d:0, l:'منشور'}
+  ]
+};
+
+/* أعلى المقاطع مشاهدة (أرقام حقيقية من حسابك) — url = رابط الريل نفسه عند توفره */
+const REELS = [
+  {views:'15.3M', t:'فيديو أثار ضجة بين المتابعين', g:['#2a0f1a','#7A1A2E'], url:''},
+  {views:'3M',    t:'تلميذة نائمة أثناء الدرس.. وهكذا تعاملت المعلمة مع الموقف', g:['#0b1240','#1F2A8C'], url:''}
+];
+/* خدماتنا — النص من صفحة شركتك. ic: mic أو laptop */
+const SERVICES = [
+  {ic:'mic', t:'التغطيات الإعلامية', items:['تغطية الأحداث الرسمية والشعبية.','تغطية الأنشطة الثقافية والرياضية.','إعداد التقارير واللقاءات الميدانية.']},
+  {ic:'laptop', t:'صناعة المحتوى الرقمي', items:['إدارة صفحات التواصل الاجتماعي والإعلامي.','إنتاج المحتوى التسويقي والإعلامي.','صناعة الفيديوهات القصيرة والوثائقية.','كتابة المحتوى الإعلامي والإعلاني.']}
+];
+/* معرّفات الأخبار التي تظهر في «الأكثر قراءة» بالترتيب */
+const HOT_IDS = ['p1','e2','s1','a1','g1'];
+
+/* =====================================================
+   2) الأقسام — الاسم واللون وألوان الصورة البديلة
+   ===================================================== */
+const CATS = {
+  politics: { n:'سياسة',      c:'#3A4A5C', g:['#10161d','#3a4a5c'] },
+  art:      { n:'فن',         c:'#7A1A2E', g:['#2a0f1a','#7a1a2e'] },
+  economy:  { n:'اقتصاد',     c:'#0F5A3C', g:['#06251a','#0f5a3c'] },
+  sports:   { n:'رياضة',      c:'#1F2A8C', g:['#0b1240','#1f2a8c'] },
+  general:  { n:'أخبار عامة', c:'#8A5A00', g:['#2b2008','#a8750f'] },
+  video:    { n:'فيديو',      c:'#FDD27F', t:'#0E0E0E', g:['#151515','#4a4a4a'] }
+};
+const NAV = [['#/','الرئيسية'],['#/c/breaking','عاجل'],['#/c/all','آخر الأخبار'],['#/c/politics','سياسة'],['#/c/art','فن'],['#/c/economy','اقتصاد'],['#/c/sports','رياضة'],['#/c/general','أخبار عامة'],['#/c/video','فيديو'],['#/services','خدماتنا'],['#/about','من نحن']];
+
+/* =====================================================
+   3) الأخبار — هذه هي القائمة التي تعدّل عليها
+   كل خبر = سطر واحد. الحقول:
+   id: رقم/اسم فريد | cat: القسم | t: العنوان | time: وقت النشر
+   hero:true يظهر في السلايدر الكبير (يفضّل 4 أخبار)
+   breaking:true يظهر في شريط عاجل
+   img: رابط/اسم ملف الصورة (فارغ = خلفية بديلة)
+   video: رابط تضمين يوتيوب مثل https://www.youtube.com/embed/XXXX
+   sum: ملخص قصير | body: نص الخبر (فقرات مفصولة بـ \n\n) | author: الكاتب
+   ===================================================== */
+const ARTICLES = [
+ {id:'p1', cat:'politics', t:'عنوان سياسي نموذجي: الخبر الذي يتصدر نقاش الشارع العراقي اليوم', time:'قبل 20 دقيقة', hero:true, breaking:true, sum:'ملخص قصير من سطرين يشرح للقارئ لماذا هذا الخبر مهم.', img:''},
+ {id:'a1', cat:'art',      t:'عنوان فني نموذجي: حفل ينتظره جمهور العراق والخليج', time:'قبل 3 ساعات', hero:true, sum:'كل ما يخص النجوم والحفلات والأعمال الجديدة.', img:''},
+ {id:'e1', cat:'economy',  t:'عنوان اقتصادي نموذجي: أرقام السوق المحلي بلغة يفهمها الجميع', time:'قبل ساعة', hero:true, sum:'الاقتصاد ليس أرقاماً فقط، هنا نحكيه بقصة.', img:''},
+ {id:'s1', cat:'sports',   t:'عنوان رياضي نموذجي: مباراة الجولة بين الحسم والإثارة', time:'قبل ساعتين', hero:true, sum:'تغطية سريعة مع أبرز لحظات اللقاء.', img:''},
+ {id:'g1', cat:'general',  t:'خبر عام نموذجي: حدث الساعة بصياغة مختصرة ومباشرة', time:'قبل 35 دقيقة', breaking:true, img:''},
+ {id:'p2', cat:'politics', t:'تقرير نموذجي: ما الذي تغيّر في الملف الخدمي خلال أسبوع؟', time:'قبل 4 ساعات', img:''},
+ {id:'a2', cat:'art',      t:'ألبوم نموذجي جديد يفتح باب النقاش بين المتابعين', time:'قبل 6 ساعات', img:''},
+ {id:'e2', cat:'economy',  t:'ماذا يعني تحرّك الأسعار لميزانية البيت العراقي؟', time:'قبل 5 ساعات', breaking:true, img:''},
+ {id:'s2', cat:'sports',   t:'تحليل نموذجي: مفاتيح اللعب التي صنعت الفارق', time:'قبل 5 ساعات', breaking:true, img:''},
+ {id:'g2', cat:'general',  t:'قصة نموذجية من الشارع العراقي بعدسة محلية', time:'قبل 7 ساعات', img:''},
+ {id:'p3', cat:'politics', t:'مقال تحليلي نموذجي: قراءة هادئة في مشهد معقّد', time:'قبل 8 ساعات', img:''},
+ {id:'a3', cat:'art',      t:'مسلسل نموذجي يتصدر الحديث على منصات التواصل', time:'قبل 11 ساعة', img:''},
+ {id:'e3', cat:'economy',  t:'مشروع ناشئ نموذجي يبحث عن مكانه في السوق', time:'قبل 9 ساعات', img:''},
+ {id:'s3', cat:'sports',   t:'نجم محلي نموذجي يروي قصة البدايات', time:'قبل 10 ساعات', img:''},
+ {id:'g3', cat:'general',  t:'تنبيه نموذجي للمواطنين: ما الذي يجب أن تعرفه اليوم؟', time:'قبل 12 ساعة', img:''},
+ {id:'p4', cat:'politics', t:'تصريح نموذجي لمسؤول يفتح باب التساؤلات', time:'أمس', img:''},
+ {id:'a4', cat:'art',      t:'لقاء نموذجي: فنان يتحدث بلا رتوش', time:'أمس', img:''},
+ {id:'e4', cat:'economy',  t:'دليل نموذجي: كيف تقرأ مؤشرات الاقتصاد من دون تعقيد', time:'أمس', img:''},
+ {id:'s4', cat:'sports',   t:'كواليس نموذجية من تدريبات المنتخب', time:'أمس', img:''},
+ {id:'g4', cat:'general',  t:'تقرير مصوّر نموذجي من قلب الحدث', time:'أمس', img:''},
+ {id:'v1', cat:'video', t:'فيديو نموذجي: جولة سريعة في أبرز أخبار اليوم', time:'قبل ساعة', video:'', img:''},
+ {id:'v2', cat:'video', t:'فيديو نموذجي: لقاء قصير مع ضيف الحلقة', time:'قبل 3 ساعات', video:'', img:''},
+ {id:'v3', cat:'video', t:'فيديو نموذجي: من الشارع، سؤال واحد وأجوبة مختلفة', time:'أمس', video:'', img:''},
+ {id:'v4', cat:'video', t:'فيديو نموذجي: كواليس تصوير مقابلة', time:'أمس', video:'', img:''}
+];
+const BODY_DEFAULT = 'هنا يُكتب نص الخبر. ابدأ بأهم معلومة في أول سطر، ثم التفاصيل، ثم السياق الذي يساعد القارئ على الفهم.\n\nاحرص على التفريق بين الخبر المؤكد والرأي والادعاء، وانسب كل معلومة لمصدرها.\n\nيمكنك تعديل هذا النص من حقل body داخل بيانات الخبر في الملف.';
+
+/* =====================================================
+   4) الكود — لا تحتاج تلمسه إلا للتطوير
+   ===================================================== */
+const $ = s => document.querySelector(s);
+const app = $('#app');
+const byId = id => ARTICLES.find(a => a.id === id);
+const news = () => ARTICLES.filter(a => a.cat !== 'video');
+const href = a => '#/a/' + a.id;
+let timers = [];
+const clearTimers = () => { timers.forEach(clearInterval); timers = []; };
+
+const ICON = {
+  ig:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg>',
+  fb:'<svg viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg>',
+  x:'<svg viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>',
+  yt:'<svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.5v5l4.5-2.5z"/></svg>',
+  tt:'<svg viewBox="0 0 24 24"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5M14 4c.5 2.5 2.2 4 5 4.2"/></svg>'
+};
+
+function logoSVG(){
+  if (SITE.logoImage) return `<img src="${SITE.logoImage}" alt="${SITE.name}">`;
+  /* لوغو مرسوم بخط Cairo (مسارات فيكتور) — يظهر نفسه بكل الأجهزة. ملف logo.svg مرفق للاستخدام خارج الموقع */
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${SITE.name}"><rect width="100" height="100" rx="14" fill="#FDD27F"/><path fill="#0E0E0E" d="M30.67 52.1Q26.31 52.1 24.15 50.05Q22 48 22 43.69Q22 40.61 23.15 38.97Q24.31 37.33 26.51 36.66Q28.72 36 31.79 35.84L36.97 35.48V34.35Q36.97 33.07 36.18 32.56Q35.38 32.05 33.95 32.05Q32.41 32.05 30.46 32.15Q28.51 32.25 26.67 32.41Q24.82 32.56 23.44 32.71L23.18 26.61Q24.62 26.25 26.59 25.89Q28.56 25.53 30.72 25.3Q32.87 25.07 34.77 25.07Q38.21 25.07 40.69 25.84Q43.18 26.61 44.49 28.51Q45.79 30.41 45.79 33.84V44.71Q45.95 45.18 46.49 45.48Q47.03 45.79 47.64 45.89L47.49 51.69Q46.67 51.74 45.74 51.84Q44.82 51.94 44.03 51.94Q43.23 51.94 42.72 51.89Q41.18 51.84 40.15 51.3Q39.13 50.77 38.67 50.25Q37.9 50.61 36.62 51.05Q35.33 51.48 33.79 51.79Q32.26 52.1 30.67 52.1ZM32.92 45.84Q33.69 45.84 34.44 45.66Q35.18 45.48 35.87 45.23Q36.56 44.97 36.97 44.77V40.56L33.23 40.92Q32 41.02 31.41 41.66Q30.82 42.3 30.82 43.43Q30.82 44.56 31.33 45.2Q31.85 45.84 32.92 45.84ZM59.79 52.1Q56.87 52.1 55.03 51.3Q53.18 50.51 52.36 48.48Q51.54 46.46 51.54 42.82V32.87H48.97V25.69H51.54V19.59H60.36V25.69H65.9V32.87H60.36V40.66Q60.36 42.15 60.51 43Q60.67 43.84 61.18 44.18Q61.69 44.51 62.72 44.51Q62.97 44.51 63.59 44.48Q64.21 44.46 64.87 44.43Q65.54 44.41 65.85 44.35L66 51.33Q65.18 51.48 64.03 51.66Q62.87 51.84 61.74 51.97Q60.62 52.1 59.79 52.1ZM68.92 51.48V42.77H78V51.48Z"/><path fill="#0E0E0E" d="M21.05 76.26Q19.76 76.26 18.67 75.9Q17.57 75.54 16.75 74.89Q15.93 74.24 15.47 73.37Q15 72.5 15 71.48Q15 71.15 15.06 70.62Q15.11 70.08 15.2 69.4Q15.3 68.71 15.43 67.89L18.59 68.32Q18.41 69.43 18.3 70.26Q18.2 71.09 18.2 71.44Q18.2 72.04 18.55 72.52Q18.89 73.01 19.53 73.28Q20.17 73.55 21.05 73.55H26.32Q27.41 73.55 27.9 73.04Q28.38 72.54 28.38 71.59V70.83H31.58V71.57Q31.58 72.95 30.92 74Q30.26 75.05 29.09 75.66Q27.92 76.26 26.32 76.26ZM27.75 71.65Q26.74 71.65 25.86 71.42Q24.98 71.18 24.21 70.66L26.04 68.41Q26.35 68.61 26.59 68.74Q26.82 68.86 27.09 68.89Q27.36 68.93 27.75 68.93H32.27V71.65ZM32.27 71.65V68.93Q32.37 68.93 32.44 69.02Q32.51 69.12 32.55 69.29Q32.59 69.47 32.62 69.72Q32.64 69.97 32.64 70.29Q32.64 70.61 32.62 70.86Q32.59 71.11 32.55 71.29Q32.51 71.46 32.44 71.56Q32.37 71.65 32.27 71.65ZM19.82 80.41V77.98H22.87V80.41ZM23.78 80.41V77.98H26.82V80.41ZM27.84 71.65V68.93H36.05L35.44 69.45V64.56L35.98 65H34.19Q33.54 65 33.17 65.18Q32.79 65.36 32.63 65.79Q32.46 66.21 32.46 66.98Q32.46 67.85 32.63 68.26Q32.79 68.67 33.17 68.8Q33.54 68.93 34.19 68.93V71.52Q32.63 71.52 31.52 71.05Q30.41 70.59 29.83 69.58Q29.26 68.58 29.26 66.98Q29.26 65.49 29.83 64.44Q30.41 63.38 31.52 62.84Q32.63 62.29 34.19 62.29H38.64V71.65ZM27.84 71.65Q27.75 71.65 27.67 71.56Q27.6 71.46 27.56 71.29Q27.53 71.11 27.5 70.86Q27.47 70.61 27.47 70.29Q27.47 69.86 27.51 69.56Q27.54 69.27 27.63 69.1Q27.71 68.93 27.84 68.93ZM30.95 60.54V58.1H34V60.54ZM34.91 60.54V58.1H37.95V60.54ZM41.47 71.65V58.62H44.65V71.65ZM51.33 71.65V68.93H53.75V71.65ZM47.31 76.62Q47.11 76.62 46.81 76.6Q46.51 76.58 46.18 76.54L46.23 73.88Q46.57 73.88 46.85 73.89Q47.14 73.9 47.27 73.9Q47.91 73.9 48.27 73.39Q48.63 72.88 48.63 71.91V62.29H51.83V71.91Q51.83 73.27 51.27 74.34Q50.7 75.41 49.68 76.01Q48.67 76.62 47.31 76.62ZM53.75 71.65V68.93Q53.86 68.93 53.93 69.02Q53.99 69.12 54.04 69.29Q54.09 69.47 54.1 69.72Q54.12 69.97 54.12 70.29Q54.12 70.61 54.1 70.86Q54.09 71.11 54.04 71.29Q53.99 71.46 53.93 71.56Q53.86 71.65 53.75 71.65ZM53.75 71.65V68.93H58.7Q59.28 68.93 59.83 68.66Q60.38 68.39 60.85 67.93Q61.33 67.48 61.69 66.93Q62.05 66.38 62.26 65.8Q62.46 65.23 62.46 64.72V63.48L63.95 65.99Q63.06 65.52 62.07 65.26Q61.08 65 60.23 65Q59.39 65 58.4 65.26Q57.42 65.52 56.52 65.99L58.01 63.48V64.72Q58.01 65.23 58.22 65.8Q58.42 66.38 58.78 66.93Q59.15 67.48 59.62 67.93Q60.1 68.39 60.65 68.66Q61.2 68.93 61.77 68.93H66.61V71.65H63.09Q61.64 71.65 60.38 71.18Q59.11 70.72 58.09 69.95Q57.06 69.17 56.33 68.25Q55.59 67.33 55.2 66.41Q54.81 65.49 54.81 64.72V63.7Q55.61 63.24 56.57 62.92Q57.53 62.6 58.49 62.44Q59.45 62.29 60.23 62.29Q61.03 62.29 61.99 62.44Q62.94 62.6 63.9 62.92Q64.86 63.24 65.66 63.7V64.72Q65.66 65.49 65.27 66.41Q64.88 67.33 64.15 68.25Q63.41 69.17 62.39 69.95Q61.36 70.72 60.1 71.18Q58.83 71.65 57.38 71.65ZM53.75 71.65Q53.66 71.65 53.58 71.56Q53.51 71.46 53.47 71.29Q53.43 71.11 53.41 70.86Q53.38 70.61 53.38 70.29Q53.38 69.86 53.42 69.56Q53.45 69.27 53.54 69.1Q53.62 68.93 53.75 68.93ZM66.61 71.65V68.93Q66.7 68.93 66.78 69.02Q66.85 69.12 66.89 69.29Q66.93 69.47 66.96 69.72Q66.98 69.97 66.98 70.29Q66.98 70.61 66.96 70.86Q66.93 71.11 66.89 71.29Q66.85 71.46 66.78 71.56Q66.7 71.65 66.61 71.65ZM68.62 71.65V58.62H71.82V71.65ZM66.61 71.65V68.93H68.62V71.65ZM66.61 71.65Q66.52 71.65 66.44 71.56Q66.37 71.46 66.33 71.29Q66.29 71.11 66.27 70.86Q66.24 70.61 66.24 70.29Q66.24 69.86 66.28 69.56Q66.31 69.27 66.4 69.1Q66.48 68.93 66.61 68.93ZM77.83 71.65V68.93H79.86V71.65ZM74.65 71.65V58.62H77.83V71.65ZM79.86 71.65V68.93Q79.96 68.93 80.03 69.02Q80.11 69.12 80.14 69.29Q80.18 69.47 80.21 69.72Q80.24 69.97 80.24 70.29Q80.24 70.61 80.21 70.86Q80.18 71.11 80.14 71.29Q80.11 71.46 80.03 71.56Q79.96 71.65 79.86 71.65ZM79.86 71.65V68.93H83.77L81.78 70.59V62.29H85V71.65ZM79.86 71.65Q79.77 71.65 79.7 71.56Q79.62 71.46 79.58 71.29Q79.55 71.11 79.52 70.86Q79.49 70.61 79.49 70.29Q79.49 69.86 79.53 69.56Q79.57 69.27 79.65 69.1Q79.73 68.93 79.86 68.93ZM81.78 76.02V73.58H85V76.02Z"/></svg>`;
+}
+
+function im(a, cls=''){
+  const c = CATS[a.cat] || CATS.general;
+  if (a.img) return `<div class="im ${cls}" style="background-image:url('${a.img}')"></div>`;
+  return `<div class="im ph ${cls}" style="--g1:${c.g[0]};--g2:${c.g[1]}"><span>at.</span></div>`;
+}
+const lab = a => `<span class="lab" style="color:${CATS[a.cat].c}">${CATS[a.cat].n}</span>`;
+
+const bk = a => a.breaking ? '<span class="bk">عاجل</span>' : '';
+const rowCard = a => `<a class="row" href="${href(a)}">${im(a)}<div>${bk(a)}${lab(a)}<h3>${a.t}</h3><span class="tm">${a.time||''}</span></div></a>`;
+const bigCard = a => `<a class="big" href="${href(a)}" style="display:block">${im(a)}<div>${bk(a)}${lab(a)}</div><h3>${a.t}</h3><p>${a.sum||''}</p><span class="tm">${a.time||''}</span></a>`;
+const miniCard = a => `<a class="mini" href="${href(a)}">${im(a)}<div>${bk(a)}${lab(a)}<h4>${a.t}</h4><span class="tm">${a.time||''}</span></div></a>`;
+const vidCard = a => `<a class="vc" href="${href(a)}" style="display:block"><div style="position:relative">${im(a)}<div class="pl"><i></i></div></div><h4>${a.t}</h4><span class="tm" style="color:#999">${a.time||''}</span></a>`;
+const sectionHead = (title, link, col) => `<div class="sh"${col?` style="--ac:${col}"`:''}><h2>${title}</h2><a href="${link}">عرض الكل ←</a></div>`;
+const chip = a => { const c = CATS[a.cat]; return `<span class="chip" style="background:${c.c};color:${c.t||'#fff'}">${c.n}</span>`; };
+const nCard = a => `<a class="nc" href="${href(a)}"><div class="nc-i">${im(a)}${a.breaking?'<span class="bk">عاجل</span>':''}${chip(a)}</div><h3>${a.t}</h3><span class="tm">${a.time||''}</span></a>`;
+const bigO = a => `<a class="bigo" href="${href(a)}">${im(a)}<div class="ov">${bk(a)}${chip(a)}<h3>${a.t}</h3><p>${a.sum||''}</p></div></a>`;
+const adSlot = (cls, label) => SITE.showAds ? `<a class="adbox ${cls}" href="mailto:${SITE.email}?subject=${encodeURIComponent('إعلان في '+SITE.name)}"><span class="adtag">إعلان</span><b>${label}</b><small>أعلن معنا — احجز مساحتك</small></a>` : '';
+const reelTile = r => `<a class="reel" href="${r.url||SITE.instagram}" target="_blank" rel="noopener" style="--g1:${r.g[0]};--g2:${r.g[1]}"><span class="pb"></span><div class="vw">${r.views}</div><div class="vl">مشاهدة</div><h4>${r.t}</h4></a>`;
+const fmt = (v,d) => v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+function countUp(el){
+  const v = +el.dataset.v, d = +el.dataset.d, sfx = el.dataset.s, t0 = performance.now(), D = 1400;
+  const step = t => { const k = Math.min(1,(t-t0)/D), e = 1-Math.pow(1-k,3); el.textContent = fmt(v*e,d) + sfx; if (k<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+
+const SVC_ICON = {
+  mic:'<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8.5 21h7"/></svg>',
+  laptop:'<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="2"/><path d="M2 19h20M10 8.5 8 10.5l2 2M14 8.5l2 2-2 2"/></svg>'
+};
+function servicesBlock(){
+  const cards = SERVICES.map(v=>`<div class="sv"><div class="ic">${SVC_ICON[v.ic]||''}</div><h3>${v.t}</h3><ul>${v.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`).join('');
+  return `<section class="svc"><div class="wrap"><div class="sh"><h2>خدماتنا الإعلامية</h2></div><div class="sv-grid">${cards}</div><div class="svc-cta"><a class="btn" href="mailto:${SITE.email}?subject=${encodeURIComponent('طلب خدمة — '+SITE.name)}">اطلب خدمة</a></div></div></section>`;
+}
+
+
+/* من نحن — عدّل النص من هنا */
+const ABOUT = {
+  lead: 'AT بالعراقي منصة إعلامية رقمية عراقية، مقرها بابل - الحلة. ننقل لك أخبار الفن والرياضة والاقتصاد والسياسة والأحداث العامة بلغة قريبة منك، ونصل يومياً إلى جمهور واسع من العراق والخليج عبر منصاتنا الرقمية.',
+  story: ['بدأنا من الشارع العراقي وحكاياته، ومن سؤال بسيط: شلون نوصل الخبر للناس بسرعة وبأسلوب يشبههم؟ ومن هنا تحولت صفحتنا على إنستغرام إلى منصة تتابعها عشرات الآلاف، وصار موقعنا الإلكتروني بيتاً يجمع التغطيات كلها في مكان واحد.',
+          'نغطي الفن والمشاهير عراقياً وعربياً وعالمياً، ونتابع الرياضة وكرة القدم الأوروبية ومباريات الأندية الكبرى، ونقرأ الاقتصاد العراقي والعالمي ببساطة، وننقل الأخبار المحلية والسياسية بحذر ومهنية.'],
+  vals: [
+    ['نتحقق قبل ما ننشر','الخبر لا يُنشر عندنا قبل مراجعته ومقارنته بأكثر من مصدر عندما يكون ذلك ممكناً.'],
+    ['نذكر مصادرنا','نوثّق مصدر كل خبر، ونفرّق بوضوح بين المؤكد والمتداول وما ينسب لمصادر غير معلنة.'],
+    ['لا نخترع ولا نزوّر','لا نختلق أخباراً أو تصريحات أو صوراً. وإذا ما توفرت صورة حقيقية للخبر نصمم بدلها تصميماً واضحاً يُعرف أنه تصميم.'],
+    ['نصحّح أخطاءنا','إذا أخطأنا نعدّل الخبر ونذكر ذلك، ونرحّب بملاحظات القرّاء على بريد المنصة.']
+  ],
+  reg: 'النطاق الإلكتروني <b>at-iraq.iq</b> مسجّل باسم «منصة اي تي عراقي» لدى <b>هيئة الإعلام والاتصالات</b> في جمهورية العراق (دائرة تنظيم تكنولوجيا المعلومات والخدمات الرقمية)، بمعرّف تسجيل <b>IQR-20260920130800-U71L-UPZG-GKZC</b>.'
+};
+function aboutPage(){
+  const stats = (SITE.stats||[]).map(x=>`<div><b>${fmt(x.v,x.d)}${x.s}</b><small>${x.l}</small></div>`).join('');
+  const cov = ['politics','art','economy','sports','general'].map(k=>`<div style="background:${CATS[k].c}">${CATS[k].n}</div>`).join('');
+  const vals = ABOUT.vals.map(v=>`<div><h3>${v[0]}</h3><p>${v[1]}</p></div>`).join('');
+  return `<section class="ab-hero"><div class="wrap"><span class="eyebrow">من نحن</span><h1>الخبر.. بلغتك وبسرعتك</h1><p>${ABOUT.lead}</p></div></section>
+  <div class="wrap"><div class="ab-stats">${stats}</div>
+  <div class="ab-sec"><div class="sh"><h2>حكايتنا</h2></div>${ABOUT.story.map(t=>`<p style="line-height:2;font-size:1.08rem;margin:10px 0;max-width:900px">${t}</p>`).join('')}</div>
+  <div class="ab-sec"><div class="sh"><h2>شنو نغطي</h2></div><div class="ab-cov">${cov}</div></div>
+  <div class="ab-sec"><div class="sh"><h2>التزامنا بالقارئ</h2></div><div class="ab-vals">${vals}</div></div>
+  <div class="ab-sec"><div class="sh"><h2>التسجيل والاعتماد</h2></div><div class="ab-reg">${ABOUT.reg}</div></div>
+  <div class="ab-cta"><a class="btn" href="mailto:${SITE.email}?subject=${encodeURIComponent('تواصل — '+SITE.name)}">تواصل معنا</a> <a class="btn o" href="#/services">خدماتنا الإعلامية</a></div></div>`;
+}
+
+/* ---------- الصفحة الرئيسية ---------- */
+function home(){
+  const heroes = ARTICLES.filter(a => a.hero).slice(0,4);
+  const slides = heroes.map((a,i)=>{ const c = CATS[a.cat];
+    return `<a class="hs ${i?'':'on'}" href="${href(a)}" data-i="${i}">${im(a)}<div class="hcap"><div class="hbox" style="background:${c.c}">${bk(a)}<span class="chip" style="background:#fff;color:#000">${c.n}</span><h2>${a.t}</h2></div><div class="hstrip"><span>${a.sum||''}</span><b>${a.time||''}</b></div></div></a>`; }).join('');
+  const side = heroes.map((a,i)=>`<button class="hit ${i?'':'on'}" data-i="${i}"><em>${i+1}</em><div><small>${CATS[a.cat].n}</small><b>${a.t}</b></div><i></i></button>`).join('');
+  const dots = heroes.map((a,i)=>`<button class="${i?'':'on'}" data-i="${i}" aria-label="شريحة ${i+1}"></button>`).join('');
+
+  const all = news();
+  const cats = ['politics','art','economy','sports','general'];
+  const blocks = cats.map(k=>{
+    const it = all.filter(a=>a.cat===k);
+    if (it.length < 2) return '';
+    return `<div class="wrap">${sectionHead(CATS[k].n,'#/c/'+k,CATS[k].c)}<div class="blk">${bigO(it[0])}<div>${it.slice(1,4).map(miniCard).join('')}</div></div></div>`;
+  }).join('');
+  const vids = ARTICLES.filter(a=>a.cat==='video').slice(0,4);
+
+  const bkItems = ARTICLES.filter(a=>a.breaking).slice(0,4);
+  const bkBlock = bkItems.length ? `<section class="bkn"><div class="wrap"><div class="sh red"><h2><i class="live"></i>عاجل</h2><a href="#/c/breaking">عرض الكل ←</a></div><div class="bgrid">${bkItems.map(a=>`<a class="bc" href="${href(a)}"><div class="bt"><span>${a.time||''}</span><span style="color:${CATS[a.cat].c}">· ${CATS[a.cat].n}</span></div><h3>${a.t}</h3></a>`).join('')}</div></div></section>` : '';
+
+  const hot = HOT_IDS.map(byId).filter(Boolean);
+  const top5 = (hot.length ? hot : all.slice(0,5)).map((a,i)=>`<a class="tp" href="${href(a)}"><i>${i+1}</i><div>${lab(a)}<h4>${a.t}</h4></div></a>`).join('');
+  const stats = (SITE.stats||[]).map(x=>`<div><b data-v="${x.v}" data-d="${x.d}" data-s="${x.s}">${fmt(x.v,x.d)}${x.s}</b><small>${x.l}</small></div>`).join('');
+  const pulse = `<section class="pulse"><div class="wrap pgrid"><div><span class="eyebrow">at بالعراقي على إنستغرام</span><h2>ملايين المشاهدات.. وكل يوم قصة جديدة</h2><div class="cnt">${stats}</div><a class="btn y" href="${SITE.instagram}" target="_blank" rel="noopener">تابعنا الآن</a></div><div class="reels">${REELS.map(reelTile).join('')}<a class="reel cta" href="${SITE.instagram}" target="_blank" rel="noopener"><b>${fmt(((SITE.stats||[]).find(x=>x.l==='منشور')||{v:1000}).v,0)}</b><span>منشور وفيديو.. شاهد كل جديد على حسابنا</span></a></div></div></section>`;
+
+  app.innerHTML = `
+  <div class="wrap hx"><div class="hstage">${slides}<div class="hdots">${dots}</div></div><div class="hside"><div class="hh"><i class="live"></i>الآن في at بالعراقي</div>${side}</div></div>
+  ${SITE.showAds?`<div class="wrap">${adSlot('','مساحة إعلانية 970×90')}</div>`:''}
+  ${bkBlock}
+  <div class="wrap"><div class="lgrid"><div>${sectionHead('آخر الأخبار','#/c/all')}<div class="ncs" id="lt"></div><button class="more" id="more">المزيد +</button></div><aside>${sectionHead('الأكثر قراءة','#/c/all')}<div>${top5}</div>${adSlot('sq','مساحة إعلانية 300×300')}</aside></div></div>
+  ${pulse}
+  ${blocks}
+  ${vids.length?`<section class="vid"><div class="wrap">${sectionHead('فيديو','#/c/video')}<div class="vgrid">${vids.map(vidCard).join('')}</div></div></section>`:''}
+  ${servicesBlock()}`;
+
+  /* آخر الأخبار + زر المزيد */
+  let shown = 8; const lt = $('#lt'), more = $('#more');
+  const paint = () => { lt.innerHTML = all.slice(0,shown).map(nCard).join(''); more.style.display = shown >= all.length ? 'none' : 'block'; };
+  more.onclick = () => { shown += 6; paint(); }; paint();
+
+  /* السلايدر */
+  let cur = 0;
+  const go = i => {
+    cur = (i + heroes.length) % heroes.length;
+    document.querySelectorAll('.hs').forEach((e,k)=>e.classList.toggle('on',k===cur));
+    document.querySelectorAll('.hit').forEach((e,k)=>e.classList.toggle('on',k===cur));
+    document.querySelectorAll('.hdots button').forEach((e,k)=>e.classList.toggle('on',k===cur));
+  };
+  document.querySelectorAll('.hit,.hdots button').forEach(b=>b.onclick=e=>{e.preventDefault();go(+b.dataset.i);});
+  timers.push(setInterval(()=>go(cur+1), 6500));
+
+  /* عدّاد الأرقام عند الظهور */
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ countUp(en.target); io.unobserve(en.target);} }), {threshold:.4});
+    document.querySelectorAll('.cnt b').forEach(b=>io.observe(b));
+  }
+}
+
+/* ---------- صفحة قسم / بحث ---------- */
+function listPage(title, items, sub){
+  app.innerHTML = `<div class="wrap pg"><h1 class="pgt">${title}</h1>${sub?`<p class="tm">${sub}</p>`:''}
+  ${items.length ? (items[0].cat==='video' && items.every(a=>a.cat==='video')
+     ? `<div class="vgrid" style="margin-top:24px">${items.map(vidCard).join('').replace(/color:#999/g,'color:#777')}</div>`
+     : `<div class="latest" style="margin-top:10px">${items.map(rowCard).join('')}</div>`)
+   : `<div class="empty">ما كو نتائج حالياً.</div>`}</div>`;
+}
+
+/* ---------- صفحة الخبر ---------- */
+function articlePage(a){
+  if (!a) return listPage('الخبر غير موجود', []);
+  const paras = (a.body || BODY_DEFAULT).split(/\n\n+/).map(p=>`<p>${p}</p>`).join('');
+  const rel = ARTICLES.filter(x=>x.cat===a.cat && x.id!==a.id).slice(0,3);
+  const url = encodeURIComponent(location.href), tx = encodeURIComponent(a.t);
+  app.innerHTML = `<article class="wrap"><div class="art">
+    ${a.breaking?'<span class="bk" style="font-size:.85rem;padding:2px 12px">عاجل</span>':''}${lab(a)}
+    <h1>${a.t}</h1>
+    <div class="meta"><span>${a.author||SITE.name}</span><span>${a.time||''}</span></div>
+    ${a.video ? `<iframe src="${a.video}" allowfullscreen></iframe>` : im(a,'cov')}
+    ${a.sum?`<p class="body" style="font-weight:800;font-size:1.2rem;line-height:1.9;margin-bottom:16px"><span>${a.sum}</span></p>`:''}
+    <div class="body">${paras}</div>
+    <div class="share"><b>شارك:</b>
+      <a target="_blank" rel="noopener" href="https://wa.me/?text=${tx}%20${url}">واتساب</a>
+      <a target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=${url}">فيسبوك</a>
+      <a target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text=${tx}&url=${url}">X</a>
+      <button id="cpl">نسخ الرابط</button></div>
+  </div>
+  ${rel.length?`<div style="max-width:820px;margin:0 auto 40px">${sectionHead('اقرأ أيضاً','#/c/'+a.cat)}${rel.map(miniCard).join('')}</div>`:''}</article>`;
+  $('#cpl').onclick = e => { navigator.clipboard && navigator.clipboard.writeText(location.href); e.target.textContent = 'تم النسخ ✓'; };
+  document.title = a.t + ' | ' + SITE.name;
+}
+
+/* ---------- الراوتر ---------- */
+function route(){
+  clearTimers();
+  const h = window.__h || location.hash || '#/';
+  const [, type, arg] = h.split('/');
+  document.title = SITE.name + ' | فن ورياضة وأخبار واقتصاد وسياسة';
+  if (type === 'a') articlePage(byId(arg));
+  else if (type === 'services') { app.innerHTML = servicesBlock().replace('<section class="svc">','<section class="svc" style="margin-top:0">'); document.title = 'خدماتنا | ' + SITE.name; }
+  else if (type === 'about') { app.innerHTML = aboutPage(); document.title = 'من نحن | ' + SITE.name; }
+  else if (type === 'c') {
+    if (arg === 'all') listPage('آخر الأخبار', news());
+    else if (arg === 'breaking') listPage('عاجل', ARTICLES.filter(a=>a.breaking), 'آخر الأخبار العاجلة أولاً بأول');
+    else if (CATS[arg]) listPage(CATS[arg].n, ARTICLES.filter(a=>a.cat===arg));
+    else listPage('غير موجود', []);
+  }
+  else if (type === 's') { const q = decodeURIComponent(arg||'').trim(); listPage('نتائج البحث', q ? ARTICLES.filter(a=>(a.t+' '+(a.sum||'')).includes(q)) : [], q ? `عن: «${q}»` : ''); }
+  else home();
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on', a.getAttribute('href') === (type==='c' ? '#/c/'+arg : (type==='services' ? '#/services' : (type==='about' ? '#/about' : (type?'':'#/'))))));
+  window.scrollTo(0,0);
+}
+
+/* ---------- تهيئة الهيكل الثابت ---------- */
+function init(){
+  if (!SITE.showDemoBanner) $('#demo').remove();
+  $('#date').textContent = new Date().toLocaleDateString('ar-IQ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const soc = [['ig',SITE.instagram],['fb',SITE.facebook],['x',SITE.x],['yt',SITE.youtube],['tt',SITE.tiktok]].filter(s=>s[1]);
+  $('#soc').innerHTML = soc.map(([k,u])=>`<a href="${u}" target="_blank" rel="noopener" aria-label="${k}">${ICON[k]}</a>`).join('');
+  $('#logo').innerHTML = logoSVG();
+  $('#hcta').href = SITE.instagram;
+  $('#flogo').innerHTML = `<div class="logo" style="display:inline-block">${logoSVG()}</div>`;
+  $('#nav').innerHTML = NAV.map(([h,t])=>`<a href="${h}"${h==='#/c/breaking'?' class="nb"':((h==='#/c/all'||h==='#/about')?' class="xm"':'')}>${t}</a>`).join('');
+  $('#about').textContent = SITE.about;
+  $('#lic').textContent = '✔ ' + SITE.license;
+  $('#fcats').innerHTML = NAV.slice(1).map(([h,t])=>`<li><a href="${h}">${t}</a></li>`).join('');
+  $('#fcon').innerHTML = [SITE.email&&`<li>${SITE.email}</li>`, SITE.phone&&`<li>${SITE.phone}</li>`, SITE.instagram&&`<li><a href="${SITE.instagram}" target="_blank" rel="noopener">إنستغرام</a></li>`, SITE.facebook&&SITE.facebook!=='#'&&`<li><a href="${SITE.facebook}" target="_blank" rel="noopener">فيسبوك</a></li>`].filter(Boolean).join('');
+  $('#cp').textContent = '© ' + new Date().getFullYear() + ' ' + SITE.name + ' — جميع الحقوق محفوظة';
+  $('#folbtns').innerHTML = `<a class="btn" href="${SITE.instagram}" target="_blank" rel="noopener">إنستغرام</a>` + (SITE.facebook && SITE.facebook!=='#' ? `<a class="btn o" href="${SITE.facebook}" target="_blank" rel="noopener">فيسبوك</a>` : '');
+
+  /* شريط عاجل */
+  const br = ARTICLES.filter(a=>a.breaking);
+  if (br.length){
+    $('#brk').hidden = false; let i = 0; const t = $('#brkt');
+    const show = () => { t.style.opacity = 0; setTimeout(()=>{ t.innerHTML = `<a href="${href(br[i])}">${br[i].t}</a>`; t.style.opacity = 1; i = (i+1)%br.length; }, 350); };
+    show(); setInterval(show, 5000);
+  }
+
+  /* بحث */
+  $('#sbtn').onclick = () => { $('#sbox').classList.toggle('open'); $('#sq').focus(); };
+  $('#sform').onsubmit = e => { e.preventDefault(); const q = $('#sq').value.trim(); if (q){ window.__h = '#/s/' + encodeURIComponent(q); window.dispatchEvent(new Event('hashchange')); $('#sbox').classList.remove('open'); } };
+
+  window.addEventListener('hashchange', route);
+  route();
+}
+init();
+</script>
+
+</body></html>
