@@ -24,3 +24,18 @@
   - يحتاج المالك: القرار المطلوب، أو «لا شيء»
   - متوقف: وش موقفك، أو «لا شيء»
   - التالي: خطوتك الجاية، أو «فاضي»
+
+## لوحة المكتب الحيّة
+الرابط: https://claude.ai/artifact/WM1SYtMVdQ2uJ64RZPH3nf
+كل جلسة تكتب فيها بأداة ArtifactData (نفس الرابط). المجموعات الأربع:
+
+- **staff/{id}** — ملف لكل موظف. المعرّفات: ceo, researcher, writer, editor, publisher.
+  الحقول: name, role, status, now (شنو يسوي هسه بجملة), order, updatedAt (ISO).
+  status وحدة بس من: working (يشتغل) · idle (فاضي) · waiting_owner (ينتظرك) · waiting_dept (ينتظر قسم) · stopped (متوقف) · meeting (في اجتماع) · learning (يتعلّم).
+- **events/{id}** — اللي صار. الحقول: at (ISO), who (معرّف الموظف أو owner), kind, text.
+- **tasks/{id}** — المهام. الحقول: title, owner (معرّف الموظف), status (todo · doing · blocked · waiting · done), due, updatedAt.
+- **needs/{id}** — اللي ينتظر المالك. المدير بس يفتحها. الحقول: from, ask, context, options (اختياري), status=open, createdAt.
+  المالك يرد من اللوحة، فتصير: status=answered, decision, reply, answeredAt. المدير يقرأ الرد قبل أي خطوة.
+
+متى تكتب (القاعدة 2): لما تبدأ، لما تحتاج المالك، لما توقف، لما تخلص — حدّث staff وضيف event.
+board.md صار أرشيف؛ اللوحة الحيّة هي المرجع.
