@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>TicketZone Reel</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--red:#E5202E;--gold:#F6C445;--ink:#0B0B0F;--white:#FFFFFF}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#000;font-family:'Cairo',sans-serif;color:#fff}
+.bg{position:absolute;inset:-60px;background-size:cover;background-position:center;opacity:0;will-change:transform}
+.shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.35) 35%,rgba(0,0,0,.6) 70%,rgba(0,0,0,.9) 100%)}
+.tint{position:absolute;inset:0;background:var(--red);mix-blend-mode:multiply;opacity:0}
+.flash{position:absolute;inset:0;background:var(--red);opacity:0}
+.vign{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,0) 45%,rgba(0,0,0,.75) 100%)}
+.scene{position:absolute;inset:0;opacity:0}
+.el{position:absolute;left:0;right:0;text-align:center;opacity:0;will-change:transform,opacity}
+.tape{position:absolute;left:-100px;right:-100px;height:90px;
+  background:repeating-linear-gradient(-45deg,var(--gold) 0 50px,#111 50px 100px);
+  box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.tape span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.big{font-family:'Lalezar','Cairo',sans-serif;line-height:1.05}
+.t1{font-weight:800;font-size:66px;line-height:1.35;text-shadow:0 4px 24px rgba(0,0,0,.8)}
+.t2{font-weight:900;font-size:84px;line-height:1.3;text-shadow:0 4px 30px rgba(0,0,0,.85)}
+.gold{color:var(--gold)}
+.red{color:var(--red)}
+.pill{display:inline-block;padding:14px 48px;border-radius:999px;font-weight:900;font-size:64px}
+.tz{display:inline-flex;align-items:center;gap:22px;direction:ltr;padding:34px 64px;border-radius:36px;
+  background:linear-gradient(135deg,#FFE27A 0%,#F6C445 45%,#D99A12 100%);color:#111;
+  font-family:'Cairo',sans-serif;font-weight:900;font-size:128px;letter-spacing:-2px;position:relative;overflow:hidden;
+  box-shadow:0 0 0 6px rgba(255,255,255,.9),0 20px 80px rgba(246,196,69,.55)}
+.tz .shine{position:absolute;top:-20%;bottom:-20%;width:120px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-20deg)}
+.stamp{display:inline-block;border:10px solid var(--red);color:var(--red);padding:0 50px;border-radius:24px;font-family:'Lalezar',sans-serif;font-size:170px;line-height:1.25;background:rgba(0,0,0,.35)}
+.card{display:inline-block;background:rgba(10,10,14,.72);border:3px solid rgba(255,255,255,.18);border-radius:32px;padding:30px 50px;backdrop-filter:blur(6px)}
+.chip{display:inline-flex;align-items:center;gap:18px;padding:20px 40px;border-radius:20px;background:rgba(255,255,255,.12);border:3px dashed rgba(255,255,255,.6);font-weight:800;font-size:54px;position:relative}
+.chip .strike{position:absolute;left:-10px;right:-10px;top:50%;height:10px;background:var(--red);border-radius:6px;transform-origin:right center}
+.bar{position:absolute;left:90px;right:90px;bottom:250px;height:8px;border-radius:8px;background:rgba(255,255,255,.18);overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));transform-origin:right center}
+.wm{position:absolute;top:70px;right:70px;font-weight:900;font-size:34px;opacity:.85;letter-spacing:.5px;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+.grain{position:absolute;inset:0;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>")}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="bg" id="bg1" style="background-image:url(img/66bb11.jpg)"></div>
+  <div class="bg" id="bg2" style="background-image:url(img/d73f29.jpg);background-position:center 20%"></div>
+  <div class="bg" id="bg3" style="background-image:url(img/621657.jpg)"></div>
+  <div class="bg" id="bg4" style="background-image:url(img/704223.jpg)"></div>
+  <div class="bg" id="bg5" style="background-image:url(img/b8687d.jpg)"></div>
+  <div class="bg" id="bg6" style="background-image:url(img/ad9e1e.jpg)"></div>
+  <div class="bg" id="bg7" style="background-image:url(img/760935.jpg)"></div>
+  <div class="shade"></div>
+  <div class="tint" id="tint"></div>
+  <div class="vign"></div>
+
+  <!-- S1 HOOK 0-2.5 -->
+  <div class="scene" id="s1">
+    <div class="tape" id="tapeTop" style="top:300px;transform:rotate(-4deg)"></div>
+    <div class="tape" id="tapeBot" style="top:1450px;transform:rotate(-4deg)"></div>
+    <div class="el" id="warnIcon" style="top:520px">
+      <svg width="230" height="210" viewBox="0 0 230 210"><path d="M115 10 L222 200 H8 Z" fill="#E5202E" stroke="#fff" stroke-width="10" stroke-linejoin="round"/><rect x="104" y="70" width="22" height="70" rx="10" fill="#fff"/><circle cx="115" cy="168" r="14" fill="#fff"/></svg>
+    </div>
+    <div class="el big" id="h1" style="top:760px;font-size:250px">تنويه</div>
+    <div class="el big red" id="h2" style="top:1030px;font-size:250px;text-shadow:0 0 50px rgba(229,32,46,.6),0 6px 0 #000">هام</div>
+  </div>
+
+  <!-- S2 2.5-7 -->
+  <div class="scene" id="s2">
+    <div class="el t1" id="s2a" style="top:1010px">نود التأكيد أن حجز تذاكر حفل</div>
+    <div class="el big gold" id="s2b" style="top:1110px;font-size:120px">البرنس</div>
+    <div class="el big" id="s2c" style="top:1240px;font-size:170px">ماجد المهندس</div>
+    <div class="el" id="s2d" style="top:1460px"><span class="pill" style="background:var(--red)">في بغداد</span></div>
+  </div>
+
+  <!-- S3 7-12 -->
+  <div class="scene" id="s3">
+    <div class="el t2" id="s3a" style="top:560px">يتم <span class="gold">حصريًا</span> عبر منصة</div>
+    <div class="el" id="s3b" style="top:760px"><span class="tz" id="tzA"><span>TicketZone</span><span class="shine" id="shineA"></span></span></div>
+    <div class="el" id="s3c" style="top:1070px"><span class="stamp">فقط</span></div>
+  </div>
+
+  <!-- S4 12-16 -->
+  <div class="scene" id="s4">
+    <div class="el" id="s4x" style="top:470px">
+      <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="#E5202E" stroke="#fff" stroke-width="8"/><path d="M62 62 L138 138 M138 62 L62 138" stroke="#fff" stroke-width="22" stroke-linecap="round"/></svg>
+    </div>
+    <div class="el t2" id="s4a" style="top:720px">ولا توجد <span class="red">أي جهة</span></div>
+    <div class="el t2" id="s4b" style="top:840px">أو منصة أخرى</div>
+    <div class="el t2" id="s4c" style="top:960px"><span class="gold">معتمدة</span> لبيع التذاكر</div>
+  </div>
+
+  <!-- S5 16-20.5 -->
+  <div class="scene" id="s5">
+    <div class="el t1" id="s5a" style="top:470px">نرجو من الجميع</div>
+    <div class="el big" id="s5b" style="top:610px;font-size:150px">توخّي <span class="gold">الحذر</span></div>
+    <div class="el" id="s5c" style="top:840px"><div class="card"><div class="t2" style="font-size:76px">من <span class="red">المواقع الوهمية</span></div></div></div>
+    <div class="el" id="s5d" style="top:1040px"><div class="card"><div class="t2" style="font-size:76px">والروابط <span class="red">غير الرسمية</span></div></div></div>
+    <div class="el" id="s5e" style="top:1260px"><span class="chip"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>رابط غير رسمي<span class="strike" id="strike"></span></span></div>
+  </div>
+
+  <!-- S6 20.5-25 -->
+  <div class="scene" id="s6">
+    <div class="el t2" id="s6a" style="top:560px">وعدم التعامل مع <span class="red">أي جهة</span></div>
+    <div class="el t2" id="s6b" style="top:690px">تدّعي بيع تذاكر الحفل</div>
+    <div class="el" id="s6c" style="top:860px"><span class="pill" style="background:#fff;color:#111;font-size:72px">خارج المنصة المعتمدة</span></div>
+  </div>
+
+  <!-- S7 25-30 -->
+  <div class="scene" id="s7">
+    <div class="el t1" id="s7a" style="top:470px">المنصة المعتمدة</div>
+    <div class="el" id="s7b" style="top:590px"><span class="tz" id="tzB"><svg width="96" height="96" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#111"/><path d="M6.5 12.5l3.5 3.5 7.5-8" stroke="#F6C445" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>TicketZone</span><span class="shine" id="shineB"></span></span></div>
+    <div class="el t2" id="s7c" style="top:930px">حفاظاً على <span class="gold">حقوقكم</span></div>
+    <div class="el t2" id="s7d" style="top:1050px">وتجنّبًا لعمليات <span class="red">الاحتيال</span></div>
+  </div>
+
+  <div class="flash" id="flash"></div>
+  <div class="bar"><i id="prog"></i></div>
+  <div class="wm" id="wm">AT بالعراقي</div>
+  <div class="grain" id="grain"></div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const easeOut=x=>1-Math.pow(1-x,3);
+const easeIn=x=>x*x*x;
+const back=x=>{const c1=1.9,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const elastic=x=>x===0?0:x===1?1:Math.pow(2,-10*x)*Math.sin((x*10-0.75)*(2*Math.PI)/3)+1;
+const P=(t,a,d)=>clamp((t-a)/d);
+
+// scenes: [id, start, end, bg]
+const S=[['s1',0,2.5,'bg1'],['s2',2.5,7,'bg2'],['s3',7,12,'bg3'],['s4',12,16,'bg4'],['s5',16,20.5,'bg5'],['s6',20.5,25,'bg6'],['s7',25,30.01,'bg7']];
+const FADE=0.35;
+
+// element entrances: id -> [time, type]
+const E={
+  warnIcon:[0.05,'slam'],h1:[0.18,'slam'],h2:[0.55,'slam'],
+  s2a:[2.75,'up'],s2b:[3.25,'up'],s2c:[3.55,'zoom'],s2d:[4.3,'pop'],
+  s3a:[7.2,'up'],s3b:[7.8,'pop'],s3c:[9.1,'stamp'],
+  s4x:[12.15,'pop'],s4a:[12.45,'right'],s4b:[12.95,'right'],s4c:[13.45,'right'],
+  s5a:[16.15,'up'],s5b:[16.45,'zoom'],s5c:[17.3,'right'],s5d:[17.9,'right'],s5e:[18.7,'pop'],
+  s6a:[20.7,'up'],s6b:[21.3,'up'],s6c:[22.1,'pop'],
+  s7a:[25.15,'up'],s7b:[25.4,'pop'],s7c:[26.4,'up'],s7d:[26.9,'up'],
+};
+
+function enter(el,type,p){
+  let o=1,tf='';
+  if(type==='up'){const e=easeOut(p);o=e;tf=`translateY(${(1-e)*70}px)`;}
+  else if(type==='right'){const e=easeOut(p);o=e;tf=`translateX(${-(1-e)*160}px)`;}
+  else if(type==='zoom'){const e=easeOut(p);o=e;tf=`scale(${0.7+0.3*e})`;}
+  else if(type==='pop'){const e=back(p);o=clamp(p*3);tf=`scale(${Math.max(0,e)})`;}
+  else if(type==='slam'){const e=easeIn(clamp(p*1.0));o=clamp(p*4);tf=`scale(${2.6-1.6*e})`;}
+  else if(type==='stamp'){const e=easeIn(p);o=clamp(p*3);tf=`scale(${2.2-1.2*e}) rotate(${-8*e}deg)`;}
+  el.style.opacity=o;el.style.transform=tf;
+}
+
+window.render=function(t){
+  // scenes & backgrounds
+  S.forEach(([id,a,b,bg],i)=>{
+    const fin=i===0?1:clamp((t-a)/FADE), fout=i===S.length-1?1:clamp((b-t)/FADE);
+    const v=(t>=a-0.001&&t<b+FADE)?Math.min(fin,fout):0;
+    $(id).style.opacity=(t>=a&&t<b)?Math.min(fin,1):(t>=b&&t<b+0.0)?0:0;
+    const bgv=(t>=a&&t<b+FADE)?Math.min(fin,i===S.length-1?1:clamp((b+FADE-t)/FADE)):0;
+    const k=(t-a)/(b-a);
+    const z=1.05+0.12*k, dx=(i%2?1:-1)*30*k;
+    $(bg).style.opacity=bgv;
+    $(bg).style.transform=`scale(${z}) translateX(${dx}px)`;
+    $(bg).style.filter=i===0?'grayscale(.4) brightness(.55) blur(3px)':'brightness(.8)';
+  });
+  // scene text fade-out at end of each scene
+  S.forEach(([id,a,b])=>{ if(t>=a&&t<b){ const fo=b>30?1:clamp((b-t)/0.3); $(id).style.opacity=Math.min(clamp((t-a)/0.15)||1,fo===0?0:fo); if(a===0)$(id).style.opacity=fo; } else $(id).style.opacity=0; });
+
+  for(const k in E){const [a,type]=E[k];enter($(k),type,P(t,a,type==='slam'||type==='stamp'?0.22:0.5));}
+
+  // hook extras
+  const shake=(t<2.5)?( (P(t,0.18,0.25)>0&&P(t,0.18,0.25)<1)||(P(t,0.55,0.3)>0&&P(t,0.55,0.3)<1) ? 1:0):0;
+  const st=document.getElementById('stage');
+  if(shake){const s=Math.sin(t*170)*14,r=Math.cos(t*130)*10;st.style.transform=`translate(${s}px,${r}px)`}else st.style.transform='';
+  $('tapeTop').style.transform=`rotate(-4deg) translateX(${(1-easeOut(P(t,0,0.4)))*1300}px)`;
+  $('tapeBot').style.transform=`rotate(-4deg) translateX(${-(1-easeOut(P(t,0.1,0.4)))*1300}px)`;
+  $('tapeTop').style.backgroundPosition=`${t*120}px 0`;$('tapeBot').style.backgroundPosition=`${-t*120}px 0`;
+  // red flashes at impacts + warning pulse
+  const fl=(x)=>Math.max(0,1-Math.abs(t-x)/0.12);
+  $('flash').style.opacity=0.55*Math.max(fl(0.4),fl(0.77),fl(9.32)*0.6,fl(12.2)*0.5);
+  $('tint').style.opacity=t<2.5?0.55+0.15*Math.sin(t*12):(t>=12&&t<25?0.18:0);
+  $('warnIcon').querySelector('svg').style.transform=t>0.4&&t<2.5?`scale(${1+0.06*Math.sin((t-0.4)*14)})`:'';
+  // TicketZone glow pulse + shine
+  ['A','B'].forEach((L,i)=>{const t0=i?25.8:8.2;const p=((t-t0)%1.8)/1.8;$('shine'+L).style.left=(t>=t0?(-200+p*1100):-300)+'px';});
+  const g=0.5+0.5*Math.sin(t*5);
+  $('tzA').style.boxShadow=`0 0 0 6px rgba(255,255,255,.9),0 20px ${60+60*g}px rgba(246,196,69,${.45+.35*g})`;
+  $('tzB').style.boxShadow=$('tzA').style.boxShadow;
+  // strike-through on fake link
+  $('strike').style.transform=`scaleX(${easeOut(P(t,19.2,0.35))})`;
+  // gentle float on key words after entrance
+  if(t>8.3&&t<12) $('s3b').style.transform=`translateY(${Math.sin(t*3)*8}px)`;
+  if(t>26&&t<30.1) $('s7b').style.transform=`scale(${1+0.025*Math.sin(t*4)})`;
+  // progress bar
+  $('prog').style.transform=`scaleX(${clamp(t/30)})`;
+  $('grain').style.backgroundPosition=`${(t*997)%200}px ${(t*577)%200}px`;
+};
+window.render(0);
+</script>
+</body>
+</html>
