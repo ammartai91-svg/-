@@ -201,13 +201,13 @@ function service(i,t){ // 2.4s each
       x.fillStyle=g;x.shadowColor=C.cy;x.shadowBlur=24;x.beginPath();x.arc(cx+dx,cy+dy,rr,0,7);x.fill();x.shadowBlur=0;x.strokeStyle=C.gold;x.lineWidth=3;x.stroke();});}
   titleAt(['اختصاص النسائية والتوليد','علاج العقم','التلقيح الصناعي','أطفال الأنابيب'][i],true,t);
 }
-const SEG={intro:[0,5.6],steps:[5.6,10.0],s0:[10.0,12.4],s1:[12.4,14.8],s2:[14.8,17.2],s3:[17.2,19.6],outro:[19.6,30]};
+const SEG={intro:[0,5.6],steps:[5.6,10.0],s0:[10.0,11.8],s1:[11.8,13.0],s2:[13.0,14.3],s3:[14.3,15.8],outro:[15.8,30]};
 function full(T){
   const [a,b]=Object.entries(SEG).find(([k,[s,e]])=>T>=s&&T<e)||['outro',SEG.outro];const lt=T-b[0];
-  if(a==='intro')intro(lt*7/5.6);
+  if(a==='intro')intro(lt*1.45);
   else if(a==='steps')steps(lt);
-  else if(a[0]==='s')service(+a[1],lt);
-  else{const o=lt<3?lt:lt<6.5?3+(lt-3)*2:10+(lt-6.5)*.9;outro(Math.min(o,13));}
+  else if(a[0]==='s')service(+a[1],lt*2.4/(b[1]-b[0]));
+  else{const o=lt<2.4?lt:lt<5.4?2.4+(lt-2.4)*2.5:9.9+(lt-5.4)*.4;outro(Math.min(o,13));}
   // light-leak flash at cuts
   for(const [,[s]] of Object.entries(SEG)){if(s===0)continue;const d=Math.abs(T-s);if(d<.22){glow(W/2,H*.45,1100,'rgba(145,254,240,.85)',1-d/.22);}}
 }
