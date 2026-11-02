@@ -283,7 +283,27 @@ function doctor(t){ // 3.4s
   x.font=font(40,500,'IBM Plex Sans Arabic');x.fillStyle=C.cy;x.fillText('اختصاص النسائية والتوليد',W/2,570+(1-nk)*30);x.shadowBlur=0;x.globalAlpha=1;
   titleAt('وياچ خطوة بخطوة',false,Math.max(0,t-1.9));
 }
-function mother2(t){mother(t);doctorImg(930,1990,1050,{a:.55*eo(p(t,1.2,2.2)),blur:3});}
+function heart(cx,cy,sz,col,a){x.save();x.translate(cx,cy);x.scale(sz/40,sz/40);x.globalAlpha=a;x.fillStyle=col;x.shadowColor=col;x.shadowBlur=18;
+  x.beginPath();x.moveTo(0,14);x.bezierCurveTo(-40,-12,-18,-42,0,-20);x.bezierCurveTo(18,-42,40,-12,0,14);x.fill();x.restore();x.shadowBlur=0;}
+function mother2(t){ // 3s family medallion
+  bg(t+80);const k=eo(p(t,0,.7)),cx=540,cy=1140,R=500;
+  glow(cx,cy,1000,'rgba(212,162,70,.45)',k);rays(t*.6,.55*k);dust(t+80,1);
+  const sc=.86+.14*back(cl(t/.7));
+  x.save();x.translate(cx,cy);x.scale(sc,sc);x.globalAlpha=k;
+  // medallion
+  const g=x.createRadialGradient(0,-120,40,0,0,R);g.addColorStop(0,'#FFF7EA');g.addColorStop(.75,'#F8E6C6');g.addColorStop(1,'#EBC98C');
+  x.fillStyle=g;x.shadowColor='rgba(212,162,70,.9)';x.shadowBlur=60;x.beginPath();x.arc(0,0,R,0,7);x.fill();x.shadowBlur=0;
+  x.save();x.beginPath();x.arc(0,0,R-6,0,7);x.clip();
+  const im=IMG.family,z=1.08-.08*eo(cl(t/3)),w=980*z,h=w*im.height/im.width;x.drawImage(im,-w/2,R-h+10,w,h);
+  // light sweep
+  const sx=-R*1.6+eo(p(t,.6,1.8))*R*3.2,lg=x.createLinearGradient(sx-120,0,sx+120,0);lg.addColorStop(0,'rgba(255,255,255,0)');lg.addColorStop(.5,'rgba(255,255,255,.35)');lg.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle=lg;x.fillRect(-R,-R,2*R,2*R);x.restore();
+  x.strokeStyle=C.gold;x.lineWidth=8;x.shadowColor=C.gold;x.shadowBlur=30;x.beginPath();x.arc(0,0,R,-Math.PI/2,-Math.PI/2+Math.PI*2*eio(p(t,.1,1.1)));x.stroke();x.shadowBlur=0;
+  x.restore();x.globalAlpha=1;
+  // floating hearts
+  const RH=rng(21);for(let i=0;i<12;i++){const t0=RH()*1.6,ph=p(t,t0,t0+1.6),hx=cx+(RH()-.5)*1000,hy=cy+380-ph*700;if(ph>0&&ph<1)heart(hx+Math.sin(t*2+i)*20,hy,22+RH()*26,i%3?C.pink:C.gold,Math.sin(ph*Math.PI)*.9);}
+  if(t>.35){const wd=words('لأن حلمچ يستاهل',W/2,330,92,.4,t,{stag:.14});underline(W/2,402,wd,p(t,.9,1.4));}
+}
 const SEG={intro:[0,5.2],doctor:[5.2,8.6],science:[8.6,10.8],mother:[10.8,13.8],outro:[13.8,30]};
 function full(T){
   const [a,b]=Object.entries(SEG).find(([k,[s,e]])=>T>=s&&T<e)||['outro',SEG.outro];const lt=T-b[0];
