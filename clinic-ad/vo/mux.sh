@@ -9,7 +9,7 @@ if [ -n "$MUS" ]; then
   -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -t 30 clinic-ad-30s-FINAL.mp4
 else
   ffmpeg -y -i clinic-ad-30s-no-vo.mp4 -i "$VO" -filter_complex \
-  "[1:a]adelay=2000|2000,volume=1.6[v];[0:a][v]amix=inputs=2:normalize=0,alimiter=limit=0.95[a]" \
+  "[1:a]adelay=2000|2000,volume=1.6[v];[0:a]volume=0.45[b];[b][v]amix=inputs=2:normalize=0,alimiter=limit=0.95[a]" \
   -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -t 30 clinic-ad-30s-FINAL.mp4
 fi
 echo "✅ clinic-ad-30s-FINAL.mp4"
