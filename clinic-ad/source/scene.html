@@ -100,7 +100,7 @@ function intro(t){
   // flash at collapse
   const fl=p(t,4.0,4.3)*(1-p(t,4.3,4.9));if(fl>0)glow(W/2,cy,900,'rgba(145,254,240,.8)',fl);
   // headline
-  if(t>4.9){const wd=words('حلمج تصيرين أم؟',W/2,1330,108,5.0,t,{stag:.22});underline(W/2,1420,wd,p(t,5.6,6.3));}
+  if(t>4.9){const wd=words('حلمچ تصيرين أم؟',W/2,1330,108,5.0,t,{stag:.22});underline(W/2,1420,wd,p(t,5.6,6.3));}
 }
 /* ---------- OUTRO 13s ---------- */
 function petal(len,wid){x.beginPath();x.moveTo(0,0);x.bezierCurveTo(wid,-len*.35,wid*.55,-len*.8,0,-len);x.bezierCurveTo(-wid*.55,-len*.8,-wid,-len*.35,0,0);}
@@ -172,7 +172,9 @@ function steps(t){ // 4.5s
   const hk=eo(p(t,2.7,3.6));if(hk>0){const pulse=1+.05*Math.sin(t*6),cx=W/2,cy=740;glow(cx,cy,380,'rgba(240,93,137,.55)',hk);
     x.save();x.translate(cx,cy);x.scale(hk*pulse*1.6,hk*pulse*1.6);x.fillStyle=C.pink;x.shadowColor=C.pink;x.shadowBlur=40;
     x.beginPath();x.moveTo(0,40);x.bezierCurveTo(-90,-20,-50,-95,0,-50);x.bezierCurveTo(50,-95,90,-20,0,40);x.fill();x.restore();x.shadowBlur=0;}
-  titleAt('إحنا وياج بكل خطوة',false,t);
+  const nk=eo(p(t,0,.5));x.globalAlpha=nk;x.font=font(46,500,'IBM Plex Sans Arabic');x.fillStyle=C.cy;x.textAlign='center';x.direction='rtl';x.textBaseline='middle';
+  x.fillText('د. ابتسام صاحب · اختصاص النسائية والتوليد',W/2,500+(1-nk)*30);x.globalAlpha=1;
+  titleAt('وياچ خطوة بخطوة',false,Math.max(0,t-1.6));
 }
 function sperm(px,py,ang,t,ph){x.save();x.translate(px,py);x.rotate(ang);x.strokeStyle=C.cy;x.lineWidth=3;x.shadowColor=C.cy;x.shadowBlur=10;
   x.beginPath();x.moveTo(0,0);for(let i=1;i<=20;i++)x.lineTo(-i*4,Math.sin(i*.6-t*14+ph)*5*(i/20));x.stroke();
@@ -201,13 +203,13 @@ function service(i,t){ // 2.4s each
       x.fillStyle=g;x.shadowColor=C.cy;x.shadowBlur=24;x.beginPath();x.arc(cx+dx,cy+dy,rr,0,7);x.fill();x.shadowBlur=0;x.strokeStyle=C.gold;x.lineWidth=3;x.stroke();});}
   titleAt(['اختصاص النسائية والتوليد','علاج العقم','التلقيح الصناعي','أطفال الأنابيب'][i],true,t);
 }
-const SEG={intro:[0,5.6],steps:[5.6,10.0],s0:[10.0,11.8],s1:[11.8,13.0],s2:[13.0,14.3],s3:[14.3,15.8],outro:[15.8,30]};
+const SEG={intro:[0,5.4],steps:[5.4,10.0],s0:[10.0,11.2],s1:[11.2,12.3],s2:[12.3,13.4],s3:[13.4,14.4],outro:[14.4,30]};
 function full(T){
   const [a,b]=Object.entries(SEG).find(([k,[s,e]])=>T>=s&&T<e)||['outro',SEG.outro];const lt=T-b[0];
   if(a==='intro')intro(lt*1.45);
   else if(a==='steps')steps(lt);
   else if(a[0]==='s')service(+a[1],lt*2.4/(b[1]-b[0]));
-  else{const o=lt<2.4?lt:lt<5.4?2.4+(lt-2.4)*2.5:9.9+(lt-5.4)*.4;outro(Math.min(o,13));}
+  else{const o=lt<3.8?lt*2.6:9.9+(lt-3.8)*.3;outro(Math.min(o,13));}
   // light-leak flash at cuts
   for(const [,[s]] of Object.entries(SEG)){if(s===0)continue;const d=Math.abs(T-s);if(d<.22){glow(W/2,H*.45,1100,'rgba(145,254,240,.85)',1-d/.22);}}
 }
