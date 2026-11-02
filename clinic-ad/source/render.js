@@ -5,10 +5,10 @@ const jobs=JSON.parse(process.argv[2]);
   const b=await chromium.launch();const pg=await b.newPage({viewport:{width:1080,height:1920}});
   await pg.goto('file://'+SP+'/render/scene.html');
   const d=f=>'data:image/png;base64,'+fs.readFileSync(f).toString('base64');
-  await pg.evaluate(async([l,e])=>{await loadImg('logo',l);await loadImg('embryo',e);
+  await pg.evaluate(async([l,e,dc])=>{await loadImg('logo',l);await loadImg('embryo',e);await loadImg('doctor',dc);
     await document.fonts.load('800 80px "Alexandria"','حلم');await document.fonts.load('500 80px "Alexandria"','حلم');
     await document.fonts.load('700 80px "IBM Plex Sans Arabic"','حلم');await document.fonts.load('500 80px "IBM Plex Sans Arabic"','حلم');},
-    [d('/home/user/-/clinic-logo/logo-white-outline.png'),d(SP+'/embryo.png')]);
+    [d('/home/user/-/clinic-logo/logo-white-outline.png'),d(SP+'/embryo.png'),d(SP+'/render/doctor_s.png')]);
   for(const j of jobs){
     if(j.title)await pg.evaluate(([s,c])=>setTitle(s,c),[j.title,j.check]);
     if(j.stills){for(const t of j.stills){await pg.evaluate(([s,t])=>frame(s,t),[j.scene,t]);

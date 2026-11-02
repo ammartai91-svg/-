@@ -269,13 +269,28 @@ function mother(t){ // 3.4s
   glow(380,1100,260,'rgba(255,230,180,.5)',p(t,.3,1.2)*(.8+.2*Math.sin(t*3)));
   if(t>1.1){const wd=words('لأن حلمچ يستاهل',W/2,330,88,1.2,t,{stag:.14});underline(W/2,400,wd,p(t,1.7,2.2));}
 }
-const SEG={intro:[0,5.4],hope:[5.4,7.4],science:[7.4,10.6],mother:[10.6,13.8],outro:[13.8,30]};
+
+function doctorImg(cx,bottom,h,{a=1,blur=0}={}){const im=IMG.doctor;const w=h*im.width/im.height;x.save();x.globalAlpha=a;if(blur)x.filter=`blur(${blur}px)`;x.drawImage(im,cx-w/2,bottom-h,w,h);x.restore();}
+function doctor(t){ // 3.4s
+  bg(t+70);dust(t+70,.9);
+  const k=eo(p(t,0,.7)),fl=Math.sin(t*1.8)*8;
+  glow(690,1150,620,'rgba(21,178,181,.45)',k);glow(690,900,380,'rgba(247,184,203,.25)',k);
+  // light ring behind
+  x.save();x.globalAlpha=k*.8;x.strokeStyle=C.gold;x.lineWidth=4;x.shadowColor=C.gold;x.shadowBlur=24;x.beginPath();x.arc(690,1060,320+20*Math.sin(t*2),0,7);x.stroke();x.restore();x.shadowBlur=0;
+  doctorImg(690+(1-k)*500,2030+fl,1350*(0.96+0.04*k),{a:k});
+  const nk=eo(p(t,.3,.8));x.globalAlpha=nk;x.textAlign='center';x.direction='rtl';x.textBaseline='middle';
+  x.font=font(64,800);x.fillStyle=C.white;x.shadowColor='rgba(0,0,0,.5)';x.shadowBlur=16;x.fillText('د. ابتسام صاحب',W/2,500+(1-nk)*30);
+  x.font=font(40,500,'IBM Plex Sans Arabic');x.fillStyle=C.cy;x.fillText('اختصاص النسائية والتوليد',W/2,570+(1-nk)*30);x.shadowBlur=0;x.globalAlpha=1;
+  titleAt('وياچ خطوة بخطوة',false,Math.max(0,t-1.9));
+}
+function mother2(t){mother(t);doctorImg(930,1990,1050,{a:.55*eo(p(t,1.2,2.2)),blur:3});}
+const SEG={intro:[0,5.2],doctor:[5.2,8.6],science:[8.6,10.8],mother:[10.8,13.8],outro:[13.8,30]};
 function full(T){
   const [a,b]=Object.entries(SEG).find(([k,[s,e]])=>T>=s&&T<e)||['outro',SEG.outro];const lt=T-b[0];
-  if(a==='intro')intro(lt*1.45);
-  else if(a==='hope')hope(lt);
-  else if(a==='science')science(lt);
-  else if(a==='mother')mother(lt);
+  if(a==='intro')intro(lt*1.5);
+  else if(a==='doctor')doctor(lt);
+  else if(a==='science')science(lt*3.2/2.2);
+  else if(a==='mother')mother2(lt);
   else{const o=lt<3.8?lt*2.6:9.9+(lt-3.8)*.3;outro(Math.min(o,13));}
   for(const [,[s]] of Object.entries(SEG)){if(s===0)continue;const d=Math.abs(T-s);if(d<.22){glow(W/2,H*.45,1100,'rgba(145,254,240,.85)',1-d/.22);}}
 }
