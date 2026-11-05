@@ -52,3 +52,5 @@ m4/lt~obsolete.m4
 # can automatically generate from config.status script
 # (which is called by configure script))
 Makefile
+# Drafts built from unlicensed third-party photos: keep local, never publish
+ronaldo-doc/draft_*.mp4
