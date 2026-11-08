@@ -1,0 +1,82 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#141a6e;--deep:#0b0f4a;--blue:#43a0e0;--white:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#222;font-family:Tajawal,sans-serif}
+.cover{width:1080px;height:1920px;position:relative;overflow:hidden;
+ background:radial-gradient(circle at 50% 50%,#1e2790 0%,#141a6e 38%,#0b0f4a 100%);}
+.ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:760px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.icon{width:440px;height:440px;filter:drop-shadow(0 0 22px rgba(67,160,224,.55))}
+.name{color:#fff;font-weight:800;font-size:84px;line-height:1.1;margin-top:34px;white-space:nowrap}
+.sub{color:var(--blue);font-weight:700;font-size:40px;margin-top:14px;letter-spacing:.5px}
+.brand{position:absolute;bottom:150px;left:0;right:0;text-align:center;color:rgba(255,255,255,.55);font-weight:700;font-size:38px}
+.brand b{color:var(--blue)}
+.glow{position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);border-radius:50%;
+ background:radial-gradient(circle,rgba(67,160,224,.18) 0%,rgba(67,160,224,0) 65%)}
+</style></head><body>
+
+<!-- shared ring -->
+<template id="ringtpl">
+<svg class="ring" width="1000" height="1000" viewBox="0 0 1000 1000">
+ <circle cx="500" cy="500" r="470" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="9" stroke-linecap="round" stroke-dasharray="1 26"/>
+ <path d="M500 30 A470 470 0 0 1 970 500" fill="none" stroke="#43a0e0" stroke-width="22" stroke-linecap="round"/>
+ <path d="M500 970 A470 470 0 0 1 30 500" fill="none" stroke="#43a0e0" stroke-width="22" stroke-linecap="round"/>
+</svg>
+</template>
+
+<!-- 1 Dr Ibtisam -->
+<div class="cover" id="c1"><div class="glow"></div><div class="ringslot"></div>
+ <div class="center">
+  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke="#43a0e0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+   <circle cx="100" cy="58" r="32"/>
+   <path d="M36 184v-12c0-30 24-54 54-54h20c30 0 54 24 54 54v12"/>
+   <path d="M84 119l16 30 16-30"/>
+   <path d="M100 149v35" stroke-opacity=".7"/>
+   <path d="M136 146v22M125 157h22" stroke="#fff" stroke-width="8"/>
+  </svg>
+  <div class="name">د. ابتسام صاحب</div>
+  
+ </div>
+ <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
+</div>
+
+<!-- 2 Dr Shahad -->
+<div class="cover" id="c2"><div class="glow"></div><div class="ringslot"></div>
+ <div class="center">
+  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke="#43a0e0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+   <circle cx="100" cy="58" r="32"/>
+   <path d="M36 184v-12c0-30 24-54 54-54h20c30 0 54 24 54 54v12"/>
+   <path d="M84 119l16 30 16-30"/>
+   <path d="M100 149v35" stroke-opacity=".7"/>
+   <path d="M136 146v22M125 157h22" stroke="#fff" stroke-width="8"/>
+  </svg>
+  <div class="name">د. شهد حامد</div>
+  
+ </div>
+ <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
+</div>
+
+<!-- 3 Lab -->
+<div class="cover" id="c3"><div class="glow"></div><div class="ringslot"></div>
+ <div class="center">
+  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke="#43a0e0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M78 22h44"/>
+   <path d="M86 22v52L42 156a16 16 0 0 0 14 24h88a16 16 0 0 0 14-24L114 74V22"/>
+   <path d="M60 128h80" stroke-opacity=".6"/>
+   <!-- logo pulse bars inside the flask -->
+   <path d="M86 144v16M100 136v32M114 144v16" stroke="#fff" stroke-width="10"/>
+   <circle cx="148" cy="42" r="10" stroke="#fff" stroke-width="6"/><circle cx="168" cy="72" r="6" stroke="#fff" stroke-width="5"/>
+  </svg>
+  <div class="name">مختبر المرسل</div>
+  
+ </div>
+ <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
+</div>
+
+<script>
+const t=document.getElementById('ringtpl');
+document.querySelectorAll('.ringslot').forEach(s=>s.replaceWith(t.content.cloneNode(true)));
+</script>
+</body></html>
