@@ -1,101 +1,36 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#222;font-family:Tajawal,sans-serif}
-.cover{width:1080px;height:1920px;position:relative;overflow:hidden;
- background:radial-gradient(120% 70% at 50% 50%,#1f2a96 0%,#151c74 40%,#0a0e45 100%)}
-.cover::before{content:"";position:absolute;inset:0;
- background-image:radial-gradient(rgba(255,255,255,.07) 2px,transparent 2px);background-size:44px 44px;
- -webkit-mask:radial-gradient(circle at 50% 50%,transparent 0 430px,#000 640px);mask:radial-gradient(circle at 50% 50%,transparent 0 430px,#000 640px)}
-.ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
-.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:800px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.disc{width:430px;height:430px;border-radius:50%;display:grid;place-items:center;position:relative;
- background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));
- border:2px solid rgba(255,255,255,.22);
- box-shadow:0 30px 80px rgba(3,6,40,.55),inset 0 2px 0 rgba(255,255,255,.25),0 0 90px rgba(67,160,224,.28)}
-.disc::after{content:"";position:absolute;inset:18px;border-radius:50%;border:2px solid rgba(67,160,224,.35)}
-.icon{width:330px;height:330px;filter:drop-shadow(0 0 16px rgba(67,160,224,.6))}
-.name{color:#fff;font-weight:800;font-size:80px;line-height:1.1;margin-top:46px;white-space:nowrap;text-shadow:0 4px 24px rgba(0,0,0,.35)}
-.chips{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:26px}
-.chip{display:inline-flex;align-items:center;gap:14px;padding:12px 34px 16px;border-radius:999px;
- background:rgba(67,160,224,.16);border:2px solid rgba(67,160,224,.7);color:#dff0ff;font-weight:700;font-size:38px;white-space:nowrap}
-.chip i{width:12px;height:12px;border-radius:50%;background:#43a0e0;box-shadow:0 0 12px #43a0e0;display:inline-block;margin-top:4px}
-.brand{position:absolute;bottom:150px;left:0;right:0;text-align:center;color:rgba(255,255,255,.55);font-weight:700;font-size:38px}
-.brand b{color:#43a0e0}
-.top{position:absolute;top:150px;left:0;right:0;text-align:center;color:rgba(255,255,255,.45);font-weight:500;font-size:34px;letter-spacing:6px}
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0}
+.cover{width:1080px;height:1920px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,#1a2280 0%,#0d1252 70%)}
+.disc{position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);border-radius:50%;
+ background:linear-gradient(150deg,#5cb8f2 0%,#3a95dc 50%,#2470c4 100%);
+ box-shadow:0 0 0 14px rgba(255,255,255,.95),0 0 0 34px #0d1252,0 0 0 40px rgba(92,184,242,.6),0 30px 90px rgba(0,0,0,.5);
+ display:grid;place-items:center}
+.disc::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.35),rgba(255,255,255,0) 45%)}
+svg{width:600px;height:600px;position:relative;filter:drop-shadow(0 12px 24px rgba(10,20,90,.35))}
 </style></head><body>
 
-<template id="ringtpl">
-<svg class="ring" width="1000" height="1000" viewBox="0 0 1000 1000">
- <circle cx="500" cy="500" r="470" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="8" stroke-linecap="round" stroke-dasharray="1 24"/>
- <path d="M500 30 A470 470 0 0 1 970 500" fill="none" stroke="#43a0e0" stroke-width="20" stroke-linecap="round"/>
- <path d="M500 970 A470 470 0 0 1 30 500" fill="none" stroke="#43a0e0" stroke-width="20" stroke-linecap="round"/>
-</svg>
-</template>
+<div class="cover" id="c1"><div class="disc">
+<svg viewBox="0 0 200 200" stroke-linecap="round" stroke-linejoin="round">
+ <circle cx="100" cy="100" r="86" fill="none" stroke="#fff" stroke-width="9" stroke-dasharray="0.1 17"/>
+ <circle cx="100" cy="100" r="64" fill="#fff"/>
+ <path d="M100 134C64 112 62 80 82 74c8-2 14 3 18 11c4-8 10-13 18-11c20 6 18 38-18 60Z" fill="#141a6e"/>
+</svg></div></div>
 
-<!-- 1 Dr Ibtisam: OB/GYN + IVF (egg cell with heart) -->
-<div class="cover" id="c1"><div class="ringslot"></div>
- <div class="center">
-  <div class="disc">
-  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <circle cx="100" cy="100" r="88" stroke="#fff" stroke-width="7" stroke-dasharray="1 15"/>
-   <circle cx="100" cy="100" r="68" stroke="#43a0e0" stroke-width="10"/>
-   <path d="M100 136C62 112 60 78 82 72c9-2 15 3 18 12c3-9 9-14 18-12c22 6 20 40-18 64Z" stroke="#fff" stroke-width="10"/>
-   <circle cx="150" cy="50" r="6" fill="#43a0e0"/>
-  </svg>
-  </div>
-  <div class="name">د. ابتسام صاحب</div>
-  <div class="chips">
-   <div class="chip"><i></i>نسائية وتوليد</div>
-   <div class="chip"><i></i>أطفال أنابيب وعلاج العقم</div>
-  </div>
- </div>
- <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
-</div>
+<div class="cover" id="c2"><div class="disc">
+<svg viewBox="0 0 200 200" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M84 62C54 62 30 100 28 144c-1 28 14 40 36 34c18-5 24-22 24-44V66Z" fill="#fff"/>
+ <path d="M116 62c30 0 54 38 56 82c1 28-14 40-36 34c-18-5-24-22-24-44V66Z" fill="#fff"/>
+ <path d="M100 18v70" stroke="#fff" stroke-width="16" fill="none"/>
+ <path d="M100 88L80 110M100 88l20 22M80 110l-14 16M120 110l14 16" stroke="#141a6e" stroke-width="9" fill="none"/>
+</svg></div></div>
 
-<!-- 2 Dr Shahad: chest & respiratory (lungs) -->
-<div class="cover" id="c2"><div class="ringslot"></div>
- <div class="center">
-  <div class="disc">
-  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path d="M100 26v58M100 84l-20 20M100 84l20 20" stroke="#fff" stroke-width="9"/>
-   <path d="M82 66C56 66 36 100 34 140c-1 26 12 38 30 32c16-5 22-20 22-40V70" stroke="#43a0e0" stroke-width="10"/>
-   <path d="M118 66c26 0 46 34 48 74c1 26-12 38-30 32c-16-5-22-20-22-40V70" stroke="#43a0e0" stroke-width="10"/>
-   <path d="M54 128c6-4 12-4 18 0M128 128c6-4 12-4 18 0" stroke="#fff" stroke-width="7" stroke-opacity=".8"/>
-  </svg>
-  </div>
-  <div class="name">د. شهد حامد</div>
-  <div class="chips">
-   <div class="chip"><i></i>الأمراض الصدرية والتنفسية</div>
-  </div>
- </div>
- <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
-</div>
-
-<!-- 3 Lab: microscope -->
-<div class="cover" id="c3"><div class="ringslot"></div>
- <div class="center">
-  <div class="disc">
-  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path d="M90 42L120 94" stroke="#43a0e0" stroke-width="24"/>
-   <path d="M74 36l22-13" stroke="#fff" stroke-width="12"/>
-   <path d="M122 104v16" stroke="#fff" stroke-width="11"/>
-   <path d="M70 136h66" stroke="#fff" stroke-width="11"/>
-   <path d="M132 84c32 14 40 56 14 86" stroke="#43a0e0" stroke-width="12"/>
-   <path d="M42 176h118" stroke="#43a0e0" stroke-width="12"/>
-  </svg>
-  </div>
-  <div class="name">مختبر مجمع المرسل</div>
-  <div class="chips">
-   <div class="chip"><i></i>أجهزة حديثة</div>
-  </div>
- </div>
- <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
-</div>
-
-<script>
-const t=document.getElementById('ringtpl');
-document.querySelectorAll('.ringslot').forEach(s=>s.replaceWith(t.content.cloneNode(true)));
-</script>
+<div class="cover" id="c3"><div class="disc">
+<svg viewBox="0 0 200 200" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="#fff">
+ <path d="M86 38L120 96" stroke-width="32"/>
+ <path d="M66 32l28-16" stroke-width="16"/>
+ <path d="M124 106v18" stroke-width="14"/>
+ <path d="M64 140h76" stroke-width="15"/>
+ <path d="M134 82c36 16 44 62 14 94" stroke-width="16"/>
+ <path d="M36 180h128" stroke-width="16"/>
+</svg></div></div>
 </body></html>
