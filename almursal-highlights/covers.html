@@ -1,76 +1,95 @@
 <!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#141a6e;--deep:#0b0f4a;--blue:#43a0e0;--white:#fff}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#222;font-family:Tajawal,sans-serif}
 .cover{width:1080px;height:1920px;position:relative;overflow:hidden;
- background:radial-gradient(circle at 50% 50%,#1e2790 0%,#141a6e 38%,#0b0f4a 100%);}
+ background:radial-gradient(120% 70% at 50% 50%,#1f2a96 0%,#151c74 40%,#0a0e45 100%)}
+.cover::before{content:"";position:absolute;inset:0;
+ background-image:radial-gradient(rgba(255,255,255,.07) 2px,transparent 2px);background-size:44px 44px;
+ -webkit-mask:radial-gradient(circle at 50% 50%,transparent 0 430px,#000 640px);mask:radial-gradient(circle at 50% 50%,transparent 0 430px,#000 640px)}
 .ring{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
-.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:760px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.icon{width:440px;height:440px;filter:drop-shadow(0 0 22px rgba(67,160,224,.55))}
-.name{color:#fff;font-weight:800;font-size:84px;line-height:1.1;margin-top:34px;white-space:nowrap}
-.sub{color:var(--blue);font-weight:700;font-size:40px;margin-top:14px;letter-spacing:.5px}
+.center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:800px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.disc{width:430px;height:430px;border-radius:50%;display:grid;place-items:center;position:relative;
+ background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.03));
+ border:2px solid rgba(255,255,255,.22);
+ box-shadow:0 30px 80px rgba(3,6,40,.55),inset 0 2px 0 rgba(255,255,255,.25),0 0 90px rgba(67,160,224,.28)}
+.disc::after{content:"";position:absolute;inset:18px;border-radius:50%;border:2px solid rgba(67,160,224,.35)}
+.icon{width:330px;height:330px;filter:drop-shadow(0 0 16px rgba(67,160,224,.6))}
+.name{color:#fff;font-weight:800;font-size:80px;line-height:1.1;margin-top:46px;white-space:nowrap;text-shadow:0 4px 24px rgba(0,0,0,.35)}
+.chips{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:26px}
+.chip{display:inline-flex;align-items:center;gap:14px;padding:12px 34px 16px;border-radius:999px;
+ background:rgba(67,160,224,.16);border:2px solid rgba(67,160,224,.7);color:#dff0ff;font-weight:700;font-size:38px;white-space:nowrap}
+.chip i{width:12px;height:12px;border-radius:50%;background:#43a0e0;box-shadow:0 0 12px #43a0e0;display:inline-block;margin-top:4px}
 .brand{position:absolute;bottom:150px;left:0;right:0;text-align:center;color:rgba(255,255,255,.55);font-weight:700;font-size:38px}
-.brand b{color:var(--blue)}
-.glow{position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);border-radius:50%;
- background:radial-gradient(circle,rgba(67,160,224,.18) 0%,rgba(67,160,224,0) 65%)}
+.brand b{color:#43a0e0}
+.top{position:absolute;top:150px;left:0;right:0;text-align:center;color:rgba(255,255,255,.45);font-weight:500;font-size:34px;letter-spacing:6px}
 </style></head><body>
 
-<!-- shared ring -->
 <template id="ringtpl">
 <svg class="ring" width="1000" height="1000" viewBox="0 0 1000 1000">
- <circle cx="500" cy="500" r="470" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="9" stroke-linecap="round" stroke-dasharray="1 26"/>
- <path d="M500 30 A470 470 0 0 1 970 500" fill="none" stroke="#43a0e0" stroke-width="22" stroke-linecap="round"/>
- <path d="M500 970 A470 470 0 0 1 30 500" fill="none" stroke="#43a0e0" stroke-width="22" stroke-linecap="round"/>
+ <circle cx="500" cy="500" r="470" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="8" stroke-linecap="round" stroke-dasharray="1 24"/>
+ <path d="M500 30 A470 470 0 0 1 970 500" fill="none" stroke="#43a0e0" stroke-width="20" stroke-linecap="round"/>
+ <path d="M500 970 A470 470 0 0 1 30 500" fill="none" stroke="#43a0e0" stroke-width="20" stroke-linecap="round"/>
 </svg>
 </template>
 
-<!-- 1 Dr Ibtisam -->
-<div class="cover" id="c1"><div class="glow"></div><div class="ringslot"></div>
+<!-- 1 Dr Ibtisam: OB/GYN + IVF (egg cell with heart) -->
+<div class="cover" id="c1"><div class="ringslot"></div>
  <div class="center">
-  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke="#43a0e0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-   <circle cx="100" cy="58" r="32"/>
-   <path d="M36 184v-12c0-30 24-54 54-54h20c30 0 54 24 54 54v12"/>
-   <path d="M84 119l16 30 16-30"/>
-   <path d="M100 149v35" stroke-opacity=".7"/>
-   <path d="M136 146v22M125 157h22" stroke="#fff" stroke-width="8"/>
+  <div class="disc">
+  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <circle cx="100" cy="100" r="88" stroke="#fff" stroke-width="7" stroke-dasharray="1 15"/>
+   <circle cx="100" cy="100" r="68" stroke="#43a0e0" stroke-width="10"/>
+   <path d="M100 136C62 112 60 78 82 72c9-2 15 3 18 12c3-9 9-14 18-12c22 6 20 40-18 64Z" stroke="#fff" stroke-width="10"/>
+   <circle cx="150" cy="50" r="6" fill="#43a0e0"/>
   </svg>
+  </div>
   <div class="name">د. ابتسام صاحب</div>
-  
+  <div class="chips">
+   <div class="chip"><i></i>نسائية وتوليد</div>
+   <div class="chip"><i></i>أطفال أنابيب وعلاج العقم</div>
+  </div>
  </div>
  <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
 </div>
 
-<!-- 2 Dr Shahad -->
-<div class="cover" id="c2"><div class="glow"></div><div class="ringslot"></div>
+<!-- 2 Dr Shahad: chest & respiratory (lungs) -->
+<div class="cover" id="c2"><div class="ringslot"></div>
  <div class="center">
-  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke="#43a0e0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-   <circle cx="100" cy="58" r="32"/>
-   <path d="M36 184v-12c0-30 24-54 54-54h20c30 0 54 24 54 54v12"/>
-   <path d="M84 119l16 30 16-30"/>
-   <path d="M100 149v35" stroke-opacity=".7"/>
-   <path d="M136 146v22M125 157h22" stroke="#fff" stroke-width="8"/>
+  <div class="disc">
+  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M100 26v58M100 84l-20 20M100 84l20 20" stroke="#fff" stroke-width="9"/>
+   <path d="M82 66C56 66 36 100 34 140c-1 26 12 38 30 32c16-5 22-20 22-40V70" stroke="#43a0e0" stroke-width="10"/>
+   <path d="M118 66c26 0 46 34 48 74c1 26-12 38-30 32c-16-5-22-20-22-40V70" stroke="#43a0e0" stroke-width="10"/>
+   <path d="M54 128c6-4 12-4 18 0M128 128c6-4 12-4 18 0" stroke="#fff" stroke-width="7" stroke-opacity=".8"/>
   </svg>
+  </div>
   <div class="name">د. شهد حامد</div>
-  
+  <div class="chips">
+   <div class="chip"><i></i>الأمراض الصدرية والتنفسية</div>
+  </div>
  </div>
  <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
 </div>
 
-<!-- 3 Lab -->
-<div class="cover" id="c3"><div class="glow"></div><div class="ringslot"></div>
+<!-- 3 Lab: microscope -->
+<div class="cover" id="c3"><div class="ringslot"></div>
  <div class="center">
-  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke="#43a0e0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-   <path d="M78 22h44"/>
-   <path d="M86 22v52L42 156a16 16 0 0 0 14 24h88a16 16 0 0 0 14-24L114 74V22"/>
-   <path d="M60 128h80" stroke-opacity=".6"/>
-   <!-- logo pulse bars inside the flask -->
-   <path d="M86 144v16M100 136v32M114 144v16" stroke="#fff" stroke-width="10"/>
-   <circle cx="148" cy="42" r="10" stroke="#fff" stroke-width="6"/><circle cx="168" cy="72" r="6" stroke="#fff" stroke-width="5"/>
+  <div class="disc">
+  <svg class="icon" viewBox="0 0 200 200" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path d="M90 42L120 94" stroke="#43a0e0" stroke-width="24"/>
+   <path d="M74 36l22-13" stroke="#fff" stroke-width="12"/>
+   <path d="M122 104v16" stroke="#fff" stroke-width="11"/>
+   <path d="M70 136h66" stroke="#fff" stroke-width="11"/>
+   <path d="M132 84c32 14 40 56 14 86" stroke="#43a0e0" stroke-width="12"/>
+   <path d="M42 176h118" stroke="#43a0e0" stroke-width="12"/>
   </svg>
-  <div class="name">مختبر المرسل</div>
-  
+  </div>
+  <div class="name">مختبر مجمع المرسل</div>
+  <div class="chips">
+   <div class="chip"><i></i>أجهزة حديثة</div>
+  </div>
  </div>
  <div class="brand">مركز <b>المرسل</b> للخدمات الطبية الشاملة</div>
 </div>
