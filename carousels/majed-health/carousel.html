@@ -38,7 +38,10 @@ h1,h2{font-weight:900;line-height:1.12}
 
 /* 2 medical */
 #s2 .card{position:absolute;top:190px;right:64px;left:64px;height:620px;border-radius:36px;overflow:hidden;border:6px solid var(--y)}
-#s2 .card .ph{inset:0;background-image:url(img/hospital.jpg);background-position:50% 18%;filter:saturate(.85)}
+#s2 .card .ph{inset:0;background-image:url(img/manager.jpg);background-position:50% 30%}
+#s2 .inset{position:absolute;top:610px;left:90px;width:250px;height:290px;border-radius:24px;overflow:hidden;border:5px solid var(--y);z-index:7;box-shadow:0 14px 40px rgba(0,0,0,.6)}
+#s2 .inset .ph{inset:0;background-image:url(img/hospital.jpg);background-position:50% 20%}
+#s2 .inset span{position:absolute;bottom:0;right:0;left:0;background:rgba(14,14,14,.8);font-size:22px;font-weight:700;text-align:center;padding:2px 0 6px}
 #s2 .card .shade{background:linear-gradient(180deg,rgba(0,0,0,.0) 60%,rgba(0,0,0,.45))}
 #s2 .tag{position:absolute;bottom:22px;right:26px;background:rgba(14,14,14,.8);color:#fff;font-weight:700;font-size:28px;padding:4px 20px 8px;border-radius:10px}
 #s2 .wrap{top:860px}
@@ -46,7 +49,8 @@ h1,h2{font-weight:900;line-height:1.12}
 #s2 .body{max-width:100%}
 
 /* 3 reassure */
-#s3 .ph{inset:0 0 auto 0;height:1000px;background-image:url(img/s4.jpg);background-position:50% 12%}
+#s3 .ph{inset:0 0 auto 0;height:1000px;background-image:url(img/director.jpg);background-position:50% 22%}
+#s3 .cap{position:absolute;top:790px;right:64px;z-index:6;background:rgba(14,14,14,.8);font-weight:700;font-size:28px;padding:4px 20px 8px;border-radius:10px}
 #s3 .shade{background:linear-gradient(180deg,rgba(14,14,14,.55) 0,rgba(14,14,14,0) 22%,rgba(14,14,14,0) 45%,#0e0e0e 72%)}
 #s3 .wrap{bottom:150px}
 #s3 h1{font-size:156px;color:var(--y);margin:20px 0 14px;line-height:1.0}
@@ -122,7 +126,8 @@ h1,h2{font-weight:900;line-height:1.12}
 <!-- 2 -->
 <section class="slide" id="s2">
  <div class="hdr"><img src="logo.svg" alt=""><div class="cnt"><b>٠٢</b> / ٠٧</div></div>
- <div class="card"><div class="ph"></div><div class="shade"></div><div class="tag">من داخل المستشفى</div></div>
+ <div class="card"><div class="ph"></div><div class="shade"></div><div class="tag">فائق حسن، مدير أعماله، مع ماجد</div></div>
+ <div class="inset"><div class="ph"></div><span>من المستشفى</span></div>
  <div class="wrap">
   <span class="kick">التدخل الطبي</span>
   <h1>خضع لـ<span class="hl">قسطرة</span></h1>
@@ -134,6 +139,7 @@ h1,h2{font-weight:900;line-height:1.12}
 <!-- 3 -->
 <section class="slide" id="s3">
  <div class="ph"></div><div class="shade"></div>
+ <div class="cap">علاء الأنصاري مع ماجد</div>
  <div class="hdr"><img src="logo.svg" alt=""><div class="cnt"><b>٠٣</b> / ٠٧</div></div>
  <div class="wrap">
   <span class="kick">تطمين الجمهور</span>
